@@ -26,6 +26,15 @@ ApplicationWindow {
     height: 720
     title: qsTr("3D Repo Asset Guru")
 
+    Shortcut {
+        sequence: "Esc"
+        enabled: stackView.depth > 1
+        onActivated: {
+            stackView.pop()
+            listView.currentIndex = -1
+        }
+    }
+
     header: ToolBar {
         RowLayout {
             spacing: 20
@@ -36,7 +45,7 @@ ApplicationWindow {
                     fillMode: Image.Pad
                     horizontalAlignment: Image.AlignHCenter
                     verticalAlignment: Image.AlignVCenter
-                    source: "qrc:/images/drawer.png"
+                    source: stackView.depth > 1 ? "qrc:/images/+material/back.png" : "qrc:/images/+material/drawer.png"
                 }
                 onClicked: {
                     if (stackView.depth > 1) {
@@ -110,31 +119,8 @@ ApplicationWindow {
             }
 
             model: ListModel {
-                ListElement { title: "BusyIndicator"; source: "qrc:/src/Page1.qml" }
-                ListElement { title: "Button"; source: "qrc:/pages/ButtonPage.qml" }
-                ListElement { title: "CheckBox"; source: "qrc:/pages/CheckBoxPage.qml" }
-                ListElement { title: "ComboBox"; source: "qrc:/pages/ComboBoxPage.qml" }
-                ListElement { title: "Dial"; source: "qrc:/pages/DialPage.qml" }
-                ListElement { title: "Dialog"; source: "qrc:/pages/DialogPage.qml" }
-                ListElement { title: "Delegates"; source: "qrc:/pages/DelegatePage.qml" }
-                ListElement { title: "Frame"; source: "qrc:/pages/FramePage.qml" }
-                ListElement { title: "GroupBox"; source: "qrc:/pages/GroupBoxPage.qml" }
-                ListElement { title: "PageIndicator"; source: "qrc:/pages/PageIndicatorPage.qml" }
-                ListElement { title: "ProgressBar"; source: "qrc:/pages/ProgressBarPage.qml" }
-                ListElement { title: "RadioButton"; source: "qrc:/pages/RadioButtonPage.qml" }
-                ListElement { title: "RangeSlider"; source: "qrc:/pages/RangeSliderPage.qml" }
-                ListElement { title: "ScrollBar"; source: "qrc:/pages/ScrollBarPage.qml" }
-                ListElement { title: "ScrollIndicator"; source: "qrc:/pages/ScrollIndicatorPage.qml" }
-                ListElement { title: "Slider"; source: "qrc:/pages/SliderPage.qml" }
-                ListElement { title: "SpinBox"; source: "qrc:/pages/SpinBoxPage.qml" }
-                ListElement { title: "StackView"; source: "qrc:/pages/StackViewPage.qml" }
-                ListElement { title: "SwipeView"; source: "qrc:/pages/SwipeViewPage.qml" }
-                ListElement { title: "Switch"; source: "qrc:/pages/SwitchPage.qml" }
-                ListElement { title: "TabBar"; source: "qrc:/pages/TabBarPage.qml" }
-                ListElement { title: "TextArea"; source: "qrc:/pages/TextAreaPage.qml" }
-                ListElement { title: "TextField"; source: "qrc:/pages/TextFieldPage.qml" }
-                ListElement { title: "ToolTip"; source: "qrc:/pages/ToolTipPage.qml" }
-                ListElement { title: "Tumbler"; source: "qrc:/pages/TumblerPage.qml" }
+                ListElement { title: "Camera"; source: "qrc:/src/CameraPage.qml" }
+
             }
 
             ScrollIndicator.vertical: ScrollIndicator { }

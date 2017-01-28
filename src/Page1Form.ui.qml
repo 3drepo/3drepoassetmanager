@@ -23,6 +23,7 @@ Item {
             width: parent.width/3
             height: parent.height
             color: "#e64747"
+            Layout.fillHeight: true
         }
 
         ListView {

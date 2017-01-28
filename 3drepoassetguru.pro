@@ -1,10 +1,12 @@
-QT += qml quick
+QT += qml quick quickcontrols2 multimedia
 
 CONFIG += c++11
 
 SOURCES += ./src/main.cpp
 
 RESOURCES += qml.qrc
+
+TEMPLATE = app
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =

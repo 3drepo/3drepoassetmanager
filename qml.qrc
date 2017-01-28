@@ -28,5 +28,6 @@
         <file>images/+material/menu@2x.png</file>
         <file>images/+material/menu@3x.png</file>
         <file>images/+material/menu@4x.png</file>
+        <file>src/CameraPage.qml</file>
     </qresource>
 </RCC>
