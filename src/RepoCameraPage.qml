@@ -19,9 +19,14 @@ import QtQuick 2.6
 import QtQuick.Layouts 1.0
 import QtQuick.Controls 2.1
 import QtMultimedia 5.8
+import repo 1.0
 
 Pane {
     id: page
+
+    RepoCamera { // instantiates RepoCamera Object
+        id: repoCamera
+    }
 
     Item {
 //        width: parent.width
@@ -30,6 +35,7 @@ Pane {
 
         Camera {
             id: camera
+            objectName: "qmlRepoCamera"
 
             imageProcessing.whiteBalanceMode: CameraImageProcessing.WhiteBalanceFlash
 
@@ -42,10 +48,18 @@ Pane {
 
             imageCapture {
                 onImageCaptured: {
-                    photoPreview.source = preview  // Show the preview in an Image
+//                    photoPreview.source = preview  // Show the preview in an Image
+                    repoCamera.retrieveImage(preview);
                 }
             }
         }
+
+        MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    camera.imageCapture.capture();
+                }
+            }
 
         VideoOutput {
             source: camera
@@ -53,8 +67,8 @@ Pane {
             focus : visible // to receive focus and capture key events when visible
         }
 
-        Image {
-            id: photoPreview
-        }
+//        Image {
+//            id: photoPreview
+//        }
     }
 }

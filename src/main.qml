@@ -119,7 +119,7 @@ ApplicationWindow {
             }
 
             model: ListModel {
-                ListElement { title: "Camera"; source: "qrc:/src/CameraPage.qml" }
+                ListElement { title: "Camera"; source: "qrc:/src/RepoCameraPage.qml" }
 
             }
 

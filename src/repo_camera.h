@@ -15,22 +15,46 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QGuiApplication>
+#pragma once
+
+#include <QObject>
+#include <QCamera>
+#include <QVideoProbe>
+#include <QCameraImageCapture>
 #include <QQmlApplicationEngine>
-#include "repo_camera.h"
+#include <QQmlEngine>
+#include <QQuickImageProvider>
+#include <QQmlContext>
 
-int main(int argc, char *argv[])
+#include <iostream>
+
+#include "repo_data_matrix.h"
+
+namespace repo
 {
-    // http://doc.qt.io/qt-5/qtqml-cppintegration-definetypes.html#registering-an-instantiable-object-type
-    qmlRegisterType<repo::RepoCamera>("repo", 1, 0, "RepoCamera");
 
-    QGuiApplication::setApplicationName("3D Repo Asset Guru");
-    QGuiApplication::setOrganizationName("3D Repo");
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication app(argc, argv);
+class RepoCamera : public QObject
+{
+    Q_OBJECT
 
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QLatin1String("qrc:/src/main.qml")));
+public:
+    explicit RepoCamera(QObject *parent = 0);
 
-    return app.exec();
+public slots:
+    void retrieveImage(const QString &path);
+
+    void processImage(const QImage &image);
+
+
+
+    //--------------------------------------------------------------------------
+
+
+    void handleFrame(QVideoFrame &frame);
+
+private :
+    QCamera *camera;
+    QVideoProbe videoProbe;
+
+};
 }

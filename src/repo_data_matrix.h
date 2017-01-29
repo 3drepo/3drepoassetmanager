@@ -14,23 +14,29 @@
 *  You should have received a copy of the GNU Affero General Public License
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+#pragma once
 
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
-#include "repo_camera.h"
+#include <QObject>
+#include <QImage>
+#include <QString>
 
-int main(int argc, char *argv[])
+#include "dmtx.h"
+
+#include <iostream>
+
+namespace repo
 {
-    // http://doc.qt.io/qt-5/qtqml-cppintegration-definetypes.html#registering-an-instantiable-object-type
-    qmlRegisterType<repo::RepoCamera>("repo", 1, 0, "RepoCamera");
 
-    QGuiApplication::setApplicationName("3D Repo Asset Guru");
-    QGuiApplication::setOrganizationName("3D Repo");
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication app(argc, argv);
+class RepoDataMatrix : public QObject
+{
 
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QLatin1String("qrc:/src/main.qml")));
+public slots:
 
-    return app.exec();
+    static QImage encode(const QString &text);
+
+    static QString decode(const QImage &image);
+
+};
+
 }
+
