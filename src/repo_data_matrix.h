@@ -27,14 +27,48 @@
 namespace repo
 {
 
+/**
+ * Static class which provides encoding and decoding functions for Data Matrix
+ * specification based on Libdmtx library.
+ *
+ * Libdmtx: http://libdmtx.sourceforge.net
+ * See also: http://libdmtx.sourceforge.net/display.php?text=libdmtx.3
+ *
+ * @brief The RepoDataMatrix class
+ */
 class RepoDataMatrix : public QObject
 {
+    Q_OBJECT
 
 public slots:
 
+    /**
+     * Encodes given string as a data matrix image formatted in
+     * QImage::Format_RGB888.
+     * @brief encode
+     * @param text
+     * @return
+     */
     static QImage encode(const QString &text);
 
-    static QString decode(const QImage &image);
+    /**
+     * Decodes given image into a message. Returns empty string if
+     * no text can be found within given timeout.
+     *
+     * @brief decode
+     * @param image
+     * @param timeout in milliseconds
+     * @return
+     */
+    static QString decode(const QImage &image, uint timeout = 10);
+
+    /**
+     * Given a QImage returns pixel packing format suitable for Libdmtx decoding.
+     * @brief getImageFormat
+     * @param image
+     * @return
+     */
+    static DmtxPackOrder getImageFormat(const QImage &image);
 
 };
 

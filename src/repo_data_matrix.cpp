@@ -17,7 +17,6 @@
 
 #include "repo_data_matrix.h"
 
-
 QImage repo::RepoDataMatrix::encode(const QString &text)
 {
     QImage image;
@@ -37,31 +36,29 @@ QImage repo::RepoDataMatrix::encode(const QString &text)
         image = QImage(width, height, QImage::Format_RGB888);
         unsigned char *bits = (unsigned char*) image.bits();
         memcpy(bits, enc->image->pxl, width * height * bytesPerPixel);
-
         dmtxEncodeDestroy(&enc);
     }
     return image;
 }
 
-QString repo::RepoDataMatrix::decode(const QImage &image)
+QString repo::RepoDataMatrix::decode(const QImage &image, uint timeout)
 {
     QString message;
-    std::cout << "Format: " << image.format() << std::endl;
-
-    // TODO Image format
     DmtxImage *img = dmtxImageCreate((unsigned char *) image.bits(),
                                      image.width(),
                                      image.height(),
-                                     DmtxPack32bppXRGB); // DmtxPack24bppRGB);
+                                     getImageFormat(image));
     if (img != NULL)
     {
         DmtxDecode *dec = dmtxDecodeCreate(img, 1);
         if (dec != NULL)
         {
+            // usec is in microseconds while our timeout in milliseconds
+            DmtxTime cutoffTime = dmtxTimeNow();
+            cutoffTime.usec += timeout * 1000;
 
-            DmtxTime timeout = dmtxTimeNow();
-            timeout.usec += 100000;
-            DmtxRegion *reg = dmtxRegionFindNext(dec, &timeout);
+            // Cutoff time is an offset from now()
+            DmtxRegion *reg = dmtxRegionFindNext(dec, &cutoffTime);
 
             if (reg != NULL)
             {
@@ -78,4 +75,46 @@ QString repo::RepoDataMatrix::decode(const QImage &image)
         dmtxImageDestroy(&img);
     }
     return message;
+}
+
+DmtxPackOrder repo::RepoDataMatrix::getImageFormat(const QImage &image)
+{
+    // See http://doc.qt.io/qt-5/qimage.html#Format-enum
+    DmtxPackOrder packOrder;
+
+    switch(image.format())
+    {
+    case QImage::Format_Mono : // The image is stored using 1-bit per pixel. Bytes are packed with the most significant bit (MSB) first.
+    case QImage::Format_MonoLSB : // The image is stored using 1-bit per pixel. Bytes are packed with the less significant bit (LSB) first.
+        packOrder = DmtxPack1bppK ;
+        break;
+
+    case QImage::Format_Alpha8 : // The image is stored using an 8-bit alpha only format.
+    case QImage::Format_Grayscale8 : // The image is stored using an 8-bit grayscale format.
+        packOrder = DmtxPack8bppK;
+        break;
+
+    case QImage::Format_RGB16 : // The image is stored using a 16-bit RGB format (5-6-5).
+    case QImage::Format_RGB555 : // The image is stored using a 16-bit RGB format (5-5-5). The unused most significant bit is always zero.
+    case QImage::Format_RGB444 : // The image is stored using a 16-bit RGB format (4-4-4). The unused bits are always zero.
+        packOrder = DmtxPack16bppRGB;
+        break;
+
+    case QImage::Format_RGB888 : // The image is stored using a 24-bit RGB format (8-8-8).
+    case QImage::Format_RGB666 : // The image is stored using a 24-bit RGB format (6-6-6). The unused most significant bits is always zero.
+        packOrder = DmtxPack24bppRGB;
+        break;
+
+    case QImage::Format_RGB32 : // The image is stored using a 32-bit RGB format (0xffRRGGBB).
+    case QImage::Format_ARGB32 : // The image is stored using a 32-bit ARGB format (0xAARRGGBB).
+        packOrder = DmtxPack32bppXRGB;
+        break;
+
+    default :
+        packOrder = DmtxPackCustom;
+        std::cerr << "Unspupported image format detected: " << image.format() << std::endl;
+        break;
+
+    }
+    return packOrder;
 }
