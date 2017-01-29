@@ -19,18 +19,10 @@
 #include "repo_camera.h"
 
 // TODO: http://stackoverflow.com/questions/28041741/qt-qml-camera-to-c-qimage-on-android/33238150#33238150
+// https://kunalmaemo.blogspot.co.uk/2013/06/using-qml-camera-and-passing-image-to-c.html
 repo::RepoCamera::RepoCamera(QObject *parent)
 {
-
     std::cout << "RepoCamera initialized" << std::endl;
-
-
-    //    QObject *qmlCamera = engine.rootObjects().at(0)->findChild<QObject*>("qmlRepoCamera");
-    //    camera = qvariant_cast<QCamera*>(qmlCamera->property("mediaObject"));
-
-    //    QObject::connect(&videoProbe,SIGNAL(videoFrameProbed(QVideoFrame)),this,SLOT(handleFrame(QVideoFrame)));
-    //    videoProbe.setSource(camera);
-
 }
 
 void repo::RepoCamera::retrieveImage(const QString &path)
@@ -62,42 +54,25 @@ void repo::RepoCamera::retrieveImage(const QString &path)
     {
         processImage(image);
     }
+
+
+
+
+//    QQmlEngine* engine = QQmlEngine::contextForObject(this)->engine();
+//    QObject *qmlCamera = engine->findChild<QObject*>("qmlRepoCamera");
+//    camera = qvariant_cast<QCamera*>(_qmlCamera->property("mediaObject"));
+
+//    QObject::connect(&videoProbe,
+//                     SIGNAL(videoFrameProbed(QVideoFrame)),
+//                     this,SLOT(handleFrame(const QVideoFrame&)));
+//    videoProbe.setSource(camera);
 }
 
 void repo::RepoCamera::processImage(const QImage &image)
 {
     std::cout << "processImage" << std::endl;
 
-    //    DmtxImage holds image properties and a pointer to pixel  data  held  by
-    //     the calling program.
-
-    //     DmtxDecode  holds  values  for controlling decode behavior and tracking
-    //     scan progress. When scanning  a  new  image,  calling  programs  should
-    //     always create a new DmtxDecode structure instead of reusing an old one.
-
-    //    DmtxRegion defines a 4-sided region in pixel coordinates.  Regions  may
-    //    be found in almost any orientation, and their corners won't necessarily
-    //    form right angles. libdmtx uses this structure to store the location of
-    //    potential barcodes, which are then returned to the calling program one-
-    //    at-a-time.
-
-    //    DmtxMessage holds the decoded message after being  extracted  from  the
-    //    barcode  region. A successfully decoded region will produce exactly one
-    //    message
-
-    //    DmtxImage * dmtxImage = dmtxImageCreate((unsigned char *) image.bits(), image.width(), image.height(), DmtxPack32bppXRGB);
-    //    //    dmtxImageSetProp(dmtxImage,)
-
-    //    DmtxDecode *dmtxDecode = dmtxDecodeCreate(dmtxImage,1);
-    //    //    dmtxDecodeSetProp(dmtxDecode,prop,val);
-
-
-    image.save("frame.png");
-
-
-
-
-
+//    image.save("frame.png");
     //    QImage img = dmtxEncode("hello world!");
     //    img.save("test.png");
 
@@ -107,7 +82,7 @@ void repo::RepoCamera::processImage(const QImage &image)
 }
 
 
-void repo::RepoCamera::handleFrame(QVideoFrame &frame)
+void repo::RepoCamera::handleFrame(const QVideoFrame &frame)
 {
     //http://stackoverflow.com/questions/28041741/qt-qml-camera-to-c-qimage-on-android
     std::cout << "handleFrame" << std::endl;

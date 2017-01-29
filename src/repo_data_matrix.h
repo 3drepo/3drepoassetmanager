@@ -19,6 +19,7 @@
 #include <QObject>
 #include <QImage>
 #include <QString>
+#include <QVideoFrame>
 
 #include "dmtx.h"
 
@@ -62,14 +63,19 @@ public slots:
      */
     static QString decode(const QImage &image, uint timeout = 10);
 
+    static QString decode(QVideoFrame *input, bool flipped = false);
+
+    static QString decode(unsigned char *bits, int width, int height, DmtxPackOrder format, DmtxFlip flip = DmtxFlipNone);
+
     /**
      * Given a QImage returns pixel packing format suitable for Libdmtx decoding.
      * @brief getImageFormat
      * @param image
      * @return
      */
-    static DmtxPackOrder getImageFormat(const QImage &image);
+    static DmtxPackOrder getDataFormat(const QImage::Format &format);
 
+    static DmtxPackOrder getDataFormat(const QVideoFrame::PixelFormat &format);
 };
 
 }

@@ -15,24 +15,30 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
-#include "repo_camera.h"
+#include "repo_data_matrix_filter_runnable.h"
 #include "repo_data_matrix_filter.h"
+#include "repo_data_matrix.h"
 
-int main(int argc, char *argv[])
+repo::RepoDataMatrixFilterRunnable::RepoDataMatrixFilterRunnable(
+        QAbstractVideoFilter *filter)
 {
-    // http://doc.qt.io/qt-5/qtqml-cppintegration-definetypes.html#registering-an-instantiable-object-type
-    qmlRegisterType<repo::RepoCamera>("repo", 1, 0, "RepoCamera");
-    qmlRegisterType<repo::RepoDataMatrixFilter>("repo", 1, 0, "RepoDataMatrixFilter");
+    this->filter = filter;
+}
 
-    QGuiApplication::setApplicationName("3D Repo Asset Guru");
-    QGuiApplication::setOrganizationName("3D Repo");
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication app(argc, argv);
+QVideoFrame repo::RepoDataMatrixFilterRunnable::run(
+        QVideoFrame *input,
+        const QVideoSurfaceFormat &surfaceFormat,
+        RunFlags flags)
+{
+    QObject *result = NULL;
 
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QLatin1String("qrc:/src/main.qml")));
+    if (mutex.tryLock(0)) // drop frames
+    {
+        QString message = RepoDataMatrix::decode(input, (surfaceFormat.scanLineDirection() == QVideoSurfaceFormat::BottomToTop));
+        std::cout << "Found: " << message.toStdString() << std::endl;
+        mutex.unlock();
+    }
 
-    return app.exec();
+//    emit filter->finished(result);
+    return *input;
 }

@@ -15,24 +15,10 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
-#include "repo_camera.h"
 #include "repo_data_matrix_filter.h"
+#include "repo_data_matrix_filter_runnable.h"
 
-int main(int argc, char *argv[])
+QVideoFilterRunnable* repo::RepoDataMatrixFilter::createFilterRunnable()
 {
-    // http://doc.qt.io/qt-5/qtqml-cppintegration-definetypes.html#registering-an-instantiable-object-type
-    qmlRegisterType<repo::RepoCamera>("repo", 1, 0, "RepoCamera");
-    qmlRegisterType<repo::RepoDataMatrixFilter>("repo", 1, 0, "RepoDataMatrixFilter");
-
-    QGuiApplication::setApplicationName("3D Repo Asset Guru");
-    QGuiApplication::setOrganizationName("3D Repo");
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication app(argc, argv);
-
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QLatin1String("qrc:/src/main.qml")));
-
-    return app.exec();
+    return new RepoDataMatrixFilterRunnable(this);
 }

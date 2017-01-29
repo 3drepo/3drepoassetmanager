@@ -24,16 +24,28 @@ import repo 1.0
 Pane {
     id: page
 
-    RepoCamera { // instantiates RepoCamera Object
-        id: repoCamera
+//    RepoCamera { // instantiates RepoCamera Object
+//        id: repoCamera
+//        qmlCamera: camera
+//    }
+
+    RepoDataMatrixFilter {
+        id: dataMatrixFilter
+        // set properties, they can also be animated
+//        onFinished: console.log("results of the computation: ") // + result)
+    }
+
+    VideoOutput {
+        source: camera
+        anchors.fill: parent
+        filters: [ dataMatrixFilter ]
+        focus : visible // to receive focus and capture key events when visible
     }
 
     Item {
-//        width: parent.width
-//        height: parent.height
         anchors.fill: parent
 
-        Camera {
+        Camera { // http://doc.qt.io/qt-5/qml-qtmultimedia-camera.html
             id: camera
             objectName: "qmlRepoCamera"
 
@@ -54,18 +66,14 @@ Pane {
             }
         }
 
-        MouseArea{
-                anchors.fill: parent
-                onClicked: {
-                    camera.imageCapture.capture();
-                }
-            }
+//        MouseArea{
+//                anchors.fill: parent
+//                onClicked: {
+//                    camera.imageCapture.capture();
+//                }
+//            }
 
-        VideoOutput {
-            source: camera
-            anchors.fill: parent
-            focus : visible // to receive focus and capture key events when visible
-        }
+
 
 //        Image {
 //            id: photoPreview

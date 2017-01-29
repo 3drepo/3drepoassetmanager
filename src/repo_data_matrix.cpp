@@ -42,12 +42,26 @@ QImage repo::RepoDataMatrix::encode(const QString &text)
 }
 
 QString repo::RepoDataMatrix::decode(const QImage &image, uint timeout)
+{   
+    return decode((unsigned char *) image.bits(),
+                  image.width(),
+                  image.height(),
+                  getDataFormat(image.format()),
+                  DmtxFlipNone);
+}
+
+QString repo::RepoDataMatrix::decode(
+        unsigned char *bits,
+        int width,
+        int height,
+        DmtxPackOrder format,
+        DmtxFlip flip)
 {
     QString message;
-    DmtxImage *img = dmtxImageCreate((unsigned char *) image.bits(),
-                                     image.width(),
-                                     image.height(),
-                                     getImageFormat(image));
+    int timeout = 100;
+    DmtxImage *img = dmtxImageCreate(bits, width, height, format);
+    dmtxImageSetProp(img, DmtxPropImageFlip, flip);
+
     if (img != NULL)
     {
         DmtxDecode *dec = dmtxDecodeCreate(img, 1);
@@ -59,7 +73,6 @@ QString repo::RepoDataMatrix::decode(const QImage &image, uint timeout)
 
             // Cutoff time is an offset from now()
             DmtxRegion *reg = dmtxRegionFindNext(dec, &cutoffTime);
-
             if (reg != NULL)
             {
                 DmtxMessage *msg = dmtxDecodeMatrixRegion(dec, reg, DmtxUndefined);
@@ -77,12 +90,29 @@ QString repo::RepoDataMatrix::decode(const QImage &image, uint timeout)
     return message;
 }
 
-DmtxPackOrder repo::RepoDataMatrix::getImageFormat(const QImage &image)
+QString repo::RepoDataMatrix::decode(QVideoFrame *frame, bool flipped)
+{
+    QString message;
+    if (frame->map(QAbstractVideoBuffer::ReadOnly))
+    {
+        // For whatever reason Windows flips the scanlines, see here:
+        // https://forum.qt.io/topic/42967/video-on-streamingvideosurface-is-inverted-or-not-depending-on-whose-pc-runs-it
+        message = decode(frame->bits(),
+                         frame->width(),
+                         frame->height(),
+                         getDataFormat(frame->pixelFormat()),
+                         flipped ? DmtxFlipY : DmtxFlipNone);
+
+        frame->unmap();
+    }
+    return message;
+}
+
+DmtxPackOrder repo::RepoDataMatrix::getDataFormat(const QImage::Format &format)
 {
     // See http://doc.qt.io/qt-5/qimage.html#Format-enum
     DmtxPackOrder packOrder;
-
-    switch(image.format())
+    switch(format)
     {
     case QImage::Format_Mono : // The image is stored using 1-bit per pixel. Bytes are packed with the most significant bit (MSB) first.
     case QImage::Format_MonoLSB : // The image is stored using 1-bit per pixel. Bytes are packed with the less significant bit (LSB) first.
@@ -112,9 +142,60 @@ DmtxPackOrder repo::RepoDataMatrix::getImageFormat(const QImage &image)
 
     default :
         packOrder = DmtxPackCustom;
-        std::cerr << "Unspupported image format detected: " << image.format() << std::endl;
+        std::cerr << "Unspupported image format detected: " << format << std::endl;
         break;
 
+    }
+    return packOrder;
+}
+
+DmtxPackOrder repo::RepoDataMatrix::getDataFormat(const QVideoFrame::PixelFormat &format)
+{
+    // See http://doc.qt.io/qt-5/qvideoframe.html#PixelFormat-enum
+    DmtxPackOrder packOrder;
+    switch(format)
+    {
+    case QVideoFrame::Format_Y8 : // The frame is stored using an 8-bit greyscale format.
+        packOrder = DmtxPack8bppK;
+        break;
+
+    case QVideoFrame::Format_RGB565 : // The frame is stored using a 16-bit RGB format (5-6-5). This is equivalent to QImage::Format_RGB16.
+    case QVideoFrame::Format_RGB555 : // The frame is stored using a 16-bit RGB format (5-5-5). This is equivalent to QImage::Format_RGB555.
+        packOrder = DmtxPack16bppRGB;
+        break;
+
+    case QVideoFrame::Format_BGR565 : // The frame is stored using a 16-bit BGR format (5-6-5).
+    case QVideoFrame::Format_BGR555 : // The frame is stored using a 16-bit BGR format (5-5-5).
+        packOrder = DmtxPack16bppBGR;
+        break;
+
+    case QVideoFrame::Format_RGB24 : // The frame is stored using a 24-bit RGB format (8-8-8). This is equivalent to QImage::Format_RGB888
+    case QImage::Format_RGB666 : // The image is stored using a 24-bit RGB format (6-6-6). The unused most significant bits is always zero.
+        packOrder = DmtxPack24bppRGB;
+        break;
+
+    case QVideoFrame::Format_BGR24: // The frame is stored using a 24-bit BGR format (0xBBGGRR).
+        packOrder = DmtxPack24bppBGR;
+        break;
+
+    case QVideoFrame::Format_YUV444 : // The frame is stored using a 24-bit packed YUV format (8-8-8).
+        packOrder = DmtxPack24bppYCbCr;
+        break;
+
+    case QVideoFrame::Format_RGB32 : // The frame stored using a 32-bit RGB format (0xffRRGGBB). This is equivalent to QImage::Format_RGB32
+    case QVideoFrame::Format_ARGB32 : // The frame is stored using a 32-bit ARGB format (0xAARRGGBB). This is equivalent to QImage::Format_ARGB32.
+        packOrder = DmtxPack32bppXRGB;
+        break;
+
+    case QVideoFrame::Format_BGR32 : // The frame is stored using a 32-bit BGR format (0xBBGGRRff).
+    case QVideoFrame::Format_BGRA32: // The frame is stored using a 32-bit BGRA format (0xBBGGRRAA).
+        packOrder = DmtxPack32bppBGRX;
+        break;
+
+    default :
+        packOrder = DmtxPackCustom;
+        std::cerr << "Unspupported video format detected: " << format << std::endl;
+        break;
     }
     return packOrder;
 }

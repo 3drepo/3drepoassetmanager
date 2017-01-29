@@ -33,28 +33,32 @@
 namespace repo
 {
 
+// https://blog.qt.io/blog/2015/03/20/introducing-video-filters-in-qt-multimedia/
 class RepoCamera : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QObject* qmlCamera READ qmlCamera WRITE setQmlCamera)
 
 public:
-    explicit RepoCamera(QObject *parent = 0);
+
+    explicit RepoCamera(QObject* parent = 0);
+
+    QObject *qmlCamera() const { return _qmlCamera; }
+
+    void setQmlCamera(QObject *qmlCamera) { _qmlCamera = qmlCamera; }
 
 public slots:
+
     void retrieveImage(const QString &path);
 
     void processImage(const QImage &image);
 
-
-
-    //--------------------------------------------------------------------------
-
-
-    void handleFrame(QVideoFrame &frame);
+    void handleFrame(const QVideoFrame &frame);
 
 private :
     QCamera *camera;
     QVideoProbe videoProbe;
 
+    QObject * _qmlCamera;
 };
 }

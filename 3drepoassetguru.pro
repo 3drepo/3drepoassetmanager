@@ -21,11 +21,15 @@ CONFIG += c++11
 
 SOURCES += src/main.cpp \
     src/repo_camera.cpp \
-    src/repo_data_matrix.cpp
+    src/repo_data_matrix.cpp \
+    src/repo_data_matrix_filter_runnable.cpp \
+    src/repo_data_matrix_filter.cpp
 
 HEADERS += \
     src/repo_camera.h \
-    src/repo_data_matrix.h
+    src/repo_data_matrix.h \
+    src/repo_data_matrix_filter_runnable.h \
+    src/repo_data_matrix_filter.h
 
 RESOURCES += qml.qrc
 
