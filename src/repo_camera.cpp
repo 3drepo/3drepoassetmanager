@@ -20,7 +20,7 @@
 
 // TODO: http://stackoverflow.com/questions/28041741/qt-qml-camera-to-c-qimage-on-android/33238150#33238150
 // https://kunalmaemo.blogspot.co.uk/2013/06/using-qml-camera-and-passing-image-to-c.html
-repo::RepoCamera::RepoCamera(QObject *parent)
+repo::RepoCamera::RepoCamera(QObject *parent) : QObject(parent)
 {
     std::cout << "RepoCamera initialized" << std::endl;
 }

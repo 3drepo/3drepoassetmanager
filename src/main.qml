@@ -131,7 +131,7 @@ ApplicationWindow {
         id: stackView
         anchors.fill: parent
 
-        initialItem: Qt.resolvedUrl("Page1.qml")
+        initialItem: Qt.resolvedUrl("RepoWorktop.qml")
 
         /*Pane {
             id: pane

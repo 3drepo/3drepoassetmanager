@@ -29,5 +29,8 @@
         <file>images/+material/menu@3x.png</file>
         <file>images/+material/menu@4x.png</file>
         <file>src/RepoCameraPage.qml</file>
+        <file>src/RepoWorktop.qml</file>
+        <file>src/RepoAssetGroupListView.qml</file>
+        <file>src/RepoAssetListView.qml</file>
     </qresource>
 </RCC>

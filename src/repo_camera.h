@@ -41,7 +41,7 @@ class RepoCamera : public QObject
 
 public:
 
-    explicit RepoCamera(QObject* parent = 0);
+    explicit RepoCamera(QObject* parent = Q_NULLPTR);
 
     QObject *qmlCamera() const { return _qmlCamera; }
 

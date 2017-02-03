@@ -41,15 +41,6 @@ QImage repo::RepoDataMatrix::encode(const QString &text)
     return image;
 }
 
-QString repo::RepoDataMatrix::decode(const QImage &image, uint timeout)
-{   
-    return decode((unsigned char *) image.bits(),
-                  image.width(),
-                  image.height(),
-                  getDataFormat(image.format()),
-                  DmtxFlipNone);
-}
-
 QString repo::RepoDataMatrix::decode(
         unsigned char *bits,
         int width,
@@ -58,7 +49,7 @@ QString repo::RepoDataMatrix::decode(
         DmtxFlip flip)
 {
     QString message;
-    int timeout = 100;
+    int timeout = 10; // milliseconds
     DmtxImage *img = dmtxImageCreate(bits, width, height, format);
     dmtxImageSetProp(img, DmtxPropImageFlip, flip);
 
@@ -88,6 +79,15 @@ QString repo::RepoDataMatrix::decode(
         dmtxImageDestroy(&img);
     }
     return message;
+}
+
+QString repo::RepoDataMatrix::decode(const QImage &image, uint timeout)
+{
+    return decode((unsigned char *) image.bits(),
+                  image.width(),
+                  image.height(),
+                  getDataFormat(image.format()),
+                  DmtxFlipNone);
 }
 
 QString repo::RepoDataMatrix::decode(QVideoFrame *frame, bool flipped)

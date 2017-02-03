@@ -23,6 +23,7 @@ import repo 1.0
 
 Pane {
     id: page
+    padding: 0
 
 //    RepoCamera { // instantiates RepoCamera Object
 //        id: repoCamera

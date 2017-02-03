@@ -17,14 +17,19 @@
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+
+//obsolete - to be deleted
 #include "repo_camera.h"
+
 #include "repo_data_matrix_filter.h"
+#include "repo_asset_categories_model.h"
 
 int main(int argc, char *argv[])
 {
     // http://doc.qt.io/qt-5/qtqml-cppintegration-definetypes.html#registering-an-instantiable-object-type
     qmlRegisterType<repo::RepoCamera>("repo", 1, 0, "RepoCamera");
     qmlRegisterType<repo::RepoDataMatrixFilter>("repo", 1, 0, "RepoDataMatrixFilter");
+    qmlRegisterType<repo::RepoAssetCategoriesModel>("repo", 1, 0, "RepoAssetCategoriesModel");
 
     QGuiApplication::setApplicationName("3D Repo Asset Guru");
     QGuiApplication::setOrganizationName("3D Repo");
