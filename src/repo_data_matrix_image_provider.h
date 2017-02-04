@@ -15,21 +15,24 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "repo_asset_categories_model.h"
+#pragma once
 
-repo::RepoAssetCategoriesModel::RepoAssetCategoriesModel(QObject *parent)
-    : QStringListModel(parent)
+#include <QQuickImageProvider>
+#include <QPixmap>
+
+#include "repo_data_matrix.h"
+
+namespace repo
 {
-    populate();
-}
 
-
-void repo::RepoAssetCategoriesModel::populate()
+class RepoDataMatrixImageProvider : public QQuickImageProvider
 {
-    QString path("c:\\Users\\jozef\\Documents\\3D Models\\BB\\Crossrail\\Exports\\C530-010-UF-004-UPDDAT-01\\");
-    QDir directory(path);
 
-    QStringList fileNames = directory.entryList(QStringList("L*-*.csv"), QDir::Files);
+public:
 
-    this->setStringList(fileNames);
+    RepoDataMatrixImageProvider() : QQuickImageProvider(QQuickImageProvider::Pixmap) {}
+
+    QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize);
+
+};
 }

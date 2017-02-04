@@ -15,21 +15,29 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "repo_asset_categories_model.h"
+#pragma once
 
-repo::RepoAssetCategoriesModel::RepoAssetCategoriesModel(QObject *parent)
-    : QStringListModel(parent)
+#include <QMap>
+#include <QVariant>
+
+namespace repo
 {
-    populate();
-}
 
-
-void repo::RepoAssetCategoriesModel::populate()
+class RepoAsset : public QMap<QString, QVariant>
 {
-    QString path("c:\\Users\\jozef\\Documents\\3D Models\\BB\\Crossrail\\Exports\\C530-010-UF-004-UPDDAT-01\\");
-    QDir directory(path);
 
-    QStringList fileNames = directory.entryList(QStringList("L*-*.csv"), QDir::Files);
+public :
 
-    this->setStringList(fileNames);
+    RepoAsset() : QMap<QString, QVariant>() {}
+
+    RepoAsset(const QMap<QString, QVariant> &m) : QMap<QString, QVariant>(m) {}
+
+    QString tagCode() const;
+
+    QString name() const;
+
+    QString description() const;
+
+};
+
 }

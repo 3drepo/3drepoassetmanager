@@ -19,6 +19,14 @@
 
 #include <QAbstractListModel>
 #include <QModelIndex>
+#include <QPixmap>
+#include <QIcon>
+
+#include <iostream>
+
+#include "repo_asset.h"
+#include "repo_csv_parser.h"
+#include "repo_data_matrix.h"
 
 namespace repo {
 
@@ -29,20 +37,33 @@ class RepoAssetModel : public QAbstractListModel
 
 public:
 
+    enum AssetRoles {
+        TagCodeRole = Qt::UserRole + 1,
+        NameRole,
+        DescriptionRole,
+        DataMatrixRole
+    };
+
+public:
+
     RepoAssetModel(QObject *parent = Q_NULLPTR);
 
-    void populate(const QString &filename = QString());
+    Q_INVOKABLE void populate(const QString &filename = QString());
+
+    void clear();
 
 public :
 
-    // Returns the number of elements in this asset model
+    //! Returns the number of elements in this asset model
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
-    // Returns 1
-    int columnCount(const QModelIndex &) const { return 1; }
+    //! Returns 1
+    inline int columnCount(const QModelIndex &) const { return 1; }
 
-    // Returns data for given index
+    //! Returns data for given index
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+
+    QHash<int, QByteArray> roleNames() const;
 
 private :
 

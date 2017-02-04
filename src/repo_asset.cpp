@@ -15,21 +15,19 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "repo_asset_categories_model.h"
+#include "repo_asset.h"
 
-repo::RepoAssetCategoriesModel::RepoAssetCategoriesModel(QObject *parent)
-    : QStringListModel(parent)
+QString repo::RepoAsset::tagCode() const
 {
-    populate();
+    return value("Tag Code", QString()).toString();
 }
 
-
-void repo::RepoAssetCategoriesModel::populate()
+QString repo::RepoAsset::name() const
 {
-    QString path("c:\\Users\\jozef\\Documents\\3D Models\\BB\\Crossrail\\Exports\\C530-010-UF-004-UPDDAT-01\\");
-    QDir directory(path);
+    return value("Name", QString()).toString();
+}
 
-    QStringList fileNames = directory.entryList(QStringList("L*-*.csv"), QDir::Files);
-
-    this->setStringList(fileNames);
+QString repo::RepoAsset::description() const
+{
+    return value("Description", QString()).toString();
 }

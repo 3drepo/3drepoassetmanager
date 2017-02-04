@@ -15,21 +15,36 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "repo_asset_categories_model.h"
 
-repo::RepoAssetCategoriesModel::RepoAssetCategoriesModel(QObject *parent)
-    : QStringListModel(parent)
+#pragma once
+
+#include <QObject>
+#include <QFile>
+#include <QTextStream>
+#include <QIODevice>
+#include <QVector>
+#include<QString>
+
+#include <iostream>
+
+#include "repo_asset.h"
+
+namespace repo {
+
+class RepoCSVParser : public QObject
 {
-    populate();
-}
 
+    Q_OBJECT
 
-void repo::RepoAssetCategoriesModel::populate()
-{
-    QString path("c:\\Users\\jozef\\Documents\\3D Models\\BB\\Crossrail\\Exports\\C530-010-UF-004-UPDDAT-01\\");
-    QDir directory(path);
+public:
 
-    QStringList fileNames = directory.entryList(QStringList("L*-*.csv"), QDir::Files);
+    RepoCSVParser(QObject *parent);
 
-    this->setStringList(fileNames);
+    static QVariantList parseCSV(const QString &filepath);
+
+private :
+
+    static const QString delimiter;
+};
+
 }

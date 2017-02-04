@@ -32,5 +32,6 @@
         <file>src/RepoWorktop.qml</file>
         <file>src/RepoAssetGroupListView.qml</file>
         <file>src/RepoAssetListView.qml</file>
+        <file>src/RepoAssetListDelegate.qml</file>
     </qresource>
 </RCC>

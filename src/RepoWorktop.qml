@@ -28,9 +28,15 @@ Pane {
     RepoAssetGroupListView {
         id: assetGroupListView
         anchors.left: parent.left
-        width: parent.width * 0.25
+        width: parent.width * 0.225
         height: parent.height
         Layout.fillHeight: true
+        focus: true
+
+        onCurrentIndexChanged: {
+            assetListView.select(assetGroupListView.currentItem.text)
+        }
+
     }
 
 //    Rectangle {
@@ -46,10 +52,11 @@ Pane {
     Rectangle {
         id: rectangle
         anchors.left: assetGroupListView.right
-        width: parent.width * 0.35
+        width: parent.width * 0.378
         height: parent.height
-        color: "white"
+//        color: "white"
         Layout.fillHeight: true
+        focus: true
 
         RepoAssetListView {
             id: assetListView

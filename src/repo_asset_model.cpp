@@ -25,16 +25,66 @@ repo::RepoAssetModel::RepoAssetModel(QObject *parent)
 
 void repo::RepoAssetModel::populate(const QString &filename)
 {
-    assets << QString("Hello World 1") << QString("Hello World 2");
+    clear();
+
+    if (!filename.isEmpty())
+    {
+        QString filePath = "c:\\Users\\jozef\\Documents\\3D Models\\BB\\Crossrail\\Exports\\C530-010-UF-004-UPDDAT-01\\" + filename;
+
+        QVariantList csvAssets = RepoCSVParser::parseCSV(filePath);
+        emit beginInsertRows(QModelIndex(), 0, csvAssets.size());
+        assets = csvAssets;
+        emit endInsertRows();
+    }
+}
+
+void repo::RepoAssetModel::clear()
+{
+    emit beginRemoveRows(QModelIndex(),0,assets.size());
+    assets.clear();
+    emit endRemoveRows();
 }
 
 int repo::RepoAssetModel::rowCount(const QModelIndex &) const
 {
-
-    return 0;
+    return assets.size() ;
 }
 
-QVariant repo::RepoAssetModel::data(const QModelIndex &index, int) const
+
+QVariant repo::RepoAssetModel::data(const QModelIndex &index, int role) const
 {
-    return assets.at(index.row());
+    // See http://doc.qt.io/qt-5/qtquick-modelviewsdata-cppmodels.html
+    QVariant data;
+
+    if (index.row() < assets.size())
+    {
+        RepoAsset asset(assets.at(index.row()).value<QMap<QString, QVariant>>());
+        switch (role)
+        {
+        case TagCodeRole :
+            data = asset.tagCode();
+            break;
+        case NameRole :
+            data = asset.name();
+            break;
+        case DescriptionRole :
+            data = asset.description();
+            break;
+        case DataMatrixRole :
+            data = QString("image://dataMatrix/" + asset.tagCode());
+            break;
+        }
+    }
+    return data;
 }
+
+QHash<int, QByteArray> repo::RepoAssetModel::roleNames() const
+{
+    QHash<int, QByteArray> roles;
+    roles[TagCodeRole] = "tagCode";
+    roles[NameRole] = "name";
+    roles[DescriptionRole] = "description";
+    roles[DataMatrixRole] = "dataMatrix";
+    return roles;
+}
+

@@ -21,6 +21,7 @@ QImage repo::RepoDataMatrix::encode(const QString &text)
 {
     QImage image;
     DmtxEncode *enc = dmtxEncodeCreate();
+
     if (enc != NULL)
     {
         // ENCODE a new Data Matrix barcode image (in memory only)

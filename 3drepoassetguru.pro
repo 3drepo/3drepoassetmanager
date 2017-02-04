@@ -25,7 +25,10 @@ SOURCES += src/main.cpp \
     src/repo_data_matrix_filter_runnable.cpp \
     src/repo_data_matrix_filter.cpp \
     src/repo_asset_model.cpp \
-    src/repo_asset_categories_model.cpp
+    src/repo_asset_categories_model.cpp \
+    src/repo_csv_parser.cpp \
+    src/repo_asset.cpp \
+    src/repo_data_matrix_image_provider.cpp
 
 HEADERS += \
     src/repo_camera.h \
@@ -33,7 +36,10 @@ HEADERS += \
     src/repo_data_matrix_filter_runnable.h \
     src/repo_data_matrix_filter.h \
     src/repo_asset_model.h \
-    src/repo_asset_categories_model.h
+    src/repo_asset_categories_model.h \
+    src/repo_csv_parser.h \
+    src/repo_asset.h \
+    src/repo_data_matrix_image_provider.h
 
 RESOURCES += qml.qrc
 

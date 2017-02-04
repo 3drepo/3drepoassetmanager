@@ -19,25 +19,44 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import repo 1.0
+import QtGraphicalEffects 1.0
 
 ListView {
     id: assetListView
     focus: true
     currentIndex: -1
 
-    model: RepoAssetCategoriesModel {
-        id: categoriesModel
+    model: RepoAssetModel {
+        id: assetModel
     }
 
-    delegate:
-        ItemDelegate {
-        width: parent.width
-        text: display
+    //    delegate: ItemDelegate {
+    //        width: parent.width
+    //        text: display
+    //        highlighted: ListView.isCurrentItem
+    //        onClicked: {
+    //            assetListView.currentIndex = index
+    //        }
+
+    //        background: Image{
+    //            source : decoration
+    //        }
+
+    //    }
+
+    delegate: RepoAssetListDelegate {
         highlighted: ListView.isCurrentItem
+
         onClicked: {
             assetListView.currentIndex = index
         }
     }
 
-    ScrollIndicator.vertical: ScrollIndicator { }
+
+
+    ScrollIndicator.vertical: ScrollIndicator {}
+
+    function select(selectedItem) {
+        assetModel.populate(selectedItem);
+    }
 }

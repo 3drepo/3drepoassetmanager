@@ -23,6 +23,9 @@
 
 #include "repo_data_matrix_filter.h"
 #include "repo_asset_categories_model.h"
+#include "repo_asset_model.h"
+#include "repo_asset.h"
+#include "repo_data_matrix_image_provider.h"
 
 int main(int argc, char *argv[])
 {
@@ -30,6 +33,8 @@ int main(int argc, char *argv[])
     qmlRegisterType<repo::RepoCamera>("repo", 1, 0, "RepoCamera");
     qmlRegisterType<repo::RepoDataMatrixFilter>("repo", 1, 0, "RepoDataMatrixFilter");
     qmlRegisterType<repo::RepoAssetCategoriesModel>("repo", 1, 0, "RepoAssetCategoriesModel");
+    qmlRegisterType<repo::RepoAssetModel>("repo", 1, 0, "RepoAssetModel");
+//    qmlRegisterType<repo::RepoAsset>("repo", 1, 0, "RepoAsset");
 
     QGuiApplication::setApplicationName("3D Repo Asset Guru");
     QGuiApplication::setOrganizationName("3D Repo");
@@ -38,6 +43,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QLatin1String("qrc:/src/main.qml")));
+    engine.addImageProvider(QLatin1String("dataMatrix"), new repo::RepoDataMatrixImageProvider);
 
     return app.exec();
 }
