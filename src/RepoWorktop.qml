@@ -52,16 +52,16 @@ Pane {
             id: assetListView
             anchors.fill: parent
 
-//            onCurrentIndexChanged: {
-//                repoAssetView.select(assetListView.currentIndex)
-//            }
+            //            onCurrentIndexChanged: {
+            //                repoAssetView.select(assetListView.currentIndex)
+            //            }
 
             onCurrentItemChanged: {
-                        // Update the currently-selected item
-//                        currentSelectedItem = assetListView.delegate.items.get(currentIndex).model;
-                        // Log the Display Role
-                        console.log(assetListView.model.asset(currentIndex));
-                }
+                // Update the currently-selected item
+                //                        currentSelectedItem = assetListView.delegate.items.get(currentIndex).model;
+                // Log the Display Role
+                console.log(assetListView.model.asset(currentIndex));
+            }
         }
     }
 

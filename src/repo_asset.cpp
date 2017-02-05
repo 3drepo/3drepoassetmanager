@@ -17,10 +17,12 @@
 
 #include "repo_asset.h"
 
-//void repo::RepoAsset::insert(const QString &key, const QVariant &value)
-//{
-//    toMap().insert(key, value);
-//}
+using namespace repo;
+
+RepoAsset &RepoAsset::operator=(RepoAsset &&other)
+{
+    return *this;
+}
 
 QString repo::RepoAsset::tagCode() const
 {

@@ -36,11 +36,15 @@ public :
 
     RepoAsset(const QVariant &v) : RepoAsset(v.toMap()) {}
 
-    QString tagCode() const;
+    RepoAsset &operator=(RepoAsset &&other);
 
-    QString name() const;
+public :
 
-    QString description() const;
+    Q_INVOKABLE QString tagCode() const;
+
+    Q_INVOKABLE QString name() const;
+
+    Q_INVOKABLE QString description() const;
 
 };
 
