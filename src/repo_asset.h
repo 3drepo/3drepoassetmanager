@@ -19,18 +19,22 @@
 
 #include <QMap>
 #include <QVariant>
+#include <QString>
 
 namespace repo
 {
 
-class RepoAsset : public QMap<QString, QVariant>
+class RepoAsset : public QObject, public QMap<QString, QVariant>
 {
+    Q_OBJECT
 
 public :
 
     RepoAsset() : QMap<QString, QVariant>() {}
 
     RepoAsset(const QMap<QString, QVariant> &m) : QMap<QString, QVariant>(m) {}
+
+    RepoAsset(const QVariant &v) : RepoAsset(v.toMap()) {}
 
     QString tagCode() const;
 

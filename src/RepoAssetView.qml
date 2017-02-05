@@ -15,32 +15,19 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.7
-import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.0
-import repo 1.0
-import QtGraphicalEffects 1.0
 
-ListView {
-    id: assetListView
-    focus: true
-    currentIndex: -1
+import QtQuick 2.0
 
-    model: RepoAssetModel {
-        id: assetModel
+Rectangle {
+    color: "grey"
+
+    Text {
+        text: "Hello World"
+        font.pixelSize: 20
+        elide: Text.ElideRight
     }
 
-    delegate: RepoAssetListDelegate {
-        highlighted: ListView.isCurrentItem
-
-        onClicked: {
-            assetListView.currentIndex = index
-        }
-    }
-
-    ScrollIndicator.vertical: ScrollIndicator {}
-
-    function select(selectedItem) {
-        assetModel.populate(selectedItem);
+    function select(index) {
+        console.log(index)
     }
 }

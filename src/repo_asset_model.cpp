@@ -38,6 +38,14 @@ void repo::RepoAssetModel::populate(const QString &filename)
     }
 }
 
+QMap<QString, QVariant> repo::RepoAssetModel::asset(int index) const
+{
+//    RepoAsset asset;
+//    if (index < assets.size())
+//        asset = assets.at(index);
+    return assets.at(index).toMap();
+}
+
 void repo::RepoAssetModel::clear()
 {
     emit beginRemoveRows(QModelIndex(),0,assets.size());
@@ -58,7 +66,7 @@ QVariant repo::RepoAssetModel::data(const QModelIndex &index, int role) const
 
     if (index.row() < assets.size())
     {
-        RepoAsset asset(assets.at(index.row()).value<QMap<QString, QVariant>>());
+        RepoAsset asset(assets.at(index.row()));
         switch (role)
         {
         case TagCodeRole :
@@ -87,4 +95,6 @@ QHash<int, QByteArray> repo::RepoAssetModel::roleNames() const
     roles[DataMatrixRole] = "dataMatrix";
     return roles;
 }
+
+
 

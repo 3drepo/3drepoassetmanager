@@ -17,6 +17,11 @@
 
 #include "repo_asset.h"
 
+//void repo::RepoAsset::insert(const QString &key, const QVariant &value)
+//{
+//    toMap().insert(key, value);
+//}
+
 QString repo::RepoAsset::tagCode() const
 {
     return value("Tag Code", QString()).toString();

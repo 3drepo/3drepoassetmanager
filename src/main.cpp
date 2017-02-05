@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<repo::RepoDataMatrixFilter>("repo", 1, 0, "RepoDataMatrixFilter");
     qmlRegisterType<repo::RepoAssetCategoriesModel>("repo", 1, 0, "RepoAssetCategoriesModel");
     qmlRegisterType<repo::RepoAssetModel>("repo", 1, 0, "RepoAssetModel");
-//    qmlRegisterType<repo::RepoAsset>("repo", 1, 0, "RepoAsset");
+    qmlRegisterType<repo::RepoAsset>("repo", 1, 0, "RepoAsset");
 
     QGuiApplication::setApplicationName("3D Repo Asset Guru");
     QGuiApplication::setOrganizationName("3D Repo");

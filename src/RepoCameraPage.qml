@@ -25,59 +25,59 @@ Pane {
     id: page
     padding: 0
 
-//    RepoCamera { // instantiates RepoCamera Object
-//        id: repoCamera
-//        qmlCamera: camera
-//    }
-
-    RepoDataMatrixFilter {
-        id: dataMatrixFilter
-        // set properties, they can also be animated
-//        onFinished: console.log("results of the computation: ") // + result)
-    }
-
-    VideoOutput {
-        source: camera
-        anchors.fill: parent
-        filters: [ dataMatrixFilter ]
-        focus : visible // to receive focus and capture key events when visible
-    }
-
-    Item {
+    Rectangle {
+        color: "black"
         anchors.fill: parent
 
-        Camera { // http://doc.qt.io/qt-5/qml-qtmultimedia-camera.html
-            id: camera
-            objectName: "qmlRepoCamera"
-
-            imageProcessing.whiteBalanceMode: CameraImageProcessing.WhiteBalanceFlash
-
-            exposure {
-                exposureCompensation: -1.0
-                exposureMode: Camera.ExposurePortrait
-            }
-
-            flash.mode: Camera.FlashRedEyeReduction
-
-            imageCapture {
-                onImageCaptured: {
-//                    photoPreview.source = preview  // Show the preview in an Image
-                    repoCamera.retrieveImage(preview);
-                }
-            }
+        RepoDataMatrixFilter {
+            id: dataMatrixFilter
+            // set properties, they can also be animated
+            //        onFinished: console.log("results of the computation: ") // + result)
         }
 
-//        MouseArea{
-//                anchors.fill: parent
-//                onClicked: {
-//                    camera.imageCapture.capture();
-//                }
-//            }
+        VideoOutput {
+            source: camera
+            anchors.fill: parent
+            filters: [ dataMatrixFilter ]
+            focus : visible // to receive focus and capture key events when visible
+        }
+
+        Item {
+            anchors.fill: parent
+
+            Camera { // http://doc.qt.io/qt-5/qml-qtmultimedia-camera.html
+                id: camera
+                objectName: "qmlRepoCamera"
+
+                imageProcessing.whiteBalanceMode: CameraImageProcessing.WhiteBalanceFlash
+
+                exposure {
+                    exposureCompensation: -1.0
+                    exposureMode: Camera.ExposurePortrait
+                }
+
+                flash.mode: Camera.FlashRedEyeReduction
+
+                imageCapture {
+                    onImageCaptured: {
+                        //                    photoPreview.source = preview  // Show the preview in an Image
+                        repoCamera.retrieveImage(preview);
+                    }
+                }
+            }
+
+            //        MouseArea{
+            //                anchors.fill: parent
+            //                onClicked: {
+            //                    camera.imageCapture.capture();
+            //                }
+            //            }
 
 
 
-//        Image {
-//            id: photoPreview
-//        }
+            //        Image {
+            //            id: photoPreview
+            //        }
+        }
     }
 }

@@ -50,6 +50,8 @@ public:
 
     Q_INVOKABLE void populate(const QString &filename = QString());
 
+    Q_INVOKABLE QMap<QString, QVariant>  asset(int index) const;
+
     void clear();
 
 public :

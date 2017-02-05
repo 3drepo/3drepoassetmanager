@@ -39,71 +39,46 @@ Pane {
 
     }
 
-//    Rectangle {
-//        id: rectangle
-//        anchors.left: parent.left
-//        width: parent.width * 0.25
-//        height: parent.height
-//        color: "#e64747"
-//        Layout.fillHeight: true
-//    }
-
-
     Rectangle {
-        id: rectangle
+        id: assetListViewRectangle
         anchors.left: assetGroupListView.right
         width: parent.width * 0.378
         height: parent.height
-//        color: "white"
+        color: "white"
         Layout.fillHeight: true
         focus: true
 
         RepoAssetListView {
             id: assetListView
             anchors.fill: parent
+
+//            onCurrentIndexChanged: {
+//                repoAssetView.select(assetListView.currentIndex)
+//            }
+
+            onCurrentItemChanged: {
+                        // Update the currently-selected item
+//                        currentSelectedItem = assetListView.delegate.items.get(currentIndex).model;
+                        // Log the Display Role
+                        console.log(assetListView.model.asset(currentIndex));
+                }
         }
     }
 
     DropShadow {
-        anchors.fill: rectangle
+        anchors.fill: assetListViewRectangle
         horizontalOffset: 0
         verticalOffset: 0
         radius: 14.0
         samples: 17
         color: "#30000000"
-        source: rectangle
+        source: assetListViewRectangle
     }
 
-//    ListView {
-//        id: listView2
-//        focus: true
-//        currentIndex: -1
-//        anchors.fill: parent
-
-//        delegate:
-
-
-//            ItemDelegate {
-//                width: parent.width
-
-
-//                text: model.title + "\t" + count
-
-//                highlighted: ListView.isCurrentItem
-
-//                onClicked: {
-//                    listView.currentIndex = index
-//                    stackView.push(model.source)
-
-//            }
-//        }
-
-//        model: ListModel {
-//            ListElement { title: "L21253 - Guardrails"; count: 39; }
-
-//        }
-
-//        ScrollIndicator.vertical: ScrollIndicator { }
-//    }
-
+    RepoAssetView {
+        id: repoAssetView
+        anchors.left: assetListViewRectangle.right
+        anchors.right: parent.right
+        height: parent.height
+    }
 }
