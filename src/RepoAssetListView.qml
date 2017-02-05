@@ -25,6 +25,7 @@ ListView {
     id: assetListView
     focus: true
     currentIndex: -1
+    snapMode: ListView.SnapToItem
 
     model: RepoAssetModel {
         id: assetModel
@@ -32,7 +33,6 @@ ListView {
 
     delegate: RepoAssetListDelegate {
         highlighted: ListView.isCurrentItem
-
         onClicked: {
             assetListView.currentIndex = index
         }

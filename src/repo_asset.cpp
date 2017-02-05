@@ -19,11 +19,6 @@
 
 using namespace repo;
 
-RepoAsset &RepoAsset::operator=(RepoAsset &&other)
-{
-    return *this;
-}
-
 QString repo::RepoAsset::tagCode() const
 {
     return value("Tag Code", QString()).toString();

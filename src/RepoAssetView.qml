@@ -16,16 +16,22 @@
 */
 
 
-import QtQuick 2.0
+import QtQuick 2.7
+import QtQuick.Controls 2.1
+import QtQuick.Layouts 1.0
+import repo 1.0
+import QtGraphicalEffects 1.0
 
-Rectangle {
-    color: "grey"
+ListView {
 
-    Text {
-        text: "Hello World"
-        font.pixelSize: 20
-        elide: Text.ElideRight
-    }
+    id: assetView
+    clip: true
+    snapMode: ListView.SnapOneItem
+    orientation: ListView.Horizontal
+
+
+
+
 
     function select(index) {
         console.log(index)

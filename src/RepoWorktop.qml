@@ -42,7 +42,7 @@ Pane {
     Rectangle {
         id: assetListViewRectangle
         anchors.left: assetGroupListView.right
-        width: parent.width * 0.378
+        width: parent.width * 0.3785
         height: parent.height
         color: "white"
         Layout.fillHeight: true
@@ -52,15 +52,8 @@ Pane {
             id: assetListView
             anchors.fill: parent
 
-            //            onCurrentIndexChanged: {
-            //                repoAssetView.select(assetListView.currentIndex)
-            //            }
-
-            onCurrentItemChanged: {
-                // Update the currently-selected item
-                //                        currentSelectedItem = assetListView.delegate.items.get(currentIndex).model;
-                // Log the Display Role
-                console.log(assetListView.model.asset(currentIndex));
+            onCurrentIndexChanged: {
+                assetView.currentIndex = currentIndex
             }
         }
     }
@@ -76,9 +69,35 @@ Pane {
     }
 
     RepoAssetView {
-        id: repoAssetView
+        id: assetView
         anchors.left: assetListViewRectangle.right
         anchors.right: parent.right
         height: parent.height
+        model: assetListView.model
+
+        delegate: ItemDelegate {
+            height: parent.height
+            width: assetListViewRectangle.width + 22
+
+            onClicked: {
+                assetView.currentIndex = index
+            }
+
+            Image {
+                id: dataMatrixImage
+                source: dataMatrix;
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Text {
+                text: tagCode;
+                anchors.top: dataMatrixImage.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.pixelSize: 20
+            }
+        }
+
+        onCurrentIndexChanged: {
+            assetListView.currentIndex = currentIndex
+        }
     }
 }
