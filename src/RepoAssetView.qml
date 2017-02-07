@@ -29,10 +29,6 @@ ListView {
     snapMode: ListView.SnapOneItem
     orientation: ListView.Horizontal
 
-
-
-
-
     function select(index) {
         console.log(index)
     }

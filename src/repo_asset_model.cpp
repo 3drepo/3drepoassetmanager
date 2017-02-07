@@ -81,6 +81,30 @@ QVariant repo::RepoAssetModel::data(const QModelIndex &index, int role) const
         case DataMatrixRole :
             data = QString("image://dataMatrix/" + asset.tagCode());
             break;
+        case OperationalStatusRole :
+            data = asset.operationalStatus();
+            break;
+        case OperationalStatusIndexRole :
+            data = asset.operationalStatusIndex();
+            break;
+        case OperationalStatusListRole :
+            data = QVariant(asset.operationalStatusList);
+            break;
+        case AssetLabelInstalledRole :
+            data = asset.assetLabelInstalled();
+            break;
+        case AssetLabelRequiredRole :
+            data = asset.assetLabelRequired();
+            break;
+        case AssetStatusRole :
+            data = asset.assetStatus();
+            break;
+        case AssetStatusIndexRole :
+            data = asset.assetStatusIndex();
+            break;
+        case AssetStatusListRole :
+            data = QVariant(asset.assetStatusList);
+            break;
         }
     }
     return data;
@@ -93,6 +117,14 @@ QHash<int, QByteArray> repo::RepoAssetModel::roleNames() const
     roles[NameRole] = "name";
     roles[DescriptionRole] = "description";
     roles[DataMatrixRole] = "dataMatrix";
+    roles[OperationalStatusRole] = "operationalStatus";
+    roles[OperationalStatusIndexRole] = "operationalStatusIndex";
+    roles[OperationalStatusListRole] = "operationalStatusList";
+    roles[AssetLabelInstalledRole] = "assetLabelInstalled";
+    roles[AssetLabelRequiredRole] = "assetLabelRequired";
+    roles[AssetStatusRole] = "assetStatus";
+    roles[AssetStatusIndexRole] = "assetStatusIndex";
+    roles[AssetStatusListRole] = "assetStatusList";
     return roles;
 }
 

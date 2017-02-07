@@ -42,7 +42,7 @@ Pane {
     Rectangle {
         id: assetListViewRectangle
         anchors.left: assetGroupListView.right
-        width: parent.width * 0.3785
+        width: parent.width * 0.3875
         height: parent.height
         color: "white"
         Layout.fillHeight: true
@@ -51,6 +51,8 @@ Pane {
         RepoAssetListView {
             id: assetListView
             anchors.fill: parent
+            highlightFollowsCurrentItem: true
+            highlightMoveDuration: 200
 
             onCurrentIndexChanged: {
                 assetView.currentIndex = currentIndex
@@ -68,6 +70,8 @@ Pane {
         source: assetListViewRectangle
     }
 
+
+
     RepoAssetView {
         id: assetView
         anchors.left: assetListViewRectangle.right
@@ -75,29 +79,26 @@ Pane {
         height: parent.height
         model: assetListView.model
 
-        delegate: ItemDelegate {
-            height: parent.height
-            width: assetListViewRectangle.width + 22
+        highlightFollowsCurrentItem: true
+        highlightMoveDuration: 0
 
-            onClicked: {
-                assetView.currentIndex = index
-            }
+        delegate:  RepoAssetViewDelegate {
+            id: repoAssetViewDelegate
+                    height: parent.height
+                    width: assetListViewRectangle.width
+                    highlighted: false
+                }
 
-            Image {
-                id: dataMatrixImage
-                source: dataMatrix;
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Text {
-                text: tagCode;
-                anchors.top: dataMatrixImage.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
-                font.pixelSize: 20
-            }
-        }
+//        onMovingChanged: {
+//            ((RepoAssetViewDelegate) delegate).assignCurrentIndex()
+//            console.log("moving: " + currentIndex)
+//            assetListView.currentIndex = currentIndex
+//        }
 
         onCurrentIndexChanged: {
             assetListView.currentIndex = currentIndex
         }
     }
+
+
 }

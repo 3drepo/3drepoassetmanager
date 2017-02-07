@@ -34,5 +34,6 @@
         <file>src/RepoAssetListView.qml</file>
         <file>src/RepoAssetListDelegate.qml</file>
         <file>src/RepoAssetView.qml</file>
+        <file>src/RepoAssetViewDelegate.qml</file>
     </qresource>
 </RCC>

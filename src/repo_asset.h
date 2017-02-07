@@ -20,6 +20,7 @@
 #include <QMap>
 #include <QVariant>
 #include <QString>
+#include <QList>
 
 namespace repo
 {
@@ -38,11 +39,40 @@ public :
 
 public :
 
+    //! Returns a string value given a suitable key, empty string if not found.
+    QString stringValue(const QString &key) const;
+
+public :
+
     QString tagCode() const;
 
     QString name() const;
 
     QString description() const;
+
+    QString operationalStatus() const;
+
+    int operationalStatusIndex() const;
+
+    /**
+     * Returns true if the associated string field is "Yes", false otherwise.
+     * @brief isAssetLabelInstalled
+     * @return
+     */
+    bool assetLabelInstalled() const;
+
+    bool assetLabelRequired() const;
+
+    QString assetStatus() const;
+
+    int assetStatusIndex() const;
+
+
+public :
+
+    static QList<QString> operationalStatusList;
+
+    static QList<QString> assetStatusList;
 
 };
 

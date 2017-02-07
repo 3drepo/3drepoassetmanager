@@ -40,7 +40,15 @@ public:
         TagCodeRole = Qt::UserRole + 1,
         NameRole,
         DescriptionRole,
-        DataMatrixRole
+        DataMatrixRole,
+        OperationalStatusRole,
+        OperationalStatusIndexRole,
+        OperationalStatusListRole,
+        AssetLabelInstalledRole,
+        AssetLabelRequiredRole,
+        AssetStatusRole,
+        AssetStatusIndexRole,
+        AssetStatusListRole
     };
 
 public:

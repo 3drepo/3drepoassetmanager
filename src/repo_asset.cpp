@@ -19,17 +19,69 @@
 
 using namespace repo;
 
-QString repo::RepoAsset::tagCode() const
+QList<QString> RepoAsset::operationalStatusList = QList<QString>()
+        << "Abandoned in Place"
+        << "Installed"
+        << "Planned"
+        << "Uninstalled";
+
+QList<QString> RepoAsset::assetStatusList = QList<QString>()
+        << "Commissioned"
+        << "Construction"
+        << "Decommissioned In-situ"
+        << "Decommissioned Removed"
+        << "Design"
+        << "Operational"
+        << "Strategic Spare"
+        << "Temporary"
+        << "Test & Commissioning";
+
+QString RepoAsset::stringValue(const QString &key) const
 {
-    return value("Tag Code", QString()).toString();
+     return value(key, QString()).toString();
 }
 
-QString repo::RepoAsset::name() const
+QString RepoAsset::tagCode() const
 {
-    return value("Name", QString()).toString();
+    return stringValue("Tag Code");
 }
 
-QString repo::RepoAsset::description() const
+QString RepoAsset::name() const
 {
-    return value("Description", QString()).toString();
+    return stringValue("Name");
+}
+
+QString RepoAsset::description() const
+{
+    return stringValue("Description");
+}
+
+QString RepoAsset::operationalStatus() const
+{
+    return stringValue("Operational Status");
+}
+
+int RepoAsset::operationalStatusIndex() const
+{
+    return operationalStatusList.indexOf(operationalStatus());
+}
+
+bool RepoAsset::assetLabelInstalled() const
+{
+    return (stringValue("Asset Label Installed") == "Yes");
+}
+
+bool RepoAsset::assetLabelRequired() const
+{
+    return (stringValue("Asset Label Required") == "Yes");
+}
+
+QString RepoAsset::assetStatus() const
+{
+    return stringValue("Asset Status");
+}
+
+int RepoAsset::assetStatusIndex() const
+{
+    return operationalStatusList.indexOf(assetStatus());
 }
