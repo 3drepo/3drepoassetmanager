@@ -14,28 +14,20 @@
 *  You should have received a copy of the GNU Affero General Public License
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#pragma once
 
-#include <QAbstractVideoFilter>
+#include "repo_data_matrix_filter_result.h"
 
-namespace repo {
-
-// See https://blog.qt.io/blog/2015/03/20/introducing-video-filters-in-qt-multimedia/
-class RepoDataMatrixFilter : public QAbstractVideoFilter
+QString repo::RepoDataMatrixFilterResult::message() const
 {
-    Q_OBJECT
+    return _message;
+}
 
-public:
+QRect repo::RepoDataMatrixFilterResult::rectangle() const
+{
+    return _rectangle;
+}
 
-    QVideoFilterRunnable* createFilterRunnable() Q_DECL_OVERRIDE;
-
-signals:
-
-    void finished(QObject *result);
-
-private:
-
-    friend class RepoDataMatrixFilterRunnable;
-
-};
+QSize repo::RepoDataMatrixFilterResult::resolution() const
+{
+    return _resolution;
 }

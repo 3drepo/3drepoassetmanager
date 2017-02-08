@@ -14,28 +14,42 @@
 *  You should have received a copy of the GNU Affero General Public License
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #pragma once
 
-#include <QAbstractVideoFilter>
+#include <QObject>
+#include <QString>
+#include <QRect>
 
-namespace repo {
+namespace repo
+{
 
-// See https://blog.qt.io/blog/2015/03/20/introducing-video-filters-in-qt-multimedia/
-class RepoDataMatrixFilter : public QAbstractVideoFilter
+class RepoDataMatrixFilterResult : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(QString message READ message)
+
+    Q_PROPERTY(QRect rectangle READ rectangle)
+
+    Q_PROPERTY(QSize resolution READ resolution)
+
 public:
 
-    QVideoFilterRunnable* createFilterRunnable() Q_DECL_OVERRIDE;
+    QString message() const;
 
-signals:
+    QRect rectangle() const;
 
-    void finished(QObject *result);
+    QSize resolution() const;
 
 private:
 
-    friend class RepoDataMatrixFilterRunnable;
+    QString _message;
 
+    QRect _rectangle;
+
+    QSize _resolution;
+
+    friend class RepoDataMatrixFilterRunnable;
 };
 }

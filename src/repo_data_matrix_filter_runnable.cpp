@@ -16,11 +16,9 @@
 */
 
 #include "repo_data_matrix_filter_runnable.h"
-#include "repo_data_matrix_filter.h"
-#include "repo_data_matrix.h"
 
 repo::RepoDataMatrixFilterRunnable::RepoDataMatrixFilterRunnable(
-        QAbstractVideoFilter *filter)
+        RepoDataMatrixFilter *filter)
 {
     this->filter = filter;
 }
@@ -30,15 +28,18 @@ QVideoFrame repo::RepoDataMatrixFilterRunnable::run(
         const QVideoSurfaceFormat &surfaceFormat,
         RunFlags flags)
 {
-    QObject *result = NULL;
+    RepoDataMatrixFilterResult *result = new RepoDataMatrixFilterResult;
+    result->_resolution = input->size();
 
     if (mutex.tryLock(0)) // drop frames
     {
-        QString message = RepoDataMatrix::decode(input, (surfaceFormat.scanLineDirection() == QVideoSurfaceFormat::BottomToTop));
-        std::cout << "Found: " << message.toStdString() << std::endl;
+        bool flipped = surfaceFormat.scanLineDirection() == QVideoSurfaceFormat::BottomToTop;
+        QPair<QString, QRect> res = RepoDataMatrix::decode(input, flipped);
+        result->_message = res.first;
+        result->_rectangle = res.second;
         mutex.unlock();
     }
 
-//    emit filter->finished(result);
+    emit filter->finished(result);
     return *input;
 }

@@ -76,8 +76,8 @@ void repo::RepoCamera::processImage(const QImage &image)
     //    QImage img = dmtxEncode("hello world!");
     //    img.save("test.png");
 
-    QString message = RepoDataMatrix::decode(image);
-    std::cout << "Message is: " << message.toStdString() << std::endl;
+//    QString message = RepoDataMatrix::decode(image);
+//    std::cout << "Message is: " << message.toStdString() << std::endl;
 
 }
 

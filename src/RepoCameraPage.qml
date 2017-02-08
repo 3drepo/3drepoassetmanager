@@ -16,9 +16,15 @@
 */
 
 import QtQuick 2.6
-import QtQuick.Layouts 1.0
 import QtQuick.Controls 2.1
 import QtMultimedia 5.8
+import QtQuick.Dialogs 1.2
+
+import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material 2.1
+import QtQuick.Controls.Universal 2.1
+import Qt.labs.settings 1.0
+
 import repo 1.0
 
 Pane {
@@ -30,12 +36,31 @@ Pane {
         anchors.fill: parent
 
         RepoDataMatrixFilter {
-            id: dataMatrixFilter
-            // set properties, they can also be animated
-            //        onFinished: console.log("results of the computation: ") // + result)
+            id: dataMatrixFilter            
+            onFinished: {
+//                console.log("results of the computation: " + result.message)
+//                console.log(result.rectangle)
+//                console.log(result.rectangle.x + ", " + result.rectangle.y + " :: " + result.rectangle.height)
+
+                var scaleX = parent.width / result.resolution.width
+                var scaleY = parent.height / result.resolution.height
+//                var offsetX = (cameraOutput.width - result.resolution.width)/2
+
+                detectorRectangle.x = result.rectangle.x * scaleX
+                detectorRectangle.y = result.rectangle.y * scaleY
+
+                detectorRectangle.width = result.rectangle.width * scaleX
+                detectorRectangle.height = result.rectangle.height * scaleY
+
+                detectedText.text = result.message
+                detectedText.font.pixelSize = 0.1 * detectorRectangle.height
+            }
         }
 
+
+
         VideoOutput {
+            id: cameraOutput
             source: camera
             anchors.fill: parent
             filters: [ dataMatrixFilter ]
@@ -58,13 +83,29 @@ Pane {
 
                 flash.mode: Camera.FlashRedEyeReduction
 
-                imageCapture {
-                    onImageCaptured: {
-                        //                    photoPreview.source = preview  // Show the preview in an Image
-                        repoCamera.retrieveImage(preview);
-                    }
-                }
+//                imageCapture {
+//                    onImageCaptured: {
+//                        //                    photoPreview.source = preview  // Show the preview in an Image
+////                        repoCamera.retrieveImage(preview);
+//                    }
+//                }
             }
+
+            Rectangle {
+                id: detectorRectangle
+                color: "transparent"
+                border.color: "red"
+                border.width: 5
+            }
+
+            Text {
+                id: detectedText
+                anchors.top: detectorRectangle.bottom
+                anchors.horizontalCenter: detectorRectangle.horizontalCenter
+                text: "Data Matrix"
+                color: "red"
+            }
+
 
             //        MouseArea{
             //                anchors.fill: parent

@@ -42,17 +42,16 @@ QImage repo::RepoDataMatrix::encode(const QString &text)
     return image;
 }
 
-QString repo::RepoDataMatrix::decode(
-        unsigned char *bits,
+QPair<QString, QRect> repo::RepoDataMatrix::decode(unsigned char *bits,
         int width,
         int height,
-        DmtxPackOrder format,
-        DmtxFlip flip)
+        const DmtxPackOrder &format,
+        bool flippedY)
 {
-    QString message;
-    int timeout = 10; // milliseconds
+    QPair<QString, QRect> res;
+    static int timeout = 10; // milliseconds
     DmtxImage *img = dmtxImageCreate(bits, width, height, format);
-    dmtxImageSetProp(img, DmtxPropImageFlip, flip);
+    dmtxImageSetProp(img, DmtxPropImageFlip, flippedY ? DmtxFlipY : DmtxFlipNone);
 
     if (img != NULL)
     {
@@ -67,10 +66,11 @@ QString repo::RepoDataMatrix::decode(
             DmtxRegion *reg = dmtxRegionFindNext(dec, &cutoffTime);
             if (reg != NULL)
             {
+                res.second = toRectangle(reg, height, flippedY);
                 DmtxMessage *msg = dmtxDecodeMatrixRegion(dec, reg, DmtxUndefined);
                 if(msg != NULL)
                 {
-                    message = QString::fromUtf8((const char*) msg->output);
+                    res.first = QString::fromUtf8((const char*) msg->output);
                     dmtxMessageDestroy(&msg);
                 }
                 dmtxRegionDestroy(&reg);
@@ -79,34 +79,32 @@ QString repo::RepoDataMatrix::decode(
         }
         dmtxImageDestroy(&img);
     }
-    return message;
+    return res;
 }
 
-QString repo::RepoDataMatrix::decode(const QImage &image, uint timeout)
+QPair<QString, QRect> repo::RepoDataMatrix::decode(const QImage &image)
 {
     return decode((unsigned char *) image.bits(),
                   image.width(),
                   image.height(),
-                  getDataFormat(image.format()),
-                  DmtxFlipNone);
+                  getDataFormat(image.format()));
 }
 
-QString repo::RepoDataMatrix::decode(QVideoFrame *frame, bool flipped)
+QPair<QString, QRect> repo::RepoDataMatrix::decode(QVideoFrame *frame, bool flippedY)
 {
-    QString message;
+    QPair<QString, QRect> res;
     if (frame->map(QAbstractVideoBuffer::ReadOnly))
     {
         // For whatever reason Windows flips the scanlines, see here:
         // https://forum.qt.io/topic/42967/video-on-streamingvideosurface-is-inverted-or-not-depending-on-whose-pc-runs-it
-        message = decode(frame->bits(),
+        res = decode(frame->bits(),
                          frame->width(),
                          frame->height(),
                          getDataFormat(frame->pixelFormat()),
-                         flipped ? DmtxFlipY : DmtxFlipNone);
-
+                         flippedY);
         frame->unmap();
     }
-    return message;
+    return res;
 }
 
 DmtxPackOrder repo::RepoDataMatrix::getDataFormat(const QImage::Format &format)
@@ -199,4 +197,15 @@ DmtxPackOrder repo::RepoDataMatrix::getDataFormat(const QVideoFrame::PixelFormat
         break;
     }
     return packOrder;
+}
+
+QRect repo::RepoDataMatrix::toRectangle(DmtxRegion *reg, int height, bool flipped)
+{
+
+//    std::cout << height << std::endl;
+
+    return QRect(reg->boundMin.X,
+                 flipped ? height - reg->boundMax.Y : reg->boundMax.Y,
+                 reg->boundMax.X - reg->boundMin.X,
+                 reg->boundMax.Y - reg->boundMin.Y);
 }

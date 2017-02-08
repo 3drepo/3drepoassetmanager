@@ -22,6 +22,7 @@
 #include <QVideoFrame>
 
 #include "dmtx.h"
+#include "repo_data_matrix_filter_result.h"
 
 #include <iostream>
 
@@ -61,11 +62,18 @@ public slots:
      * @param timeout in milliseconds
      * @return
      */
-    static QString decode(const QImage &image, uint timeout = 10);
+    static  QPair<QString, QRect> decode(const QImage &image);
 
-    static QString decode(QVideoFrame *input, bool flipped = false);
+    static  QPair<QString, QRect> decode(QVideoFrame *input,
+                          bool flippedY = false);
 
-    static QString decode(unsigned char *bits, int width, int height, DmtxPackOrder format, DmtxFlip flip = DmtxFlipNone);
+    static QPair<QString, QRect> decode(unsigned char *bits,
+                          int width,
+                          int height,
+                          const DmtxPackOrder &format,
+                          bool flippedY = false);
+
+private :
 
     /**
      * Given a QImage returns pixel packing format suitable for Libdmtx decoding.
@@ -76,6 +84,8 @@ public slots:
     static DmtxPackOrder getDataFormat(const QImage::Format &format);
 
     static DmtxPackOrder getDataFormat(const QVideoFrame::PixelFormat &format);
+
+    static QRect toRectangle(DmtxRegion *reg, int height, bool flipped);
 };
 
 }

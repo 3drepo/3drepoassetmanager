@@ -15,7 +15,7 @@
 
 include(dependencies.pri)
 
-QT += qml quick quickcontrols2 multimedia
+QT += quick quickcontrols2 multimedia
 
 CONFIG += c++11
 
@@ -28,7 +28,8 @@ SOURCES += src/main.cpp \
     src/repo_asset_categories_model.cpp \
     src/repo_csv_parser.cpp \
     src/repo_asset.cpp \
-    src/repo_data_matrix_image_provider.cpp
+    src/repo_data_matrix_image_provider.cpp \
+    src/repo_data_matrix_filter_result.cpp
 
 HEADERS += \
     src/repo_camera.h \
@@ -39,7 +40,8 @@ HEADERS += \
     src/repo_asset_categories_model.h \
     src/repo_csv_parser.h \
     src/repo_asset.h \
-    src/repo_data_matrix_image_provider.h
+    src/repo_data_matrix_image_provider.h \
+    src/repo_data_matrix_filter_result.h
 
 RESOURCES += qml.qrc
 

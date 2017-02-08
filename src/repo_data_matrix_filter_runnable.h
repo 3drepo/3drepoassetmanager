@@ -22,6 +22,10 @@
 #include <QVideoSurfaceFormat>
 #include <QMutex>
 
+#include "repo_data_matrix_filter_result.h"
+#include "repo_data_matrix_filter.h"
+#include "repo_data_matrix.h"
+
 #include <iostream>
 
 namespace repo {
@@ -32,13 +36,13 @@ class RepoDataMatrixFilterRunnable : public QVideoFilterRunnable
 
 public:
 
-    RepoDataMatrixFilterRunnable(QAbstractVideoFilter *filter);
+    RepoDataMatrixFilterRunnable(RepoDataMatrixFilter *filter);
 
-    QVideoFrame run(QVideoFrame *input, const QVideoSurfaceFormat &surfaceFormat, RunFlags flags);
+    QVideoFrame run(QVideoFrame *input, const QVideoSurfaceFormat &surfaceFormat, RunFlags flags) Q_DECL_OVERRIDE;
 
 private :
 
-    QAbstractVideoFilter* filter;
+    RepoDataMatrixFilter* filter;
 
     QMutex mutex;
 };

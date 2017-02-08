@@ -18,6 +18,8 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
+import QtQuick.Controls 2.1
+import QtQuick.Dialogs 1.1
 
 ApplicationWindow {
     id: window
@@ -120,9 +122,7 @@ ApplicationWindow {
 
             model: ListModel {
                 ListElement { title: "Camera"; source: "qrc:/src/RepoCameraPage.qml" }
-
             }
-
             ScrollIndicator.vertical: ScrollIndicator { }
         }
     }
@@ -130,47 +130,6 @@ ApplicationWindow {
     StackView {
         id: stackView
         anchors.fill: parent
-
         initialItem: Qt.resolvedUrl("RepoWorktop.qml")
-
-        /*Pane {
-            id: pane
-            Label {
-                text: "Qt Quick Controls 2 provides a set of controls that can be used to build complete interfaces in Qt Quick."
-                anchors.margins: 20
-                anchors.left: parent.left
-                anchors.right: parent.right
-                horizontalAlignment: Label.AlignHCenter
-                verticalAlignment: Label.AlignVCenter
-                wrapMode: Label.Wrap
-            }
-        }*/
     }
-
-//    SwipeView {
-//        id: swipeView
-//        anchors.fill: parent
-//        currentIndex: tabBar.currentIndex
-
-//        Page1 {
-//        }
-
-//        Page {
-//            Label {
-//                text: qsTr("Second page")
-//                anchors.centerIn: parent
-//            }
-//        }
-//    }
-
-//    footer: TabBar {
-//        id: tabBar
-//        currentIndex: swipeView.currentIndex
-//        TabButton {
-//            text: qsTr("First")
-//        }
-//        TabButton {
-//            text: qsTr("Second")
-//        }
-//    }
 }
