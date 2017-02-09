@@ -18,18 +18,15 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
-import repo 1.0
 import QtGraphicalEffects 1.0
+
+import repo 1.0
 
 ListView {
     id: assetListView
     focus: true
     currentIndex: -1
     snapMode: ListView.SnapToItem
-
-//    model: RepoAssetModel {
-//        id: assetModel
-//    }
 
     model: RepoAssetFilterableModel {
         id: assetModel
@@ -44,7 +41,12 @@ ListView {
 
     ScrollIndicator.vertical: ScrollIndicator {}
 
-    function select(selectedItem) {
-        assetModel.setFilterFixedString(selectedItem);
+    function filterGroup(group) {
+        assetModel.filterGroup(group)
     }
+
+    function filterTagCode(tagCode) {
+        assetModel.filterTagCode(tagCode)
+    }
+
 }

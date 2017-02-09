@@ -20,20 +20,52 @@
 #include <QString>
 #include <QStandardItem>
 
+#include <iostream>
+#include "repo_asset.h"
+
 namespace repo {
 
 class RepoAssetItem : public QStandardItem
 {
 
+public :
+
+    enum AssetRoles {
+        GroupRole = Qt::UserRole + 1,
+        TagCodeRole,
+        NameRole,
+        DescriptionRole,
+        DataMatrixRole,
+        OperationalStatusRole,
+        OperationalStatusIndexRole,
+        OperationalStatusListRole,
+        AssetLabelInstalledRole,
+        AssetLabelRequiredRole,
+        AssetStatusRole,
+        AssetStatusIndexRole,
+        AssetStatusListRole
+    };
+
 public:
 
     RepoAssetItem();
 
-    void setSection(const QString &section)
-    { this->section = section; }
+    QVariant data(int role = Qt::UserRole + 1) const;
+
+public :
+
+    void setGroup(const QString &group);
+
+    QString getGroup() const;
+
+    void setAsset(const QMap<QString, QVariant> &assetInfo);
+
+    QMap<QString, QVariant> getAsset() const;
 
 private :
 
-    QString section;
+    QString group;
+
+    QMap<QString, QVariant> assetInfo;
 };
 }

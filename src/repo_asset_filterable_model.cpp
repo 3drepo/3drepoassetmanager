@@ -21,26 +21,32 @@ using namespace repo;
 
 RepoAssetFilterableModel::RepoAssetFilterableModel()
     : QSortFilterProxyModel()
+    , model(new QStandardItemModel())
 {
     setDynamicSortFilter(true);
-    //    proxy->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    setFilterCaseSensitivity(Qt::CaseInsensitive);
     setSortCaseSensitivity(Qt::CaseInsensitive);
-    setSourceModel(&model);
-
+    setSourceModel(model);
+    //--------------------------------------------------------------------------
     populate();
+}
+
+RepoAssetFilterableModel::~RepoAssetFilterableModel()
+{
+    delete model;
 }
 
 void RepoAssetFilterableModel::populate()
 {
-    //    clear();
-
+    emit beginInsertRows(QModelIndex(), 0, 0);
     QString path = "c:\\Users\\jozef\\Documents\\3D Models\\BB\\Crossrail\\Exports\\";
     QDirIterator it(path, QDirIterator::Subdirectories);
     while (it.hasNext())
     {
         QFileInfo file(it.next());
         QString baseName = file.baseName();
-        if (file.suffix() == "csv" && baseName.contains("L")
+        if (file.suffix() == "csv"
+                && baseName.contains("L")
                 && baseName.contains("-"))
         {
             QVariantList csvAssets = RepoCSVParser::parseCSV(file.absoluteFilePath());
@@ -49,82 +55,48 @@ void RepoAssetFilterableModel::populate()
                 RepoAsset asset(v);
                 RepoAssetItem *item = new RepoAssetItem();
                 item->setText(asset.tagCode());
-                item->setSection(baseName);
-                model.appendRow(item);
+                item->setGroup(baseName);
+                item->setAsset(asset);
+                model->appendRow(item);
             }
         }
     }
+    emit endInsertRows();
 }
 
-QVariant RepoAssetFilterableModel::data(const QModelIndex &index, int role) const
+void RepoAssetFilterableModel::filter(const QString &text, int role)
 {
-    // See http://doc.qt.io/qt-5/qtquick-modelviewsdata-cppmodels.html
-    QVariant data;
+    invalidateFilter();
+    setFilterFixedString(text);
+    setFilterRole(role);
+}
 
-    RepoAssetItem *item = (RepoAssetItem *) model.item(index.row());
+void RepoAssetFilterableModel::filterGroup(const QString &group)
+{
+    filter(group, RepoAssetItem::GroupRole);
+}
 
-    data = item->text();
-
-    //    if (index.row() < assets.size())
-    //    {
-    //        RepoAsset asset(assets.at(index.row()));
-    //        switch (role)
-    //        {
-    //        case TagCodeRole :
-    //            data = asset.tagCode();
-    //            break;
-    //        case NameRole :
-    //            data = asset.name();
-    //            break;
-    //        case DescriptionRole :
-    //            data = asset.description();
-    //            break;
-    //        case DataMatrixRole :
-    //            data = QString("image://dataMatrix/" + asset.tagCode());
-    //            break;
-    //        case OperationalStatusRole :
-    //            data = asset.operationalStatus();
-    //            break;
-    //        case OperationalStatusIndexRole :
-    //            data = asset.operationalStatusIndex();
-    //            break;
-    //        case OperationalStatusListRole :
-    //            data = QVariant(asset.operationalStatusList);
-    //            break;
-    //        case AssetLabelInstalledRole :
-    //            data = asset.assetLabelInstalled();
-    //            break;
-    //        case AssetLabelRequiredRole :
-    //            data = asset.assetLabelRequired();
-    //            break;
-    //        case AssetStatusRole :
-    //            data = asset.assetStatus();
-    //            break;
-    //        case AssetStatusIndexRole :
-    //            data = asset.assetStatusIndex();
-    //            break;
-    //        case AssetStatusListRole :
-    //            data = QVariant(asset.assetStatusList);
-    //            break;
-    //        }
-    //    }
-    return data;
+void RepoAssetFilterableModel::filterTagCode(const QString &tagCode)
+{
+    filter(tagCode, RepoAssetItem::TagCodeRole);
 }
 
 QHash<int, QByteArray> RepoAssetFilterableModel::roleNames() const
 {
+    // See http://doc.qt.io/qt-5/qtquick-modelviewsdata-cppmodels.html
     QHash<int, QByteArray> roles;
-    roles[TagCodeRole] = "tagCode";
-    roles[NameRole] = "name";
-    roles[DescriptionRole] = "description";
-    roles[DataMatrixRole] = "dataMatrix";
-    roles[OperationalStatusRole] = "operationalStatus";
-    roles[OperationalStatusIndexRole] = "operationalStatusIndex";
-    roles[OperationalStatusListRole] = "operationalStatusList";
-    roles[AssetLabelInstalledRole] = "assetLabelInstalled";
-    roles[AssetLabelRequiredRole] = "assetLabelRequired";
-    roles[AssetStatusRole] = "assetStatus";
-    roles[AssetStatusIndexRole] = "assetStatusIndex";
-    roles[AssetStatusListRole] = "assetStatusList";
+    roles[RepoAssetItem::TagCodeRole] = "tagCode";
+    roles[RepoAssetItem::GroupRole] = "group";
+    roles[RepoAssetItem::NameRole] = "name";
+    roles[RepoAssetItem::DescriptionRole] = "description";
+    roles[RepoAssetItem::DataMatrixRole] = "dataMatrix";
+    roles[RepoAssetItem::OperationalStatusRole] = "operationalStatus";
+    roles[RepoAssetItem::OperationalStatusIndexRole] = "operationalStatusIndex";
+    roles[RepoAssetItem::OperationalStatusListRole] = "operationalStatusList";
+    roles[RepoAssetItem::AssetLabelInstalledRole] = "assetLabelInstalled";
+    roles[RepoAssetItem::AssetLabelRequiredRole] = "assetLabelRequired";
+    roles[RepoAssetItem::AssetStatusRole] = "assetStatus";
+    roles[RepoAssetItem::AssetStatusIndexRole] = "assetStatusIndex";
+    roles[RepoAssetItem::AssetStatusListRole] = "assetStatusList";
     return roles;
 }

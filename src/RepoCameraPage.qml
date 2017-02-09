@@ -31,6 +31,8 @@ Pane {
     id: page
     padding: 0
 
+    signal tagCodeDetected(string message)
+
     Rectangle {
         color: "black"
         anchors.fill: parent
@@ -50,6 +52,8 @@ Pane {
 
                 detectedText.text = result.message
                 detectedText.font.pixelSize = 0.1 * detectorRectangle.height
+
+                tagCodeDetected(result.message)
             }
         }
 

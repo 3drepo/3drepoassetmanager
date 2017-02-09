@@ -30,38 +30,31 @@ namespace repo {
 
 class RepoAssetFilterableModel : public QSortFilterProxyModel
 {
-
-public:
-
-    enum AssetRoles {
-        TagCodeRole = Qt::UserRole + 1,
-        NameRole,
-        DescriptionRole,
-        DataMatrixRole,
-        OperationalStatusRole,
-        OperationalStatusIndexRole,
-        OperationalStatusListRole,
-        AssetLabelInstalledRole,
-        AssetLabelRequiredRole,
-        AssetStatusRole,
-        AssetStatusIndexRole,
-        AssetStatusListRole
-    };
+    Q_OBJECT
 
 public:
 
     RepoAssetFilterableModel();
 
-    Q_INVOKABLE void populate();
+    ~RepoAssetFilterableModel();
 
-    //! Returns data for given index
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+public :
+
+    Q_INVOKABLE void filter(const QString &text, int role);
+
+    Q_INVOKABLE void filterGroup(const QString &group);
+
+    Q_INVOKABLE void filterTagCode(const QString &tagCode);
 
     QHash<int, QByteArray> roleNames() const;
 
 private :
 
-    QStandardItemModel model; //! Source model
+    Q_INVOKABLE void populate();
+
+private :
+
+    QStandardItemModel *model; //! Source model
 
 };
 }

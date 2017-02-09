@@ -25,6 +25,10 @@ import repo 1.0
 Pane {
     padding: 0
 
+    function filterTagCode(tagCode) {
+        assetListView.filterTagCode(tagCode)
+    }
+
     RepoAssetGroupListView {
         id: assetGroupListView
         anchors.left: parent.left
@@ -34,7 +38,7 @@ Pane {
         focus: true
 
         onCurrentIndexChanged: {
-            assetListView.select(assetGroupListView.currentItem.text)
+            assetListView.filterGroup(assetGroupListView.currentItem.text)
         }
 
     }
@@ -69,8 +73,6 @@ Pane {
         color: "#30000000"
         source: assetListViewRectangle
     }
-
-
 
     RepoAssetView {
         id: assetView
