@@ -16,23 +16,24 @@
 */
 
 #pragma once
-#include <QStringListModel>
-#include <QDir>
-#include <QDirIterator>
+
+#include <QString>
+#include <QStandardItem>
 
 namespace repo {
 
-// See also http://doc.qt.io/qt-5/qhelpindexmodel.html
-class RepoAssetCategoriesModel : public QStringListModel
+class RepoAssetItem : public QStandardItem
 {
-    Q_OBJECT
 
 public:
-    RepoAssetCategoriesModel(QObject *parent = Q_NULLPTR);
 
-public slots :
+    RepoAssetItem();
 
-    Q_INVOKABLE void populate();
+    void setSection(const QString &section)
+    { this->section = section; }
 
+private :
+
+    QString section;
 };
 }

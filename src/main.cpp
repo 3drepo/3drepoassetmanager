@@ -26,6 +26,7 @@
 #include "repo_asset_model.h"
 #include "repo_asset.h"
 #include "repo_data_matrix_image_provider.h"
+#include "repo_asset_filterable_model.h"
 
 int main(int argc, char *argv[])
 {
@@ -34,6 +35,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<repo::RepoDataMatrixFilter>("repo", 1, 0, "RepoDataMatrixFilter");
     qmlRegisterType<repo::RepoAssetCategoriesModel>("repo", 1, 0, "RepoAssetCategoriesModel");
     qmlRegisterType<repo::RepoAssetModel>("repo", 1, 0, "RepoAssetModel");
+    qmlRegisterType<repo::RepoAssetFilterableModel>("repo", 1, 0, "RepoAssetFilterableModel");
     qmlRegisterType<repo::RepoAsset>("repo", 1, 0, "RepoAsset");
 
     QGuiApplication::setApplicationName("3D Repo Asset Guru");

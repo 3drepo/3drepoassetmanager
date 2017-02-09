@@ -5,6 +5,7 @@
         <file>src/Page1Form.ui.qml</file>
         <file>qtquickcontrols2.conf</file>
         <file>images/back.png</file>
+        <file>images/drawing.svg</file>
         <file>images/back@2x.png</file>
         <file>images/back@3x.png</file>
         <file>images/back@4x.png</file>
@@ -35,5 +36,6 @@
         <file>src/RepoAssetListDelegate.qml</file>
         <file>src/RepoAssetView.qml</file>
         <file>src/RepoAssetViewDelegate.qml</file>
+        <file>src/RepoDrawing.qml</file>
     </qresource>
 </RCC>

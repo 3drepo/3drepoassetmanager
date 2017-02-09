@@ -26,10 +26,26 @@ repo::RepoAssetCategoriesModel::RepoAssetCategoriesModel(QObject *parent)
 
 void repo::RepoAssetCategoriesModel::populate()
 {
-    QString path("c:\\Users\\jozef\\Documents\\3D Models\\BB\\Crossrail\\Exports\\C530-010-UF-004-UPDDAT-01\\");
-    QDir directory(path);
+//    QString path("c:\\Users\\jozef\\Documents\\3D Models\\BB\\Crossrail\\Exports\\C530-010-UF-004-UPDDAT-01\\");
+//    QDir directory(path);
 
-    QStringList fileNames = directory.entryList(QStringList("L*-*.csv"), QDir::Files);
+//    QStringList fileNames = directory.entryList(QStringList("L*-*.csv"), QDir::Files);
 
+//    this->setStringList(fileNames);
+
+
+    QStringList fileNames;
+    QString path = "c:\\Users\\jozef\\Documents\\3D Models\\BB\\Crossrail\\Exports\\";
+    QDirIterator it(path, QDirIterator::Subdirectories);
+    while (it.hasNext())
+    {
+        QFileInfo file(it.next());
+        QString baseName = file.baseName();
+
+        if (file.suffix() == "csv" && baseName.contains("L")
+                && baseName.contains("-"))
+            fileNames.append(baseName);
+    }
     this->setStringList(fileNames);
+
 }

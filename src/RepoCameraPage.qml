@@ -38,10 +38,6 @@ Pane {
         RepoDataMatrixFilter {
             id: dataMatrixFilter            
             onFinished: {
-//                console.log("results of the computation: " + result.message)
-//                console.log(result.rectangle)
-//                console.log(result.rectangle.x + ", " + result.rectangle.y + " :: " + result.rectangle.height)
-
                 var scaleX = parent.width / result.resolution.width
                 var scaleY = parent.height / result.resolution.height
 //                var offsetX = (cameraOutput.width - result.resolution.width)/2

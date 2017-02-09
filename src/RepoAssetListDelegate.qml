@@ -38,7 +38,7 @@ ItemDelegate {
 
     Text {
         id: tagCodeText
-        text: tagCode
+        text: /*tagCode*/ display
         anchors.left: dataMatrixImage.right
         font.pixelSize: 20
         width: delegateItem.width - dataMatrixImage.width - 10

@@ -27,7 +27,11 @@ ListView {
     currentIndex: -1
     snapMode: ListView.SnapToItem
 
-    model: RepoAssetModel {
+//    model: RepoAssetModel {
+//        id: assetModel
+//    }
+
+    model: RepoAssetFilterableModel {
         id: assetModel
     }
 
@@ -41,6 +45,6 @@ ListView {
     ScrollIndicator.vertical: ScrollIndicator {}
 
     function select(selectedItem) {
-        assetModel.populate(selectedItem);
+        assetModel.setFilterFixedString(selectedItem);
     }
 }

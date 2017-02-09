@@ -122,7 +122,9 @@ ApplicationWindow {
 
             model: ListModel {
                 ListElement { title: "Camera"; source: "qrc:/src/RepoCameraPage.qml" }
+                ListElement { title: "Drawing"; source: "qrc:/src/RepoDrawing.qml" }
             }
+
             ScrollIndicator.vertical: ScrollIndicator { }
         }
     }
