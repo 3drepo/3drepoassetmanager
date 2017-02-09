@@ -28,6 +28,7 @@ ListView {
     currentIndex: -1
     snapMode: ListView.SnapToItem
 
+
     model: RepoAssetFilterableModel {
         id: assetModel
     }
@@ -37,7 +38,7 @@ ListView {
         onClicked: {
             assetListView.currentIndex = index
         }
-    }
+    }    
 
     ScrollIndicator.vertical: ScrollIndicator {}
 
@@ -48,5 +49,4 @@ ListView {
     function filterTagCode(tagCode) {
         assetModel.filterTagCode(tagCode)
     }
-
 }

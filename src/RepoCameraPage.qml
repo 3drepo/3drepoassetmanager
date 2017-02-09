@@ -28,7 +28,7 @@ import Qt.labs.settings 1.0
 import repo 1.0
 
 Pane {
-    id: page
+    id: cameraPage
     padding: 0
 
     signal tagCodeDetected(string message)

@@ -58,7 +58,7 @@ Pane {
         PinchArea {
             id: pincher
             anchors.fill: parent
-            pinch.target: drawingImage
+            pinch.target: flick
             pinch.minimumRotation: 0
             pinch.maximumRotation: 0
             pinch.minimumScale: 0.1

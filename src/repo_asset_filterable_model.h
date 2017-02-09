@@ -40,17 +40,15 @@ public:
 
 public :
 
-    Q_INVOKABLE void filter(const QString &text, int role);
+    Q_INVOKABLE void populate();
+
+    Q_INVOKABLE void filter(const QString &text = QString(), int role = Qt::UserRole + 1);
 
     Q_INVOKABLE void filterGroup(const QString &group);
 
     Q_INVOKABLE void filterTagCode(const QString &tagCode);
 
     QHash<int, QByteArray> roleNames() const;
-
-private :
-
-    Q_INVOKABLE void populate();
 
 private :
 

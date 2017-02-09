@@ -70,6 +70,23 @@ ApplicationWindow {
             }
 
             ToolButton {
+                id: cameraButton
+                contentItem: Image {
+                    fillMode: Image.Pad
+                    horizontalAlignment: Image.AlignHCenter
+                    verticalAlignment: Image.AlignVCenter
+                    source: "qrc:/images/camera.png"
+                }
+                onClicked: {
+                    if (stackView.depth <= 1) {
+                    stackView.push("qrc:/src/RepoCameraPage.qml")
+                    var camera = stackView.currentItem
+                    camera.tagCodeDetected.connect(relay)
+                    }
+                }
+            }
+
+            ToolButton {
                 contentItem: Image {
                     fillMode: Image.Pad
                     horizontalAlignment: Image.AlignHCenter
@@ -117,14 +134,15 @@ ApplicationWindow {
                     listView.currentIndex = index
                     stackView.push(model.source)
                     drawer.close()
+
+                    // This needs fixing as sometimes this would not be RepoCameraPage object
+                    var camera = stackView.currentItem
+                    camera.tagCodeDetected.connect(relay)
                 }
             }
 
             model: ListModel {
-                ListElement {
-                    title: "Camera";
-                    source: "qrc:/src/RepoCameraPage.qml"
-                }
+                ListElement { title: "Camera"; source: "qrc:/src/RepoCameraPage.qml" }
                 ListElement { title: "Drawing"; source: "qrc:/src/RepoDrawing.qml" }
             }
 
@@ -136,5 +154,13 @@ ApplicationWindow {
         id: stackView
         anchors.fill: parent
         initialItem: Qt.resolvedUrl("RepoWorktop.qml")
+    }
+
+    function relay(tagCode) {
+        if (tagCode) {
+            stackView.pop()
+            listView.currentIndex = -1
+            stackView.currentItem.filterTagCode(tagCode)
+        }
     }
 }

@@ -27,7 +27,6 @@ RepoAssetFilterableModel::RepoAssetFilterableModel()
     setFilterCaseSensitivity(Qt::CaseInsensitive);
     setSortCaseSensitivity(Qt::CaseInsensitive);
     setSourceModel(model);
-    //--------------------------------------------------------------------------
     populate();
 }
 

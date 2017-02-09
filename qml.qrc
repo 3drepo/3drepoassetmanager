@@ -17,6 +17,10 @@
         <file>images/menu@2x.png</file>
         <file>images/menu@3x.png</file>
         <file>images/menu@4x.png</file>
+	<file>images/camera.png</file>
+        <file>images/camera@2x.png</file>
+        <file>images/camera@3x.png</file>
+        <file>images/camera@4x.png</file>
         <file>images/+material/back.png</file>
         <file>images/+material/back@2x.png</file>
         <file>images/+material/back@3x.png</file>
@@ -29,6 +33,10 @@
         <file>images/+material/menu@2x.png</file>
         <file>images/+material/menu@3x.png</file>
         <file>images/+material/menu@4x.png</file>
+        <file>images/+material/camera.png</file>
+        <file>images/+material/camera@2x.png</file>
+        <file>images/+material/camera@3x.png</file>
+        <file>images/+material/camera@4x.png</file>
         <file>src/RepoCameraPage.qml</file>
         <file>src/RepoWorktop.qml</file>
         <file>src/RepoAssetGroupListView.qml</file>
