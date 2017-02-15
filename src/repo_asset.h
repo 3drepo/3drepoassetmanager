@@ -21,13 +21,13 @@
 #include <QVariant>
 #include <QString>
 #include <QList>
+#include <QDate>
 
 namespace repo
 {
 
-class RepoAsset : public QObject, public QMap<QString, QVariant>
+class RepoAsset : public QMap<QString, QVariant>
 {
-    Q_OBJECT
 
 public :
 
@@ -48,31 +48,57 @@ public :
 
     QString name() const;
 
+    void setName(const QString &name);
+
     QString description() const;
 
     QString operationalStatus() const;
 
     int operationalStatusIndex() const;
 
-    /**
-     * Returns true if the associated string field is "Yes", false otherwise.
-     * @brief isAssetLabelInstalled
-     * @return
-     */
-    bool assetLabelInstalled() const;
+    QString assetLabelInstalled() const;
 
-    bool assetLabelRequired() const;
+    int assetLabelInstalledIndex() const;
+
+    QString assetLabelRequired() const;
+
+    int assetLabelRequiredIndex() const;
 
     QString assetStatus() const;
 
     int assetStatusIndex() const;
 
+    int assetTagLabelsQuantity() const;
+
+    QString criticality() const;
+
+    int criticalityIndex() const;
+
+    QDate dateOfCommissioning() const;
+
+    QString designAlternativeAssetID() const;
+
+    int economicLifeYears() const;
+
+    QDate expectedLifeExpiryDate() const;
+
+    QString luLCS1() const;
+
+    int luLCS1Index() const;
 
 public :
 
     static QList<QString> operationalStatusList;
 
     static QList<QString> assetStatusList;
+
+    static QList<QString> assetLabelInstalledList;
+
+    static QList<QString> assetLabelRequiredList;
+
+    static QList<QString> criticalityList;
+
+    static QList<QString> luLCS1List;
 
 };
 

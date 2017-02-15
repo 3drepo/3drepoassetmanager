@@ -26,12 +26,20 @@ ItemDelegate {
     width: parent.width
     height: 120
 
+
+    CheckBox {
+        id: checkBox
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.leftMargin: 10
+    }
+
     Image {
         id: dataMatrixImage
         anchors.verticalCenter: parent.verticalCenter
         height: parent.height - 20
         width: height
-        anchors.left: parent.left
+        anchors.left: checkBox.right
         source: dataMatrix
         anchors.leftMargin: 10
     }
@@ -41,7 +49,7 @@ ItemDelegate {
         text: tagCode
         anchors.left: dataMatrixImage.right
         font.pixelSize: 20
-        width: delegateItem.width - dataMatrixImage.width - 10
+        width: delegateItem.width - dataMatrixImage.width - checkBox.width - 40
         elide: Text.ElideRight
         topPadding: 24
         leftPadding: 10

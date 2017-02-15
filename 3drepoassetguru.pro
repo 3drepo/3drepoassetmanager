@@ -24,7 +24,6 @@ SOURCES += src/main.cpp \
     src/repo_data_matrix.cpp \
     src/repo_data_matrix_filter_runnable.cpp \
     src/repo_data_matrix_filter.cpp \
-    src/repo_asset_model.cpp \
     src/repo_asset_categories_model.cpp \
     src/repo_csv_parser.cpp \
     src/repo_asset.cpp \
@@ -38,7 +37,6 @@ HEADERS += \
     src/repo_data_matrix.h \
     src/repo_data_matrix_filter_runnable.h \
     src/repo_data_matrix_filter.h \
-    src/repo_asset_model.h \
     src/repo_asset_categories_model.h \
     src/repo_csv_parser.h \
     src/repo_asset.h \

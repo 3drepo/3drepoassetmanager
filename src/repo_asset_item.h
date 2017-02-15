@@ -40,10 +40,25 @@ public :
         OperationalStatusIndexRole,
         OperationalStatusListRole,
         AssetLabelInstalledRole,
+        AssetLabelInstalledListRole,
+        AssetLabelInstalledIndexRole,
         AssetLabelRequiredRole,
+        AssetLabelRequiredListRole,
+        AssetLabelRequiredIndexRole,
         AssetStatusRole,
         AssetStatusIndexRole,
-        AssetStatusListRole
+        AssetStatusListRole,
+        AssetTagLabelsQuantityRole,
+        CriticalityRole,
+        CriticalityIndexRole,
+        CriticalityListRole,
+        DateOfCommissioningRole,
+        DesignAlternativeAssetIDRole,
+        EconomicLifeYearsRole,
+        ExpectedLifeExpiryDateRole,
+        LuLCS1Role,
+        LuLCS1IndexRole,
+        LuLCS1ListRole
     };
 
 public:
@@ -52,20 +67,22 @@ public:
 
     QVariant data(int role = Qt::UserRole + 1) const;
 
+    virtual void setData(const QVariant &value, int role = Qt::UserRole + 1);
+
 public :
 
     void setGroup(const QString &group);
 
     QString getGroup() const;
 
-    void setAsset(const QMap<QString, QVariant> &assetInfo);
+    void setAsset(const RepoAsset &asset);
 
-    QMap<QString, QVariant> getAsset() const;
+    RepoAsset getAsset() const;
 
 private :
 
     QString group;
 
-    QMap<QString, QVariant> assetInfo;
+    RepoAsset asset;
 };
 }

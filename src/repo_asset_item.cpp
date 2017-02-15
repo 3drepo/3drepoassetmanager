@@ -8,7 +8,6 @@ RepoAssetItem::RepoAssetItem()
 QVariant RepoAssetItem::data(int role) const
 {
     QVariant data;
-    RepoAsset asset(getAsset());
     switch (role)
     {
     case GroupRole :
@@ -38,8 +37,20 @@ QVariant RepoAssetItem::data(int role) const
     case AssetLabelInstalledRole :
         data = asset.assetLabelInstalled();
         break;
+    case AssetLabelInstalledListRole:
+        data = QVariant(asset.assetLabelInstalledList);
+        break;
+    case AssetLabelInstalledIndexRole:
+        data = asset.assetLabelInstalledIndex();
+        break;
     case AssetLabelRequiredRole :
         data = asset.assetLabelRequired();
+        break;        
+    case AssetLabelRequiredListRole:
+        data = QVariant(asset.assetLabelRequiredList);
+        break;
+    case AssetLabelRequiredIndexRole:
+        data = asset.assetLabelRequiredIndex();
         break;
     case AssetStatusRole :
         data = asset.assetStatus();
@@ -50,8 +61,52 @@ QVariant RepoAssetItem::data(int role) const
     case AssetStatusListRole :
         data = QVariant(asset.assetStatusList);
         break;
+    case AssetTagLabelsQuantityRole:
+        data = asset.assetTagLabelsQuantity();
+        break;
+    case CriticalityRole :
+        data = asset.criticality();
+        break;
+    case CriticalityIndexRole :
+        data = asset.criticalityIndex();
+        break;
+    case CriticalityListRole :
+        data = QVariant(asset.criticalityList);
+        break;
+    case DateOfCommissioningRole:
+        data = asset.dateOfCommissioning();
+        break;
+    case DesignAlternativeAssetIDRole :
+        data = asset.designAlternativeAssetID();
+        break;
+    case EconomicLifeYearsRole:
+        data = asset.economicLifeYears();
+        break;
+    case ExpectedLifeExpiryDateRole:
+        data = asset.expectedLifeExpiryDate();
+        break;
+    case LuLCS1Role:
+        data = asset.luLCS1();
+        break;
+    case LuLCS1IndexRole:
+        data = asset.luLCS1Index();
+        break;
+    case LuLCS1ListRole:
+        data = QVariant(asset.luLCS1List);
+        break;
     }
     return data;
+}
+
+void RepoAssetItem::setData(const QVariant &value, int role)
+{
+//    switch (role)
+//    {
+//    case NameRole :
+        asset.setName(value.toString());
+        std::cout << "setting: " << value.toString().toStdString() << std::endl;
+//        break;
+//    }
 }
 
 void RepoAssetItem::setGroup(const QString &group)
@@ -64,12 +119,12 @@ QString RepoAssetItem::getGroup() const
     return group;
 }
 
-void RepoAssetItem::setAsset(const QMap<QString, QVariant> &assetInfo)
+void RepoAssetItem::setAsset(const RepoAsset &asset)
 {
-    this->assetInfo = assetInfo;
+    this->asset = asset;
 }
 
-QMap<QString, QVariant> RepoAssetItem::getAsset() const
+RepoAsset RepoAssetItem::getAsset() const
 {
-    return assetInfo;
+    return asset;
 }

@@ -80,6 +80,18 @@ void RepoAssetFilterableModel::filterTagCode(const QString &tagCode)
     filter(tagCode, RepoAssetItem::TagCodeRole);
 }
 
+bool RepoAssetFilterableModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    bool success = false;
+    RepoAssetItem *item = (RepoAssetItem*) model->itemFromIndex(mapToSource(index));
+    if (success = (item != NULL))
+    {
+        item->setData(value, role);
+        emit dataChanged(index, index, QVector<int>() << role);
+    }
+    return success;
+}
+
 QHash<int, QByteArray> RepoAssetFilterableModel::roleNames() const
 {
     // See http://doc.qt.io/qt-5/qtquick-modelviewsdata-cppmodels.html
@@ -93,9 +105,24 @@ QHash<int, QByteArray> RepoAssetFilterableModel::roleNames() const
     roles[RepoAssetItem::OperationalStatusIndexRole] = "operationalStatusIndex";
     roles[RepoAssetItem::OperationalStatusListRole] = "operationalStatusList";
     roles[RepoAssetItem::AssetLabelInstalledRole] = "assetLabelInstalled";
+    roles[RepoAssetItem::AssetLabelInstalledIndexRole] = "assetLabelInstalledIndex";
+    roles[RepoAssetItem::AssetLabelInstalledListRole] = "assetLabelInstalledList";
     roles[RepoAssetItem::AssetLabelRequiredRole] = "assetLabelRequired";
+    roles[RepoAssetItem::AssetLabelRequiredIndexRole] = "assetLabelRequiredIndex";
+    roles[RepoAssetItem::AssetLabelRequiredListRole] = "assetLabelRequiredList";
     roles[RepoAssetItem::AssetStatusRole] = "assetStatus";
     roles[RepoAssetItem::AssetStatusIndexRole] = "assetStatusIndex";
     roles[RepoAssetItem::AssetStatusListRole] = "assetStatusList";
+    roles[RepoAssetItem::AssetTagLabelsQuantityRole] = "assetTagLabelsQuantity";
+    roles[RepoAssetItem::CriticalityRole] = "criticality";
+    roles[RepoAssetItem::CriticalityIndexRole] = "criticalityIndex";
+    roles[RepoAssetItem::CriticalityListRole] = "criticalityList";
+    roles[RepoAssetItem::DateOfCommissioningRole] = "dateOfCommissioning";
+    roles[RepoAssetItem::DesignAlternativeAssetIDRole] = "designAlternativeAssetID";
+    roles[RepoAssetItem::EconomicLifeYearsRole] = "economicLifeYears";
+    roles[RepoAssetItem::ExpectedLifeExpiryDateRole] = "expectedLifeExpiryDate";
+    roles[RepoAssetItem::LuLCS1Role] = "luLCS1";
+    roles[RepoAssetItem::LuLCS1IndexRole] = "luLCS1Index";
+    roles[RepoAssetItem::LuLCS1ListRole] = "luLCS1List";
     return roles;
 }

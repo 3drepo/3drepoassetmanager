@@ -48,6 +48,8 @@ public :
 
     Q_INVOKABLE void filterTagCode(const QString &tagCode);
 
+    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
+
     QHash<int, QByteArray> roleNames() const;
 
 private :

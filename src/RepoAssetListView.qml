@@ -28,6 +28,31 @@ ListView {
     currentIndex: -1
     snapMode: ListView.SnapToItem
 
+    header: Rectangle {
+        width: assetListView.width
+        height: 64
+        color: "white"
+        z: 2
+
+        CheckBox {
+            id: headerCheckBox
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            onCheckedChanged: {
+                console.log(assetListView.visible)
+            }
+        }
+
+        Rectangle {
+            implicitHeight: 1
+            color: "#ddd"
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+        }
+    }
+    headerPositioning: ListView.OverlayHeader // ListView.PullBackHeader
 
     model: RepoAssetFilterableModel {
         id: assetModel

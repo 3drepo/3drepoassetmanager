@@ -23,14 +23,12 @@ import repo 1.0
 import QtGraphicalEffects 1.0
 
 
-ItemDelegate {
-
-
+ItemDelegate {       
 
     Flickable {
         width: parent.width
         height: parent.height
-        contentHeight: 1000
+        contentHeight: 2000
 
 
 
@@ -58,16 +56,48 @@ ItemDelegate {
             anchors.topMargin: 20
             width: parent.width - 40
 
-            Label { text: "Tag Code" }
-            TextField { text: tagCode; leftPadding: 20; width: parent.width; readOnly: true; }
+            Label {
+                text: qsTr("Tag Code")
+                font.bold: true
+            }
+            TextField {
+                text: tagCode
+                leftPadding: 20
+                width: parent.width
+                readOnly: true
+            }
 
-            Label { text: "Name"; topPadding: 20 }
-            TextArea { text: name; leftPadding: 20; wrapMode: TextEdit.Wrap; width: parent.width }
+            Label { // Mandatory field
+                text: qsTr("Name")
+                font.bold: true
+                topPadding: 20
+            }
+            TextArea { // max 255 chars
+                text: name;
+                leftPadding: 20;
+                wrapMode: TextEdit.Wrap;
+                width: parent.width
 
-            Label { text: "Description"; topPadding: 20 }
-            TextArea { text: description; leftPadding: 20; wrapMode: TextEdit.Wrap; width: parent.width }
+                onTextChanged: {
+                    if (text != name) // prevents infinite looping
+                        assetView.model.setData(assetView.model.index(assetView.currentIndex, 0), text, 0x0100 + 3)
+                }
+            }
 
-            Label { text: "Operational Status"; topPadding: 20}
+            Label { text: qsTr("Description"); topPadding: 20 }
+            TextArea { // max 2000 chars
+                text: description;
+                leftPadding: 20;
+                wrapMode: TextEdit.Wrap;
+                width: parent.width
+
+            }
+
+            Label { // Mandatory field
+                text: qsTr("Operational Status")
+                font.bold: true
+                topPadding: 20
+            }
             ComboBox {
                 id: operationalStatusComboBox
                 width: parent.width
@@ -76,19 +106,88 @@ ItemDelegate {
                 leftPadding: 20
             }
 
-            Label { text: "Asset Label Installed"; topPadding: 20 }
-            CheckBox { checked: assetLabelInstalled; }
+            Label { text: qsTr("Asset Label Installed"); topPadding: 20}
+            ComboBox {
+                width: parent.width
+                model: assetLabelInstalledList
+                currentIndex: assetLabelInstalledIndex
+                leftPadding: 20
+            }
 
-            Label { text: "Asset Label Required"; topPadding: 20 }
-            CheckBox { checked: assetLabelRequired; }
+            Label { text: qsTr("Asset Label Required"); topPadding: 20}
+            ComboBox {
+                width: parent.width
+                model: assetLabelRequiredList
+                currentIndex: assetLabelRequiredIndex
+                leftPadding: 20
+            }
 
-
-            Label { text: "Asset Status"; topPadding: 20}
+            Label { text: qsTr("Asset Status"); topPadding: 20}
             ComboBox {
                 id: assetStatusComboBox
                 width: parent.width
                 model: assetStatusList
                 currentIndex: assetStatusIndex
+                leftPadding: 20
+            }
+
+            Label { text: qsTr("Asset Tag Labels Quantity (#)"); topPadding: 20}
+            SpinBox {
+                value: assetTagLabelsQuantity
+                leftPadding: 20
+                editable: true
+                from: 0
+                to: 10000
+            }
+
+            Label { text: qsTr("Criticality"); topPadding: 20}
+            ComboBox {
+                width: parent.width
+                model: criticalityList
+                currentIndex: criticalityIndex
+                leftPadding: 20
+            }
+
+            Label { text: qsTr("Date of Commissioning"); topPadding: 20; bottomPadding: 5}
+            Calendar {
+                weekNumbersVisible: false
+                frameVisible: true
+                //                selectedDate: dateOfCommissioning ? dateOfCommissioning : new Date()
+            }
+
+            Label { text: qsTr("Design Alternative Asset ID"); topPadding: 20 }
+            TextField {
+                text: designAlternativeAssetID;
+                leftPadding: 20;
+                width: parent.width;
+            }
+
+            Label { text: qsTr("Economic Life (Years)"); topPadding: 20}
+            SpinBox {
+                value: economicLifeYears
+                leftPadding: 20
+                editable: true
+                from: 0
+                to: 100
+            }
+
+            Label { text: qsTr("Expected Life Expiry Date"); topPadding: 20; bottomPadding: 5}
+            Calendar {
+                weekNumbersVisible: false
+                frameVisible: true
+                //                selectedDate: expectedLifeExpiryDate ? expectedLifeExpiryDate : new Date()
+            }
+
+
+            Label {
+                text: qsTr("LU LCS1")
+                topPadding: 20
+                font.bold: true
+            }
+            ComboBox {
+                width: parent.width
+                model: luLCS1List
+                currentIndex: luLCS1Index
                 leftPadding: 20
             }
 

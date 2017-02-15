@@ -158,9 +158,9 @@ ApplicationWindow {
 
     function relay(tagCode) {
         if (tagCode) {
-            stackView.pop()
-            listView.currentIndex = -1
-            stackView.currentItem.filterTagCode(tagCode)
+//            stackView.pop()
+//            listView.currentIndex = -1
+              stackView.currentItem.filterTagCode(tagCode)
         }
     }
 }
