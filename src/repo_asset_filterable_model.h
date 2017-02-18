@@ -48,13 +48,34 @@ public :
 
     Q_INVOKABLE void filterTagCode(const QString &tagCode);
 
-    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
+    Q_INVOKABLE bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 
+    Q_INVOKABLE bool setData(int row, const QVariant &value, const QVariant &roleName);
+
+    Q_INVOKABLE bool hasData(int row, const QVariant &roleName);
+
+    //! See http://doc.qt.io/qt-5/qtquick-modelviewsdata-cppmodels.html
     QHash<int, QByteArray> roleNames() const;
 
 private :
 
+    /**
+     * Returns an asset role given a string representation of it, -1 if none
+     * found. Beware that this lookup is inefficient as it requires linear
+     * looping through the roles hash map.
+     *
+     * @brief getRole
+     * @param roleName
+     * @return
+     */
+    int getRole(const QVariant &roleName) const;
+
+private :
+
     QStandardItemModel *model; //! Source model
+
+    //! Roles associated with items in the model
+    static QHash<int, QByteArray> roles;
 
 };
 }

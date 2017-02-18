@@ -17,15 +17,17 @@
 
 #include "repo_csv_parser.h"
 
+using namespace repo;
+
 const QString repo::RepoCSVParser::delimiter = ";";
 
 repo::RepoCSVParser::RepoCSVParser(QObject *parent)
     : QObject(parent)
 {}
 
-QVariantList repo::RepoCSVParser::parseCSV(const QString &filepath)
+QList<RepoAsset> RepoCSVParser::parseCSV(const QString &filepath)
 {
-    QVariantList assets;
+    QList<RepoAsset> assets;
     QFile file(filepath);
     file.open(QIODevice::ReadOnly);
     QTextStream textStream(&file);

@@ -28,7 +28,7 @@ ItemDelegate {
     Flickable {
         width: parent.width
         height: parent.height
-        contentHeight: 2000
+        contentHeight: grid.height + dataMatrixImage.height + tagCodeText.height + 40
 
 
 
@@ -80,7 +80,7 @@ ItemDelegate {
 
                 onTextChanged: {
                     if (text != name) // prevents infinite looping
-                        assetView.model.setData(assetView.model.index(assetView.currentIndex, 0), text, 0x0100 + 3)
+                        assetView.model.setData(index, text, "name")
                 }
             }
 
@@ -90,7 +90,10 @@ ItemDelegate {
                 leftPadding: 20;
                 wrapMode: TextEdit.Wrap;
                 width: parent.width
-
+                onTextChanged: {
+                    if (text != description)
+                        assetView.model.setData(index, text, "description")
+                }
             }
 
             Label { // Mandatory field

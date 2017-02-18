@@ -40,7 +40,7 @@ public:
 
     RepoCSVParser(QObject *parent);
 
-    static QVariantList parseCSV(const QString &filepath);
+    static QList<RepoAsset> parseCSV(const QString &filepath);
 
 private :
 

@@ -45,7 +45,7 @@ QVariant RepoAssetItem::data(int role) const
         break;
     case AssetLabelRequiredRole :
         data = asset.assetLabelRequired();
-        break;        
+        break;
     case AssetLabelRequiredListRole:
         data = QVariant(asset.assetLabelRequiredList);
         break;
@@ -100,13 +100,18 @@ QVariant RepoAssetItem::data(int role) const
 
 void RepoAssetItem::setData(const QVariant &value, int role)
 {
-//    switch (role)
-//    {
-//    case NameRole :
+    switch (role)
+    {
+    case TagCodeRole :
+        asset.setTagCode(value.toString());
+        break;
+    case NameRole :
         asset.setName(value.toString());
-        std::cout << "setting: " << value.toString().toStdString() << std::endl;
-//        break;
-//    }
+        break;
+    case DescriptionRole:
+        asset.setDescription(value.toString());
+        break;
+    }
 }
 
 void RepoAssetItem::setGroup(const QString &group)

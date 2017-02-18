@@ -19,6 +19,37 @@
 
 using namespace repo;
 
+QHash<int, QByteArray> RepoAssetFilterableModel::roles = {
+    {RepoAssetItem::TagCodeRole,  "tagCode"},
+    {RepoAssetItem::GroupRole, "group"},
+    {RepoAssetItem::NameRole, "name"},
+    {RepoAssetItem::DescriptionRole, "description"},
+    {RepoAssetItem::DataMatrixRole, "dataMatrix"},
+    {RepoAssetItem::OperationalStatusRole, "operationalStatus"},
+    {RepoAssetItem::OperationalStatusIndexRole, "operationalStatusIndex"},
+    {RepoAssetItem::OperationalStatusListRole, "operationalStatusList"},
+    {RepoAssetItem::AssetLabelInstalledRole, "assetLabelInstalled"},
+    {RepoAssetItem::AssetLabelInstalledIndexRole, "assetLabelInstalledIndex"},
+    {RepoAssetItem::AssetLabelInstalledListRole, "assetLabelInstalledList"},
+    {RepoAssetItem::AssetLabelRequiredRole, "assetLabelRequired"},
+    {RepoAssetItem::AssetLabelRequiredIndexRole, "assetLabelRequiredIndex"},
+    {RepoAssetItem::AssetLabelRequiredListRole, "assetLabelRequiredList"},
+    {RepoAssetItem::AssetStatusRole, "assetStatus"},
+    {RepoAssetItem::AssetStatusIndexRole, "assetStatusIndex"},
+    {RepoAssetItem::AssetStatusListRole, "assetStatusList"},
+    {RepoAssetItem::AssetTagLabelsQuantityRole, "assetTagLabelsQuantity"},
+    {RepoAssetItem::CriticalityRole, "criticality"},
+    {RepoAssetItem::CriticalityIndexRole, "criticalityIndex"},
+    {RepoAssetItem::CriticalityListRole, "criticalityList"},
+    {RepoAssetItem::DateOfCommissioningRole, "dateOfCommissioning"},
+    {RepoAssetItem::DesignAlternativeAssetIDRole, "designAlternativeAssetID"},
+    {RepoAssetItem::EconomicLifeYearsRole, "economicLifeYears"},
+    {RepoAssetItem::ExpectedLifeExpiryDateRole, "expectedLifeExpiryDate"},
+    {RepoAssetItem::LuLCS1Role, "luLCS1"},
+    {RepoAssetItem::LuLCS1IndexRole, "luLCS1Index"},
+    {RepoAssetItem::LuLCS1ListRole, "luLCS1List"}
+};
+
 RepoAssetFilterableModel::RepoAssetFilterableModel()
     : QSortFilterProxyModel()
     , model(new QStandardItemModel())
@@ -48,10 +79,9 @@ void RepoAssetFilterableModel::populate()
                 && baseName.contains("L")
                 && baseName.contains("-"))
         {
-            QVariantList csvAssets = RepoCSVParser::parseCSV(file.absoluteFilePath());
-            for (QVariant v : csvAssets)
+            QList<RepoAsset> csvAssets = RepoCSVParser::parseCSV(file.absoluteFilePath());
+            for (RepoAsset asset : csvAssets)
             {
-                RepoAsset asset(v);
                 RepoAssetItem *item = new RepoAssetItem();
                 item->setText(asset.tagCode());
                 item->setGroup(baseName);
@@ -92,37 +122,30 @@ bool RepoAssetFilterableModel::setData(const QModelIndex &index, const QVariant 
     return success;
 }
 
+bool RepoAssetFilterableModel::setData(int row, const QVariant &value, const QVariant &roleName)
+{
+    bool success = false;
+    int role = getRole(roleName);
+    if (role)
+    {
+        success = setData(index(row, 0), value, role);
+    }
+    return success;
+}
+
+bool RepoAssetFilterableModel::hasData(int row, const QVariant &roleName)
+{
+    RepoAssetItem *item = (RepoAssetItem*) model->itemFromIndex(mapToSource(index(row, 0)));
+//    item->hasData()
+    return false;
+}
+
 QHash<int, QByteArray> RepoAssetFilterableModel::roleNames() const
 {
-    // See http://doc.qt.io/qt-5/qtquick-modelviewsdata-cppmodels.html
-    QHash<int, QByteArray> roles;
-    roles[RepoAssetItem::TagCodeRole] = "tagCode";
-    roles[RepoAssetItem::GroupRole] = "group";
-    roles[RepoAssetItem::NameRole] = "name";
-    roles[RepoAssetItem::DescriptionRole] = "description";
-    roles[RepoAssetItem::DataMatrixRole] = "dataMatrix";
-    roles[RepoAssetItem::OperationalStatusRole] = "operationalStatus";
-    roles[RepoAssetItem::OperationalStatusIndexRole] = "operationalStatusIndex";
-    roles[RepoAssetItem::OperationalStatusListRole] = "operationalStatusList";
-    roles[RepoAssetItem::AssetLabelInstalledRole] = "assetLabelInstalled";
-    roles[RepoAssetItem::AssetLabelInstalledIndexRole] = "assetLabelInstalledIndex";
-    roles[RepoAssetItem::AssetLabelInstalledListRole] = "assetLabelInstalledList";
-    roles[RepoAssetItem::AssetLabelRequiredRole] = "assetLabelRequired";
-    roles[RepoAssetItem::AssetLabelRequiredIndexRole] = "assetLabelRequiredIndex";
-    roles[RepoAssetItem::AssetLabelRequiredListRole] = "assetLabelRequiredList";
-    roles[RepoAssetItem::AssetStatusRole] = "assetStatus";
-    roles[RepoAssetItem::AssetStatusIndexRole] = "assetStatusIndex";
-    roles[RepoAssetItem::AssetStatusListRole] = "assetStatusList";
-    roles[RepoAssetItem::AssetTagLabelsQuantityRole] = "assetTagLabelsQuantity";
-    roles[RepoAssetItem::CriticalityRole] = "criticality";
-    roles[RepoAssetItem::CriticalityIndexRole] = "criticalityIndex";
-    roles[RepoAssetItem::CriticalityListRole] = "criticalityList";
-    roles[RepoAssetItem::DateOfCommissioningRole] = "dateOfCommissioning";
-    roles[RepoAssetItem::DesignAlternativeAssetIDRole] = "designAlternativeAssetID";
-    roles[RepoAssetItem::EconomicLifeYearsRole] = "economicLifeYears";
-    roles[RepoAssetItem::ExpectedLifeExpiryDateRole] = "expectedLifeExpiryDate";
-    roles[RepoAssetItem::LuLCS1Role] = "luLCS1";
-    roles[RepoAssetItem::LuLCS1IndexRole] = "luLCS1Index";
-    roles[RepoAssetItem::LuLCS1ListRole] = "luLCS1List";
     return roles;
+}
+
+int RepoAssetFilterableModel::getRole(const QVariant &roleName) const
+{
+    return roles.key(roleName.toByteArray(), -1);
 }

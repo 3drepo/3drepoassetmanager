@@ -31,14 +31,6 @@ class RepoAsset : public QMap<QString, QVariant>
 
 public :
 
-    RepoAsset() : QMap<QString, QVariant>() {}
-
-    RepoAsset(const QMap<QString, QVariant> &m) : QMap<QString, QVariant>(m) {}
-
-    RepoAsset(const QVariant &v) : RepoAsset(v.toMap()) {}
-
-public :
-
     //! Returns a string value given a suitable key, empty string if not found.
     QString stringValue(const QString &key) const;
 
@@ -46,11 +38,15 @@ public :
 
     QString tagCode() const;
 
+    void setTagCode(const QString &tagCode);
+
     QString name() const;
 
     void setName(const QString &name);
 
     QString description() const;
+
+    void setDescription(const QString &description);
 
     QString operationalStatus() const;
 
@@ -82,9 +78,99 @@ public :
 
     QDate expectedLifeExpiryDate() const;
 
+    QString guardrailPrincipleMaterial() const;
+
+    int guardrailPrincipleMaterialIndex() const;
+
+    double heightMetres() const;
+
+    QString kickplatesIncluded() const;
+
+    int kickplatesIncludedIndex() const;
+
+    QString labelTextLineFour() const;
+
+    QString labelTextLineThree() const;
+
+    QString labelTextLineTwo() const;
+
+    double lengthMetres() const;
+
+    double londonSurveyGridX() const;
+
+    double londonSurveyGridY() const;
+
+    double londonSurveyGridZ() const;
+
     QString luLCS1() const;
 
     int luLCS1Index() const;
+
+    QString memo() const;
+
+    double meterageMetres() const;
+
+    QString normalTrafficPrimaryDirection() const;
+
+    int normalTrafficPrimaryDirectionIndex() const;
+
+    double safeWorkingLoadKilograms() const;
+
+    QString vehicleProtection() const;
+
+    int vehicleProtectionIndex() const;
+
+    QString fireRating() const;
+
+    int fireRatingIndex() const;
+
+    QString acousticTreatment() const;
+
+    int acousticTreatmentIndex() const;
+
+    QString birdMesh() const;
+
+    int birdMeshIndex() const;
+
+    double depthMillimetres() const;
+
+    double freeAreaPercentage() const;
+
+    double heightMillimetres() const;
+
+    QString insectMesh() const;
+
+    int insectMeshIndex() const;
+
+    double widthMillimetres() const;
+
+    double maximumSlopeAngleDegrees() const;
+
+    QString purposeOfLadder() const;
+
+    int purposeOfLadderIndex() const;
+
+    QString integratedLanding() const;
+
+    int integratedLandingIndex() const;
+
+    QString multiFlightStair() const;
+
+    int multiFlightStairIndex() const;
+
+    int numberOfFlights() const;
+
+    int numberOfFloors() const;
+
+    int numberOfSteps() const;
+
+    QString stairFinish() const;
+
+    int stairFinishIndex() const;
+
+    QString stairMaterial() const;
+
+    int stairMaterialIndex() const;
 
 public :
 
@@ -98,8 +184,33 @@ public :
 
     static QList<QString> criticalityList;
 
+    static QList<QString> guardrailPrincipalMaterialList;
+
+    static QList<QString> kickplatesIncludedList;
+
     static QList<QString> luLCS1List;
 
+    static QList<QString> normalTrafficPrimaryDirectionList;
+
+    static QList<QString> vehicleProtectionList;
+
+    static QList<QString> fireRatingList;
+
+    static QList<QString> acousticTreatmentList;
+
+    static QList<QString> birdMeshList;
+
+    static QList<QString> insectMeshList;
+
+    static QList<QString> purposeOfLadderList;
+
+    static QList<QString> integratedLandingList;
+
+    static QList<QString> multiFlightStairList;
+
+    static QList<QString> stairFinishList;
+
+    static QList<QString> stairMaterialList;
 };
 
 }

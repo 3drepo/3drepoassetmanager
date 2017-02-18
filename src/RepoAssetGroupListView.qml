@@ -35,7 +35,8 @@ ListView {
         text: display
         highlighted: ListView.isCurrentItem
         onClicked: {
-            assetGroupListView.currentIndex = index
+            assetView.currentIndex = 0 // reset what the assetView shows
+            assetGroupListView.currentIndex = index            
         }
     }
 
