@@ -19,6 +19,8 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import QtGraphicalEffects 1.0
+import QtQuick.Controls 2.1
+import QtQuick.Controls.Material 2.0
 
 import repo 1.0
 
@@ -44,6 +46,43 @@ ListView {
             }
         }
 
+        TextField {
+            id: searchField
+            placeholderText: qsTr("Search assets")
+            anchors.verticalCenter : parent.verticalCenter
+            anchors.left: headerCheckBox.right
+            anchors.right: searchButton.left
+            topPadding: 20
+            leftPadding: 10
+            rightPadding: 10
+            focus: true
+            background: Rectangle {
+                color: "transparent"
+                border.width: 0
+            }
+            onTextChanged: {
+                filterTagCode(text)
+            }
+        }
+
+        ToolButton {
+            id: searchButton
+            anchors.right: parent.right
+            anchors.verticalCenter : parent.verticalCenter
+            anchors.rightMargin: 10
+            contentItem: Image {
+                Material.theme: Material.Dark
+                fillMode: Image.Pad
+                horizontalAlignment: Image.AlignHCenter
+                verticalAlignment: Image.AlignVCenter
+                source: searchField.text.length > 0 ? "qrc:/images/clear.png" : "qrc:/images/search.png"
+            }
+            onClicked: {
+                if (searchField.text.length > 0)
+                    searchField.clear()
+            }
+        }
+
         Rectangle {
             implicitHeight: 1
             color: "#ddd"
@@ -54,6 +93,33 @@ ListView {
     }
     headerPositioning: ListView.OverlayHeader // ListView.PullBackHeader
 
+
+    footer: Rectangle {
+        width: assetListView.width
+        height: 84
+        color: "transparent"
+        z: 2
+
+        RoundButton {
+            id: createButton
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.rightMargin: 10
+            anchors.bottomMargin: 10
+            Material.background: Material.accent
+            Material.theme: Material.Light
+            width: 74
+            height: width
+            contentItem: Image {
+                fillMode: Image.Pad
+                horizontalAlignment: Image.AlignHCenter
+                verticalAlignment: Image.AlignVCenter
+                source: "qrc:/images/create.png"
+            }
+        }
+    }
+    footerPositioning: ListView.OverlayFooter // ListView.PullBackHeader
+
     model: RepoAssetFilterableModel {
         id: assetModel
     }
@@ -63,7 +129,7 @@ ListView {
         onClicked: {
             assetListView.currentIndex = index
         }
-    }    
+    }
 
     ScrollIndicator.vertical: ScrollIndicator {}
 

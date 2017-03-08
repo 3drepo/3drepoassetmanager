@@ -4,11 +4,18 @@
         <file>src/Page1.qml</file>
         <file>src/Page1Form.ui.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>images/back.png</file>
         <file>images/drawing.svg</file>
+        <file>images/bb_logo.svg</file>
+        <file>images/bb_logo_inverted.svg</file>
+        <file>images/crossrail_logo.svg</file>
+        <file>images/back.png</file>
         <file>images/back@2x.png</file>
         <file>images/back@3x.png</file>
         <file>images/back@4x.png</file>
+        <file>images/clear.png</file>
+        <file>images/clear@2x.png</file>
+        <file>images/clear@3x.png</file>
+        <file>images/clear@4x.png</file>
         <file>images/drawer.png</file>
         <file>images/drawer@2x.png</file>
         <file>images/drawer@3x.png</file>
@@ -21,6 +28,14 @@
         <file>images/camera@2x.png</file>
         <file>images/camera@3x.png</file>
         <file>images/camera@4x.png</file>
+	<file>images/create.png</file>
+        <file>images/create@2x.png</file>
+        <file>images/create@3x.png</file>
+        <file>images/create@4x.png</file>
+	<file>images/search.png</file>
+        <file>images/search@2x.png</file>
+        <file>images/search@3x.png</file>
+        <file>images/search@4x.png</file>
         <file>images/+material/back.png</file>
         <file>images/+material/back@2x.png</file>
         <file>images/+material/back@3x.png</file>
@@ -37,6 +52,14 @@
         <file>images/+material/camera@2x.png</file>
         <file>images/+material/camera@3x.png</file>
         <file>images/+material/camera@4x.png</file>
+        <file>images/+material/create.png</file>
+        <file>images/+material/create@2x.png</file>
+        <file>images/+material/create@3x.png</file>
+        <file>images/+material/create@4x.png</file>
+        <file>images/+material/search.png</file>
+        <file>images/+material/search@2x.png</file>
+        <file>images/+material/search@3x.png</file>
+        <file>images/+material/search@4x.png</file>
         <file>src/RepoCameraPage.qml</file>
         <file>src/RepoWorktop.qml</file>
         <file>src/RepoAssetGroupListView.qml</file>

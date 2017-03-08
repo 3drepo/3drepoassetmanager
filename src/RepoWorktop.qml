@@ -29,6 +29,8 @@ Pane {
         assetListView.filterTagCode(tagCode)
     }
 
+
+
     RepoAssetGroupListView {
         id: assetGroupListView
         anchors.left: parent.left
@@ -40,7 +42,6 @@ Pane {
         onCurrentIndexChanged: {
             assetListView.filterGroup(assetGroupListView.currentItem.text)
         }
-
     }
 
     Rectangle {
@@ -86,16 +87,16 @@ Pane {
 
         delegate:  RepoAssetViewDelegate {
             id: repoAssetViewDelegate
-                    height: parent.height
-                    width: assetListViewRectangle.width
-                    highlighted: false
-                }
+            height: parent.height
+            width: assetListViewRectangle.width
+            highlighted: false
+        }
 
-//        onMovingChanged: {
-//            ((RepoAssetViewDelegate) delegate).assignCurrentIndex()
-//            console.log("moving: " + currentIndex)
-//            assetListView.currentIndex = currentIndex
-//        }
+        //        onMovingChanged: {
+        //            ((RepoAssetViewDelegate) delegate).assignCurrentIndex()
+        //            console.log("moving: " + currentIndex)
+        //            assetListView.currentIndex = currentIndex
+        //        }
 
         onCurrentIndexChanged: {
             assetListView.currentIndex = currentIndex

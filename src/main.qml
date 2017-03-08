@@ -20,13 +20,14 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls 2.1
 import QtQuick.Dialogs 1.1
+import QtQuick.Controls.Material 2.0
 
 ApplicationWindow {
     id: window
     visible: true
     width: 1280
     height: 720
-    title: qsTr("3D Repo Asset Guru")
+    title: qsTr("Asset Manager by 3D Repo")
 
     Shortcut {
         sequence: "Esc"
@@ -38,9 +39,12 @@ ApplicationWindow {
     }
 
     header: ToolBar {
+        height: 72
         RowLayout {
             spacing: 20
             anchors.fill: parent
+
+
 
             ToolButton {
                 contentItem: Image {
@@ -60,14 +64,24 @@ ApplicationWindow {
             }
 
             Label {
-                id: titleLabel
-                text: "3D Repo Asset Guru"
+                id: projectLabel
+                text: "Crossrail C530"
                 font.pixelSize: 20
                 elide: Label.ElideRight
-                horizontalAlignment: Qt.AlignHCenter
                 verticalAlignment: Qt.AlignVCenter
                 Layout.fillWidth: true
+                color: "white"
             }
+
+            Image {
+                id: bbLogo
+                source: "qrc:/images/bb_logo_inverted.svg"
+                sourceSize.height: parent.height - 35
+                anchors.centerIn: parent
+                fillMode: Image.PreserveAspectFit
+                antialiasing: true
+            }
+
 
             ToolButton {
                 id: cameraButton
@@ -115,7 +129,7 @@ ApplicationWindow {
 
     Drawer {
         id: drawer
-        width: Math.min(window.width, window.height) / 3 * 2
+        width: parent.width * 0.225
         height: window.height
         dragMargin: stackView.depth > 1 ? 0 : undefined
 
@@ -142,6 +156,8 @@ ApplicationWindow {
             }
 
             model: ListModel {
+                ListElement { title: "Crossrail C530"; }
+                ListElement { title: "Crossrail C512"; }
                 ListElement { title: "Camera"; source: "qrc:/src/RepoCameraPage.qml" }
                 ListElement { title: "Drawing"; source: "qrc:/src/RepoDrawing.qml" }
             }

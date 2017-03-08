@@ -29,6 +29,50 @@ ListView {
         id: categoriesModel
     }
 
+
+    header: Rectangle {
+        width: parent.width
+        height: 230
+        color: "white"
+        z: 2
+
+        Image {
+            id: crossrailLogo
+            source: "qrc:/images/crossrail_logo.svg"
+            sourceSize.height: 150
+            anchors.top: parent.top
+            anchors.horizontalCenter: parent.horizontalCenter
+            fillMode: Image.PreserveAspectFit
+            antialiasing: true
+        }
+
+        Label {
+            id: nameField
+            leftPadding: 20
+            topPadding: 20
+            anchors.top: crossrailLogo.bottom
+            text: "Paco Lluna"
+        }
+
+        Label {
+            leftPadding: 20
+            topPadding: 5
+            anchors.top: nameField.bottom
+            color:  "#666"
+            text: "paco.lluna@balfourbeatty.com"
+        }
+
+        Rectangle {
+            implicitHeight: 1
+            color: "#ddd"
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+        }
+    }
+    headerPositioning: ListView.InlineHeader  // ListView.PullBackHeader
+
+
     delegate:
         ItemDelegate {
         width: parent.width

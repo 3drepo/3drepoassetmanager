@@ -96,18 +96,22 @@ void RepoAssetFilterableModel::populate()
 void RepoAssetFilterableModel::filter(const QString &text, int role)
 {
     invalidateFilter();
-    setFilterFixedString(text);
     setFilterRole(role);
+    setFilterFixedString(text);
 }
 
 void RepoAssetFilterableModel::filterGroup(const QString &group)
 {
-    filter(group, RepoAssetItem::GroupRole);
+//    filter(group, RepoAssetItem::GroupRole);
+    groupFilter = group;
+    invalidateFilter();
 }
 
 void RepoAssetFilterableModel::filterTagCode(const QString &tagCode)
 {
-    filter(tagCode, RepoAssetItem::TagCodeRole);
+//    filter(tagCode, RepoAssetItem::TagCodeRole);
+    textFilter = tagCode;
+    invalidateFilter();
 }
 
 bool RepoAssetFilterableModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -138,6 +142,23 @@ bool RepoAssetFilterableModel::hasData(int row, const QVariant &roleName)
     RepoAssetItem *item = (RepoAssetItem*) model->itemFromIndex(mapToSource(index(row, 0)));
 //    item->hasData()
     return false;
+}
+
+bool RepoAssetFilterableModel::filterAcceptsRow(
+        int sourceRow,
+        const QModelIndex &) const
+{
+    bool accept = false;
+    RepoAssetItem *item = (RepoAssetItem*) model->item(sourceRow);
+    if (item != NULL)
+    {
+        QString comparator = textFilter.toLower();
+        accept = (item->getGroup() == groupFilter) &&
+                 (item->data(RepoAssetItem::TagCodeRole).toString().toLower().contains(comparator)
+                    || (item->data(RepoAssetItem::NameRole).toString().toLower().contains(comparator))
+                    || (item->data(RepoAssetItem::DescriptionRole).toString().toLower().contains(comparator)));
+    }
+    return accept;
 }
 
 QHash<int, QByteArray> RepoAssetFilterableModel::roleNames() const

@@ -57,6 +57,8 @@ public :
     //! See http://doc.qt.io/qt-5/qtquick-modelviewsdata-cppmodels.html
     QHash<int, QByteArray> roleNames() const;
 
+    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
+
 private :
 
     /**
@@ -76,6 +78,10 @@ private :
 
     //! Roles associated with items in the model
     static QHash<int, QByteArray> roles;
+
+    QString groupFilter;
+
+    QString textFilter;
 
 };
 }
