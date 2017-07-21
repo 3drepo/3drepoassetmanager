@@ -30,6 +30,12 @@ Tools > Options > Devices > Android
 ```
 Add paths to SDK, NDK, etc
 
+5) Make sure your Android device is plugged in and recognised:
+```
+> cd c:\Users\jozef\AppData\Local\Android\sdk\platform-tools\
+> adb devices
+```
+
 ### Additional Resources
 * Getting started with Qt for Android: http://doc.qt.io/qt-5/androidgs.html
 * Connecting Android devices: http://doc.qt.io/qtcreator/creator-developing-android.html
