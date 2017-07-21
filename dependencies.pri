@@ -13,11 +13,17 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-LIBDMTX_ROOT = c:/local/libdmtx
+#LIBDMTX_ROOT = c:/local/libdmtx
 
-win32:CONFIG(release, debug|release): LIBS += -L$${LIBDMTX_ROOT}/lib/Release/ -llibdmtx
-else:win32:CONFIG(debug, debug|release): LIBS += -L$${LIBDMTX_ROOT}/lib/Debug/ -llibdmtx
-else:unix: LIBS += -L$${LIBDMTX_ROOT}/lib/ -llibdmtx
+#win32:CONFIG(release, debug|release): LIBS += -L$${LIBDMTX_ROOT}/lib/Release/ -llibdmtx
+#else:win32:CONFIG(debug, debug|release): LIBS += -L$${LIBDMTX_ROOT}/lib/Debug/ -llibdmtx
+#else:unix: LIBS += -L$${LIBDMTX_ROOT}/lib/ -llibdmtx
 
-INCLUDEPATH += $${LIBDMTX_ROOT}/include
-DEPENDPATH += $${LIBDMTX_ROOT}/include
+#INCLUDEPATH += $${LIBDMTX_ROOT}/include
+#DEPENDPATH += $${LIBDMTX_ROOT}/include
+
+SOURCES += \
+    3rdparty/libdmtx_0.7.4/dmtx.c
+
+HEADERS += \
+    3rdparty/libdmtx_0.7.4/dmtx.h

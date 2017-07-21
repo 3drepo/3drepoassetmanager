@@ -69,7 +69,7 @@ RepoAssetFilterableModel::~RepoAssetFilterableModel()
 void RepoAssetFilterableModel::populate()
 {
     emit beginInsertRows(QModelIndex(), 0, 0);
-    QString path = "c:\\Users\\jozef\\Documents\\3D Models\\BB\\Crossrail\\Exports\\";
+    QString path = "AIMS\\";
     QDirIterator it(path, QDirIterator::Subdirectories);
     while (it.hasNext())
     {
@@ -103,7 +103,7 @@ void RepoAssetFilterableModel::filter(const QString &text, int role)
 void RepoAssetFilterableModel::filterGroup(const QString &group)
 {
 //    filter(group, RepoAssetItem::GroupRole);
-    groupFilter = group;
+    groupFilter = group == "All assets" ? "" : group;
     invalidateFilter();
 }
 
@@ -153,7 +153,7 @@ bool RepoAssetFilterableModel::filterAcceptsRow(
     if (item != NULL)
     {
         QString comparator = textFilter.toLower();
-        accept = (item->getGroup() == groupFilter) &&
+        accept = (item->getGroup() == groupFilter || groupFilter.isEmpty()) &&
                  (item->data(RepoAssetItem::TagCodeRole).toString().toLower().contains(comparator)
                     || (item->data(RepoAssetItem::NameRole).toString().toLower().contains(comparator))
                     || (item->data(RepoAssetItem::DescriptionRole).toString().toLower().contains(comparator)));

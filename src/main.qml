@@ -27,7 +27,7 @@ ApplicationWindow {
     visible: true
     width: 1280
     height: 720
-    title: qsTr("Asset Manager by 3D Repo")
+    title: qsTr("Crossrail Asset Manager by 3D Repo")
 
     Shortcut {
         sequence: "Esc"
@@ -176,6 +176,7 @@ ApplicationWindow {
         if (tagCode) {
 //            stackView.pop()
 //            listView.currentIndex = -1
+//              stackView.currentItem.filterGroup("All assets")
               stackView.currentItem.filterTagCode(tagCode)
         }
     }

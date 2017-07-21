@@ -17,6 +17,8 @@
 
 #include "repo_asset_categories_model.h"
 
+#include <QDebug>
+
 repo::RepoAssetCategoriesModel::RepoAssetCategoriesModel(QObject *parent)
     : QStringListModel(parent)
 {
@@ -26,16 +28,13 @@ repo::RepoAssetCategoriesModel::RepoAssetCategoriesModel(QObject *parent)
 
 void repo::RepoAssetCategoriesModel::populate()
 {
-//    QString path("c:\\Users\\jozef\\Documents\\3D Models\\BB\\Crossrail\\Exports\\C530-010-UF-004-UPDDAT-01\\");
-//    QDir directory(path);
-
-//    QStringList fileNames = directory.entryList(QStringList("L*-*.csv"), QDir::Files);
-
-//    this->setStringList(fileNames);
-
-
     QStringList fileNames;
-    QString path = "c:\\Users\\jozef\\Documents\\3D Models\\BB\\Crossrail\\Exports\\";
+    fileNames.append("All assets");
+    QString path = "AIMS";
+
+    qDebug() << QDir::currentPath();
+
+
     QDirIterator it(path, QDirIterator::Subdirectories);
     while (it.hasNext())
     {

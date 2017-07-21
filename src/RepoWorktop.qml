@@ -89,7 +89,7 @@ Pane {
             id: repoAssetViewDelegate
             height: parent.height
             width: assetListViewRectangle.width
-            highlighted: false
+//            highlighted: false
         }
 
         //        onMovingChanged: {

@@ -19,7 +19,11 @@ QT += quick quickcontrols2 multimedia
 
 CONFIG += c++11
 
-SOURCES += src/main.cpp \
+QMAKE_CXX = gcc
+QMAKE_CXXFLAGS = -x c
+
+SOURCES += \
+    src/main.cpp \
     src/repo_camera.cpp \
     src/repo_data_matrix.cpp \
     src/repo_data_matrix_filter_runnable.cpp \
@@ -31,6 +35,7 @@ SOURCES += src/main.cpp \
     src/repo_data_matrix_filter_result.cpp \
     src/repo_asset_filterable_model.cpp \
     src/repo_asset_item.cpp
+
 
 HEADERS += \
     src/repo_camera.h \

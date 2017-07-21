@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<repo::RepoAssetCategoriesModel>("repo", 1, 0, "RepoAssetCategoriesModel");
     qmlRegisterType<repo::RepoAssetFilterableModel>("repo", 1, 0, "RepoAssetFilterableModel");
 
-    QGuiApplication::setApplicationName("3D Repo Asset Guru");
+    QGuiApplication::setApplicationName("Crossrail Asset Manager by 3D Repo");
     QGuiApplication::setOrganizationName("3D Repo");
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);

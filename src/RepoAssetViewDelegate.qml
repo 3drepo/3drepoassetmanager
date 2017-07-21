@@ -23,14 +23,12 @@ import repo 1.0
 import QtGraphicalEffects 1.0
 
 
-ItemDelegate {       
+Item {
 
     Flickable {
         width: parent.width
         height: parent.height
         contentHeight: grid.height + dataMatrixImage.height + tagCodeText.height + 40
-
-
 
         Image {
             id: dataMatrixImage
@@ -47,6 +45,22 @@ ItemDelegate {
             font.pixelSize: 20
             topPadding: 8
         }
+
+        TableView {
+            TableViewColumn {
+                role: "title"
+                title: "Title"
+                width: 100
+            }
+            TableViewColumn {
+                role: "author"
+                title: "Author"
+                width: 200
+            }
+            model: model
+        }
+
+
 
         Grid {
             id: grid
@@ -196,12 +210,14 @@ ItemDelegate {
 
         }
 
+
+
         ScrollIndicator.vertical: ScrollIndicator { }
     }
 
-    onClicked: {
-        assetView.currentIndex = index
-    }
+//    onClicked: {
+//        assetView.currentIndex = index
+//    }
 
 }
 
