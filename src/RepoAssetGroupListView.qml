@@ -32,14 +32,15 @@ ListView {
 
     header: Rectangle {
         width: parent.width
-        height: 230
+        height: crossrailLogo.height + 80
+        Layout.fillHeight: true
         color: "white"
         z: 2
 
         Image {
             id: crossrailLogo
             source: "qrc:/images/crossrail_logo.svg"
-            sourceSize.height: 150
+            sourceSize.width: parent.width - 160
             anchors.top: parent.top
             anchors.horizontalCenter: parent.horizontalCenter
             fillMode: Image.PreserveAspectFit

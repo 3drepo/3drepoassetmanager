@@ -69,7 +69,7 @@ RepoAssetFilterableModel::~RepoAssetFilterableModel()
 void RepoAssetFilterableModel::populate()
 {
     emit beginInsertRows(QModelIndex(), 0, 0);
-    QString path = "AIMS\\";
+    QString path = "Assets\\";
     QDirIterator it(path, QDirIterator::Subdirectories);
     while (it.hasNext())
     {

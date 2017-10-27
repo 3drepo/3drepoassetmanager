@@ -15,12 +15,9 @@
 
 include(dependencies.pri)
 
-QT += quick quickcontrols2 multimedia
+QT += quick quickcontrols2 multimedia svg
 
 CONFIG += c++11
-
-QMAKE_CXX = gcc
-QMAKE_CXXFLAGS = -x c
 
 SOURCES += \
     src/main.cpp \
@@ -34,7 +31,10 @@ SOURCES += \
     src/repo_data_matrix_image_provider.cpp \
     src/repo_data_matrix_filter_result.cpp \
     src/repo_asset_filterable_model.cpp \
-    src/repo_asset_item.cpp
+    src/repo_asset_item.cpp \
+    src/repo_material_icons.cpp \
+    src/repo_material_icons_image_provider.cpp \
+    src/repo_network_access_manager.cpp
 
 
 HEADERS += \
@@ -48,9 +48,13 @@ HEADERS += \
     src/repo_data_matrix_image_provider.h \
     src/repo_data_matrix_filter_result.h \
     src/repo_asset_filterable_model.h \
-    src/repo_asset_item.h
+    src/repo_asset_item.h \
+    src/repo_material_icons.h \
+    src/repo_material_icons_image_provider.h \
+    src/repo_network_access_manager.h
 
-RESOURCES += qml.qrc
+RESOURCES += \
+    resources.qrc
 
 TEMPLATE = app
 

@@ -69,13 +69,17 @@ ListView {
             id: searchButton
             anchors.right: parent.right
             anchors.verticalCenter : parent.verticalCenter
-            anchors.rightMargin: 10
+            anchors.rightMargin: 0
+            implicitWidth: 84
+            implicitHeight: 84
             contentItem: Image {
                 Material.theme: Material.Dark
                 fillMode: Image.Pad
                 horizontalAlignment: Image.AlignHCenter
                 verticalAlignment: Image.AlignVCenter
-                source: searchField.text.length > 0 ? "qrc:/images/clear.png" : "qrc:/images/search.png"
+                source: searchField.text.length > 0 ? "image://materialicons/clear/#FF757575" : "image://materialicons/search/#FF757575"
+                sourceSize.width: 32
+                sourceSize.height: 32
             }
             onClicked: {
                 if (searchField.text.length > 0)
@@ -103,9 +107,8 @@ ListView {
         RoundButton {
             id: createButton
             anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.rightMargin: 10
-            anchors.bottomMargin: 10
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.margins: 10
             Material.background: Material.accent
             Material.theme: Material.Light
             width: 74
@@ -114,7 +117,9 @@ ListView {
                 fillMode: Image.Pad
                 horizontalAlignment: Image.AlignHCenter
                 verticalAlignment: Image.AlignVCenter
-                source: "qrc:/images/create.png"
+                source:  "image://materialicons/add"
+                sourceSize.width: 32
+                sourceSize.height: 32
             }
         }
     }

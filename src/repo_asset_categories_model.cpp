@@ -30,7 +30,7 @@ void repo::RepoAssetCategoriesModel::populate()
 {
     QStringList fileNames;
     fileNames.append("All assets");
-    QString path = "AIMS";
+    QString path = "Assets";
 
     qDebug() << QDir::currentPath();
 

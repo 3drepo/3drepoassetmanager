@@ -21,7 +21,7 @@
 #include <QString>
 #include <QVideoFrame>
 
-#include "dmtx.h"
+#include "3rdparty/libdmtx_0.7.4/dmtx.h"
 #include "repo_data_matrix_filter_result.h"
 
 #include <iostream>

@@ -21,10 +21,12 @@
 //obsolete - to be deleted
 #include "repo_camera.h"
 
+#include "repo_material_icons_image_provider.h"
 #include "repo_data_matrix_filter.h"
 #include "repo_asset_categories_model.h"
 #include "repo_data_matrix_image_provider.h"
 #include "repo_asset_filterable_model.h"
+#include "repo_network_access_manager.h"
 
 int main(int argc, char *argv[])
 {
@@ -33,15 +35,16 @@ int main(int argc, char *argv[])
     qmlRegisterType<repo::RepoDataMatrixFilter>("repo", 1, 0, "RepoDataMatrixFilter");
     qmlRegisterType<repo::RepoAssetCategoriesModel>("repo", 1, 0, "RepoAssetCategoriesModel");
     qmlRegisterType<repo::RepoAssetFilterableModel>("repo", 1, 0, "RepoAssetFilterableModel");
+    qmlRegisterType<repo::RepoNetworkAccessManager>("repo", 1, 0, "RepoNetworkAccessManager");
 
     QGuiApplication::setApplicationName("Crossrail Asset Manager by 3D Repo");
     QGuiApplication::setOrganizationName("3D Repo");
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication app(argc, argv);
+    QGuiApplication app(argc, argv);    
 
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QLatin1String("qrc:/src/main.qml")));
+    QQmlApplicationEngine engine;    
+    engine.addImageProvider(QLatin1String("materialicons"), new repo::RepoMaterialIconsImageProvider);
     engine.addImageProvider(QLatin1String("dataMatrix"), new repo::RepoDataMatrixImageProvider);
-
+    engine.load(QUrl(QLatin1String("qrc:/src/main.qml")));
     return app.exec();
 }

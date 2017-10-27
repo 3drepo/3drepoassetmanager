@@ -20,7 +20,9 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls 2.1
 import QtQuick.Dialogs 1.1
-import QtQuick.Controls.Material 2.0
+//import QtQuick.Controls.Material 2.0
+
+import repo 1.0
 
 ApplicationWindow {
     id: window
@@ -39,19 +41,20 @@ ApplicationWindow {
     }
 
     header: ToolBar {
-        height: 72
         RowLayout {
-            spacing: 20
+            spacing: 0
             anchors.fill: parent
 
-
-
             ToolButton {
+                implicitWidth: 84
+                implicitHeight: 84
                 contentItem: Image {
                     fillMode: Image.Pad
                     horizontalAlignment: Image.AlignHCenter
                     verticalAlignment: Image.AlignVCenter
-                    source: stackView.depth > 1 ? "qrc:/images/+material/back.png" : "qrc:/images/+material/drawer.png"
+                    source: stackView.depth > 1 ? "image://materialicons/arrowBack" :  "image://materialicons/menu"
+                    sourceSize.width: 32
+                    sourceSize.height: 32
                 }
                 onClicked: {
                     if (stackView.depth > 1) {
@@ -75,21 +78,28 @@ ApplicationWindow {
 
             Image {
                 id: bbLogo
-                source: "qrc:/images/bb_logo_inverted.svg"
-                sourceSize.height: parent.height - 35
+                source: "qrc:/resources/3D-Repo_white.svg"
                 anchors.centerIn: parent
                 fillMode: Image.PreserveAspectFit
                 antialiasing: true
+                sourceSize.height: 32
             }
 
 
             ToolButton {
                 id: cameraButton
+                implicitWidth: 84
+                implicitHeight: 84
+                anchors.right: moreVertToolButton.left
+                anchors.rightMargin: -24
                 contentItem: Image {
                     fillMode: Image.Pad
                     horizontalAlignment: Image.AlignHCenter
                     verticalAlignment: Image.AlignVCenter
-                    source: "qrc:/images/camera.png"
+                    source: "image://materialicons/camera"
+                    antialiasing: true
+//                    sourceSize.width: 32
+//                    sourceSize.height: 32
                 }
                 onClicked: {
                     if (stackView.depth <= 1) {
@@ -101,11 +111,17 @@ ApplicationWindow {
             }
 
             ToolButton {
+                id: moreVertToolButton
+                implicitWidth: 84
+                implicitHeight: 84
+                anchors.right: parent.right
                 contentItem: Image {
                     fillMode: Image.Pad
                     horizontalAlignment: Image.AlignHCenter
                     verticalAlignment: Image.AlignVCenter
-                    source: "qrc:/images/menu.png"
+                    source: "image://materialicons/moreVert"
+                    sourceSize.width: 32
+                    sourceSize.height: 32
                 }
                 onClicked: optionsMenu.open()
 
@@ -115,8 +131,8 @@ ApplicationWindow {
                     transformOrigin: Menu.TopRight
 
                     MenuItem {
-                        text: "Settings"
-                        onTriggered: settingsDialog.open()
+                        text: "Sign in"
+                        onTriggered: repoLoginDialog.open()
                     }
                     MenuItem {
                         text: "About"
@@ -170,6 +186,10 @@ ApplicationWindow {
         id: stackView
         anchors.fill: parent
         initialItem: Qt.resolvedUrl("RepoWorktop.qml")
+    }
+
+    RepoLoginDialog {
+        id: repoLoginDialog
     }
 
     function relay(tagCode) {
