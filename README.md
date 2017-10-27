@@ -5,6 +5,9 @@
 
 [![YouTube](https://img.youtube.com/vi/Kc24mj9f2gY/0.jpg)](https://www.youtube.com/watch?v=Kc24mj9f2gY)
 
+## Licenses
+This project is Copyright of [3D Repo Ltd](http://3drepo.org), a company registered in England and Wales No. 09014101, and is released under the open source [GNU Affero General Public License v3](http://www.gnu.org/licenses/agpl-3.0.en.html). Should you require a commercial license, please contact [support@3drepo.org](mailto:support@3drepo.org). All contributors are required to sign either the [3D Repo Individual](https://gist.github.com/jozefdobos/e177af804c9bcd217b73) or the [3D Repo Entity](https://gist.github.com/jozefdobos/c7c4c1c18cfb211c45d2) [Contributor License Agreement (CLA)](https://en.wikipedia.org/wiki/Contributor_License_Agreement).
+
 ## Dependencies
 
 * Libdmtx: http://libdmtx.sourceforge.net/
