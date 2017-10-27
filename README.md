@@ -1,6 +1,9 @@
 # 3D Repo Asset Guru
 3D Repo Mobile Asset Management System
 
+## YouTube Video
+
+[![YouTube](https://img.youtube.com/vi/Kc24mj9f2gY/0.jpg)](https://www.youtube.com/watch?v=Kc24mj9f2gY)
 
 ## Dependencies
 
