@@ -53,7 +53,7 @@ void RepoNetworkAccessManager::authenticate(
 
     QNetworkReply *reply = this->post(getNetworkRequest(getURL(LOGIN)),
                                       postData.toString(QUrl::FullyEncoded).toUtf8());
-//    connect(reply, SIGNAL(readyRead()), this, SLOT(replyReady()));
+    //    connect(reply, SIGNAL(readyRead()), this, SLOT(replyReady()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
             this, SLOT(replyErrored(QNetworkReply::NetworkError)));
     connect(reply, SIGNAL(sslErrors(QList<QSslError>)),
@@ -76,17 +76,31 @@ void RepoNetworkAccessManager::finishedSlot(QNetworkReply* reply)
             QList<QNetworkCookie> c = qvariant_cast<QList<QNetworkCookie>>(v);
             this->cookieJar()->setCookiesFromUrl(c, reply->url());
             getUserInfo(username);
-         }
+        }
         else if (url == getURL(LIST_INFO, username))
         {
             QString replyString = (QString) reply->readAll();
-            QJsonDocument jsonDocument = QJsonDocument::fromJson(replyString.toUtf8());
-//            QString message = jsonDocument.object()["message"].toString();
+            setAccountInfo(QJsonDocument::fromJson(replyString.toUtf8()));
 
-            qDebug() << " ";
-            qDebug() << " ";
+//            qDebug() << " ";
+//            qDebug() << " ";
 
-            qDebug() << jsonDocument;
+//            qDebug() << _accountInfo;
+
+
+//            qDebug() << " ";
+//            qDebug() << " ";
+
+
+
+//            QJsonArray accounts = _accountInfo.object()["accounts"].toArray();
+//            for (QJsonValue accVal : accounts)
+//            {
+//                //                QJsonObject account = accVal.toObject()["account"];
+
+//            }
+
+
         }
     }
     reply->deleteLater();
@@ -123,7 +137,7 @@ void RepoNetworkAccessManager::replySslErrored(QList<QSslError> list)
 
 void RepoNetworkAccessManager::replyReady()
 {
-        qDebug() << "Reply ready";
+    qDebug() << "Reply ready";
 }
 
 void RepoNetworkAccessManager::setLastErrorMessage(const QString &msg)
@@ -138,6 +152,20 @@ void RepoNetworkAccessManager::setLastErrorMessage(const QString &msg)
 QString RepoNetworkAccessManager::getLastErrorMessage() const
 {
     return _lastErrorMessage;
+}
+
+void RepoNetworkAccessManager::setAccountInfo(const QJsonDocument &accountInfo)
+{
+    if (_accountInfo != accountInfo)
+    {
+        _accountInfo = accountInfo;
+        emit accountInfoChanged(_accountInfo);
+    }
+}
+
+QJsonDocument RepoNetworkAccessManager::getAccountInfo() const
+{
+    return _accountInfo;
 }
 
 void RepoNetworkAccessManager::processErrorNetworkReply(QNetworkReply* reply)

@@ -36,6 +36,8 @@ class RepoNetworkAccessManager : public QNetworkAccessManager
 
     Q_PROPERTY(QString lastErrorMessage READ getLastErrorMessage WRITE setLastErrorMessage NOTIFY lastErrorMessageChanged MEMBER _lastErrorMessage)
 
+    Q_PROPERTY(QJsonDocument accountInfo READ getAccountInfo WRITE setAccountInfo NOTIFY accountInfoChanged MEMBER _accountInfo)
+
     enum API {
         LOGIN,
         LIST_INFO
@@ -44,6 +46,8 @@ class RepoNetworkAccessManager : public QNetworkAccessManager
 signals:
 
     void lastErrorMessageChanged(const QString&);
+
+    void accountInfoChanged(const QJsonDocument&);
 
     void isError();
 
@@ -70,6 +74,10 @@ public slots:
 
     Q_INVOKABLE QString getLastErrorMessage() const;
 
+    Q_INVOKABLE void setAccountInfo(const QJsonDocument &accountInfo);
+
+    Q_INVOKABLE QJsonDocument getAccountInfo() const;
+
     void processErrorNetworkReply(QNetworkReply* reply);
 
     QUrl getURL(API api, const QString &param = QString());
@@ -81,6 +89,9 @@ public slots:
 private :
 
     QString _lastErrorMessage;
+
+    // API return
+    QJsonDocument _accountInfo;
 
     QString targetServer;
 

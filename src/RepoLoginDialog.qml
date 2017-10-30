@@ -19,11 +19,12 @@ import QtQuick 2.7
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.2
 import QtQuick.Dialogs 1.1
+import QtQuick.Controls.Material 2.1
 
 import repo 1.0
 
 Dialog {
-    id: settingsDialog
+    id: repoLoginDialog
     title: "Sign in"
     x: Math.round((window.width - width) / 2)
     y: Math.round(window.height / 6)
@@ -36,25 +37,10 @@ Dialog {
         networkAccessManager.authenticate(username.text, password.text)
     }
     onRejected: {
-        settingsDialog.close()
+        repoLoginDialog.close()
     }
-
-
-    RepoNetworkAccessManager {
-        id: networkAccessManager
-        onFinished: {
-
-        }
-
-        onIsError: {
-            settingsDialog.visible = true // This is a known bug in Qt,
-                                          // it should not close the dialog but it does
-        }
-    }
-
 
     contentItem: ColumnLayout {
-        id: settingsColumn
         spacing: 20
 
         Image {
@@ -66,7 +52,6 @@ Dialog {
             sourceSize.height: 200
             Layout.fillWidth: true
         }
-
 
         TextField {
             id: username

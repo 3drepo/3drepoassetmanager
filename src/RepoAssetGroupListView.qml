@@ -25,10 +25,11 @@ ListView {
     focus: true
     currentIndex: -1
 
-    model: RepoAssetCategoriesModel {
-        id: categoriesModel
-    }
+//    model: RepoAssetCategoriesModel {
+//        id: categoriesModel
+//    }
 
+    model: repoTeamspace
 
     header: Rectangle {
         width: parent.width
@@ -77,7 +78,7 @@ ListView {
     delegate:
         ItemDelegate {
         width: parent.width
-        text: display
+        text: modelName
         highlighted: ListView.isCurrentItem
         onClicked: {
             assetView.currentIndex = 0 // reset what the assetView shows

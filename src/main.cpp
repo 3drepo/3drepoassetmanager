@@ -27,6 +27,7 @@
 #include "repo_data_matrix_image_provider.h"
 #include "repo_asset_filterable_model.h"
 #include "repo_network_access_manager.h"
+#include "repo_teamspace.h"
 
 int main(int argc, char *argv[])
 {
@@ -36,11 +37,13 @@ int main(int argc, char *argv[])
     qmlRegisterType<repo::RepoAssetCategoriesModel>("repo", 1, 0, "RepoAssetCategoriesModel");
     qmlRegisterType<repo::RepoAssetFilterableModel>("repo", 1, 0, "RepoAssetFilterableModel");
     qmlRegisterType<repo::RepoNetworkAccessManager>("repo", 1, 0, "RepoNetworkAccessManager");
+    qmlRegisterType<repo::RepoTeamspace>("repo", 1, 0, "RepoTeamspace");
 
     QGuiApplication::setApplicationName("Crossrail Asset Manager by 3D Repo");
     QGuiApplication::setOrganizationName("3D Repo");
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);    
+
 
     QQmlApplicationEngine engine;    
     engine.addImageProvider(QLatin1String("materialicons"), new repo::RepoMaterialIconsImageProvider);

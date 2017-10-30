@@ -34,7 +34,9 @@ SOURCES += \
     src/repo_asset_item.cpp \
     src/repo_material_icons.cpp \
     src/repo_material_icons_image_provider.cpp \
-    src/repo_network_access_manager.cpp
+    src/repo_network_access_manager.cpp \
+    src/repo_teamspace.cpp \
+    src/repo_teamspace_project_model.cpp
 
 
 HEADERS += \
@@ -51,7 +53,9 @@ HEADERS += \
     src/repo_asset_item.h \
     src/repo_material_icons.h \
     src/repo_material_icons_image_provider.h \
-    src/repo_network_access_manager.h
+    src/repo_network_access_manager.h \
+    src/repo_teamspace.h \
+    src/repo_teamspace_project_model.h
 
 RESOURCES += \
     resources.qrc

@@ -18,7 +18,9 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
+import QtQuick.Controls.Material 2.1
 import QtQuick.Controls 2.1
+import QtQuick.Controls.Styles 1.4
 import QtQuick.Dialogs 1.1
 //import QtQuick.Controls.Material 2.0
 
@@ -31,23 +33,40 @@ ApplicationWindow {
     height: 720
     title: qsTr("Crossrail Asset Manager by 3D Repo")
 
+    Component.onCompleted: {
+        repoLoginDialog.open()
+//        repoTeamspaces.populate()
+    }
+
+
     Shortcut {
         sequence: "Esc"
         enabled: stackView.depth > 1
         onActivated: {
             stackView.pop()
-            listView.currentIndex = -1
         }
     }
 
     header: ToolBar {
+        Material.foreground: "white"
         RowLayout {
             spacing: 0
             anchors.fill: parent
 
             ToolButton {
+                id: menuButton
+                anchors.left: parent.left
+                anchors.leftMargin: 4
                 implicitWidth: 84
                 implicitHeight: 84
+                onClicked:  {
+                    if (stackView.depth > 1) {
+                        stackView.pop()
+                    } else {
+                        drawer.open()
+                    }
+                }
+
                 contentItem: Image {
                     fillMode: Image.Pad
                     horizontalAlignment: Image.AlignHCenter
@@ -56,34 +75,17 @@ ApplicationWindow {
                     sourceSize.width: 32
                     sourceSize.height: 32
                 }
-                onClicked: {
-                    if (stackView.depth > 1) {
-                        stackView.pop()
-                        listView.currentIndex = -1
-                    } else {
-                        drawer.open()
-                    }
-                }
-            }
-
-            Label {
-                id: projectLabel
-                text: "Crossrail C530"
-                font.pixelSize: 20
-                elide: Label.ElideRight
-                verticalAlignment: Qt.AlignVCenter
-                Layout.fillWidth: true
-                color: "white"
             }
 
             Image {
-                id: bbLogo
+                id: repoLogo
+                anchors.left: menuButton.right
+                anchors.leftMargin: 12
                 source: "qrc:/resources/3D-Repo_white.svg"
-                anchors.centerIn: parent
                 fillMode: Image.PreserveAspectFit
                 antialiasing: true
-                sourceSize.height: 32
             }
+
 
 
             ToolButton {
@@ -98,14 +100,12 @@ ApplicationWindow {
                     verticalAlignment: Image.AlignVCenter
                     source: "image://materialicons/camera"
                     antialiasing: true
-//                    sourceSize.width: 32
-//                    sourceSize.height: 32
                 }
                 onClicked: {
                     if (stackView.depth <= 1) {
-                    stackView.push("qrc:/src/RepoCameraPage.qml")
-                    var camera = stackView.currentItem
-                    camera.tagCodeDetected.connect(relay)
+                        stackView.push("qrc:/src/RepoCameraPage.qml")
+                        var camera = stackView.currentItem
+                        camera.tagCodeDetected.connect(relay)
                     }
                 }
             }
@@ -119,7 +119,7 @@ ApplicationWindow {
                     fillMode: Image.Pad
                     horizontalAlignment: Image.AlignHCenter
                     verticalAlignment: Image.AlignVCenter
-                    source: "image://materialicons/moreVert"
+                    source: "image://materialicons/accountCircle"
                     sourceSize.width: 32
                     sourceSize.height: 32
                 }
@@ -143,43 +143,17 @@ ApplicationWindow {
         }
     }
 
-    Drawer {
+
+    RepoDrawer {
         id: drawer
-        width: parent.width * 0.225
-        height: window.height
-        dragMargin: stackView.depth > 1 ? 0 : undefined
+    }
 
-        ListView {
-            id: listView
+    RepoTeamspace {
+        id: repoTeamspace
+    }
 
-            focus: true
-            currentIndex: -1
-            anchors.fill: parent
-
-            delegate: ItemDelegate {
-                width: parent.width
-                text: model.title
-                highlighted: ListView.isCurrentItem
-                onClicked: {
-                    listView.currentIndex = index
-                    stackView.push(model.source)
-                    drawer.close()
-
-                    // This needs fixing as sometimes this would not be RepoCameraPage object
-                    var camera = stackView.currentItem
-                    camera.tagCodeDetected.connect(relay)
-                }
-            }
-
-            model: ListModel {
-                ListElement { title: "Crossrail C530"; }
-                ListElement { title: "Crossrail C512"; }
-                ListElement { title: "Camera"; source: "qrc:/src/RepoCameraPage.qml" }
-                ListElement { title: "Drawing"; source: "qrc:/src/RepoDrawing.qml" }
-            }
-
-            ScrollIndicator.vertical: ScrollIndicator { }
-        }
+    RepoLoginDialog {
+        id: repoLoginDialog
     }
 
     StackView {
@@ -188,16 +162,26 @@ ApplicationWindow {
         initialItem: Qt.resolvedUrl("RepoWorktop.qml")
     }
 
-    RepoLoginDialog {
-        id: repoLoginDialog
+    RepoNetworkAccessManager {
+        id: networkAccessManager
+        onFinished: {
+        }
+
+        onIsError: {
+            repoLoginDialog.visible = true // This is a known bug in Qt,
+                                       // it should not close the dialog but it does
+        }
+        onAccountInfoChanged: {
+            repoTeamspace.parseAPI(accountInfo)
+        }
     }
 
     function relay(tagCode) {
         if (tagCode) {
-//            stackView.pop()
-//            listView.currentIndex = -1
-//              stackView.currentItem.filterGroup("All assets")
-              stackView.currentItem.filterTagCode(tagCode)
+            //            stackView.pop()
+            //            menuListView.currentIndex = -1
+            //              stackView.currentItem.filterGroup("All assets")
+            stackView.currentItem.filterTagCode(tagCode)
         }
     }
 }
