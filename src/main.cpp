@@ -25,6 +25,7 @@
 #include "repo_data_matrix_filter.h"
 #include "repo_asset_categories_model.h"
 #include "repo_data_matrix_image_provider.h"
+#include "repo_byte_image_provider.h"
 #include "repo_asset_filterable_model.h"
 #include "repo_network_access_manager.h"
 #include "repo_teamspace.h"
@@ -48,6 +49,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;    
     engine.addImageProvider(QLatin1String("materialicons"), new repo::RepoMaterialIconsImageProvider);
     engine.addImageProvider(QLatin1String("dataMatrix"), new repo::RepoDataMatrixImageProvider);
+    engine.addImageProvider(QLatin1String("byteimage"), new repo::RepoByteImageProvider);
     engine.load(QUrl(QLatin1String("qrc:/src/main.qml")));
     return app.exec();
 }

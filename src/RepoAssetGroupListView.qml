@@ -25,11 +25,14 @@ ListView {
     focus: true
     currentIndex: -1
 
-//    model: RepoAssetCategoriesModel {
-//        id: categoriesModel
-//    }
+    //    model: RepoAssetCategoriesModel {
+    //        id: categoriesModel
+    //    }
 
     model: repoTeamspace
+
+
+
 
     header: Rectangle {
         width: parent.width
@@ -40,7 +43,7 @@ ListView {
 
         Image {
             id: crossrailLogo
-            source: "qrc:/images/crossrail_logo.svg"
+            source: "image://byteimage/" + networkAccessManager.avatar //"qrc:/images/crossrail_logo.svg"
             sourceSize.width: parent.width - 160
             anchors.top: parent.top
             anchors.horizontalCenter: parent.horizontalCenter
@@ -78,13 +81,28 @@ ListView {
     delegate:
         ItemDelegate {
         width: parent.width
-        text: modelName
+        text: "  " +  modelName // display
         highlighted: ListView.isCurrentItem
         onClicked: {
             assetView.currentIndex = 0 // reset what the assetView shows
-            assetGroupListView.currentIndex = index            
+            assetGroupListView.currentIndex = index
         }
     }
+
+
+
+
+
+
+
+    section.property: "accountName"
+    section.criteria: ViewSection.FullString
+    section.delegate:  ItemDelegate {
+        text: section
+        font.bold: true
+        width: parent.width
+    }
+
 
     ScrollIndicator.vertical: ScrollIndicator { }
 }

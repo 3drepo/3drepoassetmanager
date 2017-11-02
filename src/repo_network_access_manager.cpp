@@ -26,7 +26,7 @@ const QString RepoNetworkAccessManager::PROD_SERVER = "post.www";
 
 RepoNetworkAccessManager::RepoNetworkAccessManager(QObject *parent)
     : QNetworkAccessManager(parent)
-    , targetServer(PROD_SERVER)
+    , targetServer(DEV_SERVER)
 {
     connect(this, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(finishedSlot(QNetworkReply*)));
@@ -75,32 +75,19 @@ void RepoNetworkAccessManager::finishedSlot(QNetworkReply* reply)
             QVariant v = reply->header(QNetworkRequest::SetCookieHeader);
             QList<QNetworkCookie> c = qvariant_cast<QList<QNetworkCookie>>(v);
             this->cookieJar()->setCookiesFromUrl(c, reply->url());
-            getUserInfo(username);
+
+            fetchAvatar(username);
+            fetchUserInfo(username);
         }
         else if (url == getURL(LIST_INFO, username))
         {
             QString replyString = (QString) reply->readAll();
             setAccountInfo(QJsonDocument::fromJson(replyString.toUtf8()));
-
-//            qDebug() << " ";
-//            qDebug() << " ";
-
-//            qDebug() << _accountInfo;
-
-
-//            qDebug() << " ";
-//            qDebug() << " ";
-
-
-
-//            QJsonArray accounts = _accountInfo.object()["accounts"].toArray();
-//            for (QJsonValue accVal : accounts)
-//            {
-//                //                QJsonObject account = accVal.toObject()["account"];
-
-//            }
-
-
+        }
+        else if (url == getURL(AVATAR, username))
+        {
+            QByteArray b = reply->readAll();
+            setAvatar(b.toHex());
         }
     }
     reply->deleteLater();
@@ -115,7 +102,7 @@ int RepoNetworkAccessManager::getStatusCode(const QNetworkReply *reply)
 }
 
 
-void RepoNetworkAccessManager::getUserInfo(const QString& username)
+void RepoNetworkAccessManager::fetchUserInfo(const QString& username)
 {
     reset();
     QNetworkReply *reply = this->get(getNetworkRequest(getURL(LIST_INFO, username)));
@@ -123,6 +110,31 @@ void RepoNetworkAccessManager::getUserInfo(const QString& username)
             this, SLOT(replyErrored(QNetworkReply::NetworkError)));
     connect(reply, SIGNAL(sslErrors(QList<QSslError>)),
             this, SLOT(replySslErrored(QList<QSslError>)));
+}
+
+
+void RepoNetworkAccessManager::fetchAvatar(const QString& username)
+{
+    reset();
+    QNetworkReply *reply = this->get(getNetworkRequest(getURL(AVATAR, username)));
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
+            this, SLOT(replyErrored(QNetworkReply::NetworkError)));
+    connect(reply, SIGNAL(sslErrors(QList<QSslError>)),
+            this, SLOT(replySslErrored(QList<QSslError>)));
+}
+
+QString RepoNetworkAccessManager::getAvatar() const
+{
+    return _avatar;
+}
+
+void RepoNetworkAccessManager::setAvatar(const QString &avatar)
+{
+    if (_avatar != avatar)
+    {
+        _avatar = avatar;
+        emit avatarChanged(_avatar);
+    }
 }
 
 void RepoNetworkAccessManager::replyErrored(QNetworkReply::NetworkError error)
@@ -189,6 +201,9 @@ QUrl RepoNetworkAccessManager::getURL(API api, const QString &param)
         break;
     case LIST_INFO:
         call = param + ".json";
+        break;
+    case AVATAR :
+        call = param + "/avatar";
         break;
     }
     return QUrl("https://" + targetServer + ".3drepo.io/api/" + call);

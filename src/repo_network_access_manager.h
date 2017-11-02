@@ -26,6 +26,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QImage>
+#include <QPixmap>
 
 namespace repo {
 
@@ -38,9 +40,12 @@ class RepoNetworkAccessManager : public QNetworkAccessManager
 
     Q_PROPERTY(QJsonDocument accountInfo READ getAccountInfo WRITE setAccountInfo NOTIFY accountInfoChanged MEMBER _accountInfo)
 
+    Q_PROPERTY(QString avatar READ getAvatar NOTIFY avatarChanged WRITE setAvatar MEMBER _avatar)
+
     enum API {
         LOGIN,
-        LIST_INFO
+        LIST_INFO,
+        AVATAR
     };
 
 signals:
@@ -48,6 +53,8 @@ signals:
     void lastErrorMessageChanged(const QString&);
 
     void accountInfoChanged(const QJsonDocument&);
+
+    void avatarChanged(const QString&);
 
     void isError();
 
@@ -62,7 +69,9 @@ public slots:
     Q_INVOKABLE void authenticate(const QString& username, const QString &password);
     void finishedSlot(QNetworkReply*);
 
-    Q_INVOKABLE void getUserInfo(const QString& username);
+    Q_INVOKABLE void fetchUserInfo(const QString& username);
+
+    Q_INVOKABLE void fetchAvatar(const QString& username);
 
     Q_INVOKABLE void replyErrored(QNetworkReply::NetworkError);
 
@@ -78,6 +87,10 @@ public slots:
 
     Q_INVOKABLE QJsonDocument getAccountInfo() const;
 
+    Q_INVOKABLE QString getAvatar() const;
+
+    Q_INVOKABLE void setAvatar(const QString&);
+
     void processErrorNetworkReply(QNetworkReply* reply);
 
     QUrl getURL(API api, const QString &param = QString());
@@ -92,6 +105,10 @@ private :
 
     // API return
     QJsonDocument _accountInfo;
+
+    QString _avatar;
+
+private :
 
     QString targetServer;
 
