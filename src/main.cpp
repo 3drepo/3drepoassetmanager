@@ -46,7 +46,14 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);    
 
 
-    QQmlApplicationEngine engine;    
+
+    QQmlApplicationEngine engine;
+//    repo::RepoTeamspace teamspace(&engine);
+//    repo::RepoNetworkAccessManager networkAccessManager(&engine);
+
+//    engine.rootContext()->setContextProperty("repoTeamspace", &teamspace);
+//    engine.rootContext()->setContextProperty("networkAccessManager", &networkAccessManager);
+
     engine.addImageProvider(QLatin1String("materialicons"), new repo::RepoMaterialIconsImageProvider);
     engine.addImageProvider(QLatin1String("dataMatrix"), new repo::RepoDataMatrixImageProvider);
     engine.addImageProvider(QLatin1String("byteimage"), new repo::RepoByteImageProvider);

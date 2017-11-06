@@ -25,7 +25,11 @@ QPixmap RepoByteImageProvider::requestPixmap(
         const QSize & requestedSize)
 {
     QPixmap pixmap;
-    pixmap.loadFromData(QByteArray::fromHex(id.toLatin1()));
+    if (!id.isEmpty())
+    {
+        pixmap.loadFromData(QByteArray::fromHex(id.toLatin1()));
+        pixmap = pixmap.scaled(requestedSize, Qt::KeepAspectRatioByExpanding);
+    }
     *size = QSize(pixmap.width(), pixmap.height());
     return pixmap;
 }

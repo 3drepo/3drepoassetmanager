@@ -28,6 +28,12 @@
 #include <QJsonArray>
 #include <QImage>
 #include <QPixmap>
+#include <QVariant>
+#include <QString>
+#include <QDataStream>
+
+#include "repo_teamspace.h"
+#include "repo_material_icons.h"
 
 namespace repo {
 
@@ -36,27 +42,34 @@ class RepoNetworkAccessManager : public QNetworkAccessManager
 
     Q_OBJECT
 
-    Q_PROPERTY(QString lastErrorMessage READ getLastErrorMessage WRITE setLastErrorMessage NOTIFY lastErrorMessageChanged MEMBER _lastErrorMessage)
+    Q_PROPERTY(QString lastErrorMessage NOTIFY lastErrorMessageChanged MEMBER m_lastErrorMessage)
 
-    Q_PROPERTY(QJsonDocument accountInfo READ getAccountInfo WRITE setAccountInfo NOTIFY accountInfoChanged MEMBER _accountInfo)
+    Q_PROPERTY(QJsonDocument accountInfo NOTIFY accountInfoChanged MEMBER m_accountInfo)
+    Q_PROPERTY(QString username NOTIFY usernameChanged MEMBER m_username)
+    Q_PROPERTY(QString email NOTIFY emailChanged MEMBER m_email)
+    Q_PROPERTY(QString avatarBytes NOTIFY avatarBytesChanged MEMBER m_avatarBytes)
 
-    Q_PROPERTY(QString avatar READ getAvatar NOTIFY avatarChanged WRITE setAvatar MEMBER _avatar)
+public :
 
     enum API {
         LOGIN,
         LIST_INFO,
         AVATAR
     };
+    Q_ENUM(API)
 
 signals:
 
     void lastErrorMessageChanged(const QString&);
 
     void accountInfoChanged(const QJsonDocument&);
-
-    void avatarChanged(const QString&);
+    void usernameChanged(const QString&);
+    void emailChanged(const QString&);
+    void avatarBytesChanged(const QString&);
 
     void isError();
+
+//    void teamspaceChanged();
 
 public:
 
@@ -67,6 +80,7 @@ public slots:
     Q_INVOKABLE void reset();
 
     Q_INVOKABLE void authenticate(const QString& username, const QString &password);
+
     void finishedSlot(QNetworkReply*);
 
     Q_INVOKABLE void fetchUserInfo(const QString& username);
@@ -76,20 +90,6 @@ public slots:
     Q_INVOKABLE void replyErrored(QNetworkReply::NetworkError);
 
     Q_INVOKABLE void replySslErrored(QList<QSslError>);
-
-    void replyReady();
-
-    Q_INVOKABLE void setLastErrorMessage(const QString &msg);
-
-    Q_INVOKABLE QString getLastErrorMessage() const;
-
-    Q_INVOKABLE void setAccountInfo(const QJsonDocument &accountInfo);
-
-    Q_INVOKABLE QJsonDocument getAccountInfo() const;
-
-    Q_INVOKABLE QString getAvatar() const;
-
-    Q_INVOKABLE void setAvatar(const QString&);
 
     void processErrorNetworkReply(QNetworkReply* reply);
 
@@ -101,18 +101,18 @@ public slots:
 
 private :
 
-    QString _lastErrorMessage;
+    QString m_lastErrorMessage;
 
     // API return
-    QJsonDocument _accountInfo;
-
-    QString _avatar;
+    QList<RepoTeamspaceProjectModel*> modelData;
+    QJsonDocument m_accountInfo;
+    QString m_username;
+    QString m_email;
+    QString m_avatarBytes;
 
 private :
 
     QString targetServer;
-
-    QString username;
 
     static const QString DEV_SERVER;
 

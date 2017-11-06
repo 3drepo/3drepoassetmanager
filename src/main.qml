@@ -35,7 +35,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
         repoLoginDialog.open()
-//        repoTeamspaces.populate()
+        //        repoTeamspaces.populate()
     }
 
 
@@ -169,12 +169,13 @@ ApplicationWindow {
 
         onIsError: {
             repoLoginDialog.visible = true // This is a known bug in Qt,
-                                       // it should not close the dialog but it does
+            // it should not close the dialog but it does
         }
         onAccountInfoChanged: {
             repoTeamspace.parseAPI(accountInfo)
         }
     }
+
 
     function relay(tagCode) {
         if (tagCode) {

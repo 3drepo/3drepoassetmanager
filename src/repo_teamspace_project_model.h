@@ -20,6 +20,7 @@
 #include <QObject>
 #include <QString>
 #include <QUuid>
+#include <QVariant>
 
 namespace repo {
 
@@ -27,11 +28,11 @@ class RepoTeamspaceProjectModel: public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString account READ account WRITE setAccount NOTIFY accountChanged)
-    Q_PROPERTY(QString project READ project WRITE setProject NOTIFY projectChanged)
-    Q_PROPERTY(QString model READ model WRITE setModel NOTIFY modelChanged)
-    Q_PROPERTY(QUuid uuid READ uuid WRITE setUuid NOTIFY uuidChanged)
-    Q_PROPERTY(bool isFederation READ isFederation WRITE setIsFederation NOTIFY isFederationChanged)
+    Q_PROPERTY(QString account NOTIFY accountChanged MEMBER m_account)
+    Q_PROPERTY(QString project NOTIFY projectChanged MEMBER m_project)
+    Q_PROPERTY(QString model NOTIFY modelChanged MEMBER m_model)
+    Q_PROPERTY(QUuid uuid NOTIFY uuidChanged MEMBER m_uuid)
+    Q_PROPERTY(bool isFederation NOTIFY isFederationChanged MEMBER m_isFederation)
 
 public :
 
@@ -42,12 +43,13 @@ public :
         UuidRole,
         FederationRole
     };
+    Q_ENUM(ProjectRoles)
 
     RepoTeamspaceProjectModel(const QString &account,
                           const QString &project,
                           const QString &model,
                           const QUuid &uuid,
-                          const bool isFederation = false);
+                          bool isFederation = false);
 
 signals :
 
@@ -57,30 +59,12 @@ signals :
     void uuidChanged(const QUuid &);
     void isFederationChanged(bool);
 
-public slots :
-
-    Q_INVOKABLE void setAccount(const QString &account);
-    Q_INVOKABLE QString account() const;
-
-    Q_INVOKABLE void setProject(const QString &project);
-    Q_INVOKABLE QString project() const;
-
-    Q_INVOKABLE void setModel(const QString &model);
-    Q_INVOKABLE QString model() const;
-
-    Q_INVOKABLE void setUuid(const QUuid &uuid);
-    Q_INVOKABLE QUuid uuid() const;
-
-    Q_INVOKABLE void setIsFederation(bool on);
-    Q_INVOKABLE bool isFederation() const;
-
-
 private :
 
-    QString _account;
-    QString _project;
-    QString _model;
-    QUuid _uuid;
-    bool _isFederation;
+    QString m_account;
+    QString m_project;
+    QString m_model;
+    QUuid m_uuid;
+    bool m_isFederation;
 };
 }

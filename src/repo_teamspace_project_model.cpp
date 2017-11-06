@@ -25,82 +25,9 @@ RepoTeamspaceProjectModel::RepoTeamspaceProjectModel(const QString &account,
                                              const QUuid &uuid,
                                              bool isFederation)
 {
-    setAccount(account);
-    setProject(project);
-    setModel(model);
-    setUuid(uuid);
-    setIsFederation(isFederation);
+    setProperty("account", account);
+    setProperty("project", project);
+    setProperty("model", model);
+    setProperty("uuid", uuid);
+    setProperty("isFederation", isFederation);
 }
-
-
-void RepoTeamspaceProjectModel::setAccount(const QString &account)
-{
-    if (_account != account)
-    {
-        _account = account;
-        emit accountChanged(_account);
-    }
-}
-
-QString RepoTeamspaceProjectModel::account() const
-{
-    return _account;
-}
-
-void RepoTeamspaceProjectModel::setProject(const QString &project)
-{
-    if (_project != project)
-    {
-        _project = project;
-        emit projectChanged(_project);
-    }
-}
-
-QString RepoTeamspaceProjectModel::project() const
-{
-    return _project;
-}
-
-void RepoTeamspaceProjectModel::setModel(const QString &model)
-{
-    if (_model != model)
-    {
-        _model = model;
-        emit modelChanged(_model);
-    }
-}
-
-QString RepoTeamspaceProjectModel::model() const
-{
-    return _model;
-}
-
-void RepoTeamspaceProjectModel::setUuid(const QUuid &uuid)
-{
-    if (_uuid != uuid)
-    {
-        _uuid = uuid;
-        emit uuidChanged(_uuid);
-    }
-}
-
-QUuid RepoTeamspaceProjectModel::uuid() const
-{
-    return _uuid;
-}
-
-void RepoTeamspaceProjectModel::setIsFederation(bool on)
-{
-    if (_isFederation != on)
-    {
-        _isFederation = on;
-        emit isFederationChanged(_isFederation);
-    }
-}
-
-bool RepoTeamspaceProjectModel::isFederation() const
-{
-    return _isFederation;
-}
-
-

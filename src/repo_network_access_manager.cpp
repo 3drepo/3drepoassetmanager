@@ -26,7 +26,7 @@ const QString RepoNetworkAccessManager::PROD_SERVER = "post.www";
 
 RepoNetworkAccessManager::RepoNetworkAccessManager(QObject *parent)
     : QNetworkAccessManager(parent)
-    , targetServer(DEV_SERVER)
+    , targetServer(PROD_SERVER)
 {
     connect(this, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(finishedSlot(QNetworkReply*)));
@@ -34,7 +34,7 @@ RepoNetworkAccessManager::RepoNetworkAccessManager(QObject *parent)
 
 void RepoNetworkAccessManager::reset()
 {
-    setLastErrorMessage(QString());
+    setProperty("lastErrorMessage", QString());
 }
 
 
@@ -44,7 +44,7 @@ void RepoNetworkAccessManager::authenticate(
 {
     reset();
 
-    this->username = username;
+    setProperty("username", username);
 
     QUrlQuery postData;
     postData.addQueryItem("username", username);
@@ -53,7 +53,6 @@ void RepoNetworkAccessManager::authenticate(
 
     QNetworkReply *reply = this->post(getNetworkRequest(getURL(LOGIN)),
                                       postData.toString(QUrl::FullyEncoded).toUtf8());
-    //    connect(reply, SIGNAL(readyRead()), this, SLOT(replyReady()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
             this, SLOT(replyErrored(QNetworkReply::NetworkError)));
     connect(reply, SIGNAL(sslErrors(QList<QSslError>)),
@@ -63,6 +62,8 @@ void RepoNetworkAccessManager::authenticate(
 void RepoNetworkAccessManager::finishedSlot(QNetworkReply* reply)
 {
     QUrl url = reply->url();
+
+    QString username = property("username").toString();
 
     if (getStatusCode(reply) != 200)
     {
@@ -76,18 +77,21 @@ void RepoNetworkAccessManager::finishedSlot(QNetworkReply* reply)
             QList<QNetworkCookie> c = qvariant_cast<QList<QNetworkCookie>>(v);
             this->cookieJar()->setCookiesFromUrl(c, reply->url());
 
-            fetchAvatar(username);
             fetchUserInfo(username);
         }
         else if (url == getURL(LIST_INFO, username))
         {
-            QString replyString = (QString) reply->readAll();
-            setAccountInfo(QJsonDocument::fromJson(replyString.toUtf8()));
+            QJsonDocument jsonDoc = QJsonDocument::fromJson(((QString) reply->readAll()).toUtf8());
+            setProperty("email", jsonDoc.object()["email"].toString());
+
+            if (jsonDoc.object()["hasAvatar"].toBool())
+                fetchAvatar(username);
+
+            setProperty("accountInfo", jsonDoc);
         }
         else if (url == getURL(AVATAR, username))
         {
-            QByteArray b = reply->readAll();
-            setAvatar(b.toHex());
+            setProperty("avatarBytes", reply->readAll().toHex());
         }
     }
     reply->deleteLater();
@@ -123,20 +127,6 @@ void RepoNetworkAccessManager::fetchAvatar(const QString& username)
             this, SLOT(replySslErrored(QList<QSslError>)));
 }
 
-QString RepoNetworkAccessManager::getAvatar() const
-{
-    return _avatar;
-}
-
-void RepoNetworkAccessManager::setAvatar(const QString &avatar)
-{
-    if (_avatar != avatar)
-    {
-        _avatar = avatar;
-        emit avatarChanged(_avatar);
-    }
-}
-
 void RepoNetworkAccessManager::replyErrored(QNetworkReply::NetworkError error)
 {
     qDebug() << "Qt error: " << error;
@@ -147,47 +137,13 @@ void RepoNetworkAccessManager::replySslErrored(QList<QSslError> list)
     qDebug() << "SSL Error: " << list;
 }
 
-void RepoNetworkAccessManager::replyReady()
-{
-    qDebug() << "Reply ready";
-}
-
-void RepoNetworkAccessManager::setLastErrorMessage(const QString &msg)
-{
-    if (_lastErrorMessage != msg)
-    {
-        _lastErrorMessage = msg;
-        emit lastErrorMessageChanged(_lastErrorMessage);
-    }
-}
-
-QString RepoNetworkAccessManager::getLastErrorMessage() const
-{
-    return _lastErrorMessage;
-}
-
-void RepoNetworkAccessManager::setAccountInfo(const QJsonDocument &accountInfo)
-{
-    if (_accountInfo != accountInfo)
-    {
-        _accountInfo = accountInfo;
-        emit accountInfoChanged(_accountInfo);
-    }
-}
-
-QJsonDocument RepoNetworkAccessManager::getAccountInfo() const
-{
-    return _accountInfo;
-}
-
 void RepoNetworkAccessManager::processErrorNetworkReply(QNetworkReply* reply)
 {
     // Eg: "code":"INCORRECT_USERNAME_OR_PASSWORD","message":"Incorrect
     // username or password","place":"POST /login","status":400,"value":2}
     QString replyString = (QString) reply->readAll();
     QJsonDocument jsonDocument = QJsonDocument::fromJson(replyString.toUtf8());
-    QString message = jsonDocument.object()["message"].toString();
-    this->setLastErrorMessage(message);
+    setProperty("lastErrorMessage", jsonDocument.object()["message"].toString());
     emit isError();
 }
 

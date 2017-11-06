@@ -31,9 +31,6 @@ ListView {
 
     model: repoTeamspace
 
-
-
-
     header: Rectangle {
         width: parent.width
         height: crossrailLogo.height + 80
@@ -43,9 +40,10 @@ ListView {
 
         Image {
             id: crossrailLogo
-            source: "image://byteimage/" + networkAccessManager.avatar //"qrc:/images/crossrail_logo.svg"
-            sourceSize.width: parent.width - 160
+            source: networkAccessManager.avatarBytes ?  "image://byteimage/" + networkAccessManager.avatarBytes : "image://materialicons/accountCircle/#FFcccccc"
             anchors.top: parent.top
+            sourceSize.width: 200
+            sourceSize.height: 200
             anchors.horizontalCenter: parent.horizontalCenter
             fillMode: Image.PreserveAspectFit
             antialiasing: true
@@ -56,7 +54,7 @@ ListView {
             leftPadding: 20
             topPadding: 20
             anchors.top: crossrailLogo.bottom
-            text: "Paco Lluna"
+            text: networkAccessManager.username ? networkAccessManager.username : "Username"
         }
 
         Label {
@@ -64,7 +62,7 @@ ListView {
             topPadding: 5
             anchors.top: nameField.bottom
             color:  "#666"
-            text: "paco.lluna@balfourbeatty.com"
+            text: networkAccessManager.email? networkAccessManager.email : "Email"
         }
 
         Rectangle {
@@ -88,12 +86,6 @@ ListView {
             assetGroupListView.currentIndex = index
         }
     }
-
-
-
-
-
-
 
     section.property: "accountName"
     section.criteria: ViewSection.FullString

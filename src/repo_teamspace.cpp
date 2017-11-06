@@ -1,4 +1,4 @@
-/**
+/** o
 *  Copyright (C) 2017 3D Repo Ltd
 *
 *  This program is free software: you can redistribute it and/or modify
@@ -78,19 +78,19 @@ QVariant RepoTeamspace::data(const QModelIndex &index, int role) const
         switch(role)
         {
         case RepoTeamspaceProjectModel::AccountRole :
-            ret = modelData[index.row()]->account();
+            ret = modelData[index.row()]->property("account");
             break;
         case RepoTeamspaceProjectModel::ProjectRole :
-            ret = modelData[index.row()]->project();
+            ret = modelData[index.row()]->property("project");
             break;
         case RepoTeamspaceProjectModel::ModelRole:
-            ret = modelData[index.row()]->model();
+            ret = modelData[index.row()]->property("model");
             break;
         case RepoTeamspaceProjectModel::UuidRole:
-            ret = modelData[index.row()]->uuid();
+            ret = modelData[index.row()]->property("uuid");
             break;
         case RepoTeamspaceProjectModel::FederationRole:
-            ret = modelData[index.row()]->isFederation();
+            ret = modelData[index.row()]->property("isFederation");
             break;
         }
     }
